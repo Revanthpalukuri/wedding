@@ -1,6 +1,5 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Sparkles, Heart } from 'lucide-react';
 
 import ScratchCardCountdown from './ScratchCardCountdown';
 
@@ -8,7 +7,13 @@ export default function CountingDaysMagic() {
   // Target Wedding Muhurtham: 19th December 2026 at 03:35 AM early morning
   const targetDate = new Date('2026-12-19T03:35:00');
   const [timeLeft, setTimeLeft] = useState(calculateTimeLeft());
-  const [activePhotoIndex, setActivePhotoIndex] = useState(0);
+  const [spawnedPhotos, setSpawnedPhotos] = useState([]);
+  const [isCursorInside, setIsCursorInside] = useState(false);
+  const nextPhotoRef = useRef(0);
+  const spawnIdRef = useRef(0);
+  const lastSpawnPosRef = useRef(null);
+  const cursorPosRef = useRef(null);
+  const sectionRef = useRef(null);
 
   function calculateTimeLeft() {
     const difference = +targetDate - +new Date();
@@ -51,14 +56,114 @@ export default function CountingDaysMagic() {
     },
   ];
 
-  const handleNextPhoto = () => {
-    setActivePhotoIndex((prev) => (prev + 1) % magicPhotos.length);
+  // Spawn the next photo of the set at the cursor point with a random tilt.
+  // Each photo lingers briefly, then fades away on its own (image-trail effect).
+  const spawnPhotoAt = (clientX, clientY, target) => {
+    const rect = target.getBoundingClientRect();
+    const photo = magicPhotos[nextPhotoRef.current % magicPhotos.length];
+    nextPhotoRef.current += 1;
+    spawnIdRef.current += 1;
+    const id = spawnIdRef.current;
+    lastSpawnPosRef.current = { x: clientX, y: clientY };
+    const entry = {
+      id,
+      url: photo.url,
+      caption: photo.caption,
+      x: clientX - rect.left,
+      y: clientY - rect.top,
+      rotate: Math.random() * 32 - 16,
+    };
+    setSpawnedPhotos((prev) => [...prev.slice(-5), entry]);
+    setTimeout(() => {
+      setSpawnedPhotos((prev) => prev.filter((p) => p.id !== id));
+    }, 1000);
+  };
+
+  // Photos appear automatically wherever the cursor moves — no click needed.
+  // A new one drops every ~70px of cursor travel inside this section.
+  const handlePointerMove = (e) => {
+    cursorPosRef.current = { x: e.clientX, y: e.clientY };
+    setIsCursorInside(true);
+    const last = lastSpawnPosRef.current;
+    if (!last) {
+      spawnPhotoAt(e.clientX, e.clientY, e.currentTarget);
+      return;
+    }
+    const dist = Math.hypot(e.clientX - last.x, e.clientY - last.y);
+    if (dist > 70) {
+      spawnPhotoAt(e.clientX, e.clientY, e.currentTarget);
+    }
+  };
+
+  // Even with the cursor resting still inside the section, keep the magic
+  // flowing — a fresh photo pops at the cursor position every 350ms
+  useEffect(() => {
+    if (!isCursorInside) return;
+    const autoSpawn = setInterval(() => {
+      const pos = cursorPosRef.current;
+      if (pos && sectionRef.current) {
+        spawnPhotoAt(pos.x, pos.y, sectionRef.current);
+      }
+    }, 350);
+    return () => clearInterval(autoSpawn);
+  }, [isCursorInside]);
+
+  // Touch support: touchmove keeps firing even while the page scrolls
+  // (pointermove gets cancelled by scrolling), so the trail follows the finger
+  const handleTouch = (e) => {
+    const touch = e.touches[0];
+    if (!touch || !sectionRef.current) return;
+    cursorPosRef.current = { x: touch.clientX, y: touch.clientY };
+    setIsCursorInside(true);
+    const last = lastSpawnPosRef.current;
+    if (!last || Math.hypot(touch.clientX - last.x, touch.clientY - last.y) > 70) {
+      spawnPhotoAt(touch.clientX, touch.clientY, sectionRef.current);
+    }
+  };
+
+  const stopTrail = () => {
+    setIsCursorInside(false);
+    cursorPosRef.current = null;
+    lastSpawnPosRef.current = null;
   };
 
   return (
-    <section className="relative min-h-screen bg-[#F7F2E7] text-[#3A0303] py-20 px-4 flex flex-col justify-between overflow-hidden">
+    <section
+      ref={sectionRef}
+      onPointerMove={handlePointerMove}
+      onPointerLeave={stopTrail}
+      onTouchStart={handleTouch}
+      onTouchMove={handleTouch}
+      onTouchEnd={stopTrail}
+      onTouchCancel={stopTrail}
+      className="relative min-h-screen bg-[#F7F2E7] text-[#3A0303] py-20 px-4 flex flex-col justify-between overflow-hidden"
+    >
       {/* Carved Sandstone Relief Pattern Texture */}
       <div className="absolute inset-0 opacity-15 bg-[radial-gradient(#8B0000_1px,transparent_1px)] [background-size:28px_28px] pointer-events-none" />
+
+      {/* Magic Photo Trail — photos follow the cursor across this whole section */}
+      <div className="absolute inset-0 z-20 pointer-events-none overflow-hidden">
+        <AnimatePresence>
+          {spawnedPhotos.map((photo) => (
+            <motion.div
+              key={photo.id}
+              initial={{ opacity: 0, scale: 0.3, rotate: photo.rotate * 1.6 }}
+              animate={{ opacity: 1, scale: 1, rotate: photo.rotate }}
+              exit={{ opacity: 0, scale: 0.6 }}
+              transition={{ type: 'spring', stiffness: 260, damping: 20 }}
+              className="absolute w-32 h-40 sm:w-40 sm:h-52 bg-white p-2 pb-5 rounded-xl shadow-2xl border border-amber-300"
+              style={{ left: photo.x, top: photo.y, x: '-50%', y: '-50%' }}
+            >
+              <img
+                src={photo.url}
+                alt={photo.caption}
+                draggable="false"
+                className="w-full h-full object-cover rounded-lg"
+              />
+            </motion.div>
+          ))}
+        </AnimatePresence>
+      </div>
 
       <div className="max-w-4xl mx-auto text-center relative z-10 w-full">
         {/* Title: Counting the Days / Happily Married */}
@@ -88,68 +193,18 @@ export default function CountingDaysMagic() {
           />
         </motion.div>
 
-        {/* Section: Touch here for Magic (New Screenshot 2 Interactive Polaroid Deck) */}
+        {/* Section: Touch here for Magic — move the cursor anywhere in this slide */}
         <motion.div
-          initial={{ opacity: 0, scale: 0.9 }}
+          initial={{ opacity: 0, scale: 0.95 }}
           whileInView={{ opacity: 1, scale: 1 }}
           viewport={{ once: true }}
           transition={{ duration: 0.9 }}
-          className="my-12 relative max-w-sm mx-auto"
+          className="my-12 relative w-full"
         >
-          <span className="font-script-calligraphy text-3xl sm:text-5xl text-[#660B14] block mb-6 font-normal">
+          <span className="font-script-calligraphy text-3xl sm:text-5xl text-[#660B14] block mb-4 font-normal">
             Touch here for Magic
           </span>
-
-          {/* Stacked Tilted Polaroid Photo Deck */}
-          <div
-            onClick={handleNextPhoto}
-            className="relative w-64 h-80 sm:w-72 sm:h-96 mx-auto cursor-pointer group select-none"
-            title="Click/Touch to see next photo"
-          >
-            <AnimatePresence mode="wait">
-              <motion.div
-                key={activePhotoIndex}
-                initial={{ opacity: 0, rotate: -6, scale: 0.95 }}
-                animate={{ opacity: 1, rotate: -3, scale: 1 }}
-                exit={{ opacity: 0, rotate: 12, scale: 0.9 }}
-                transition={{ duration: 0.5 }}
-                className="absolute inset-0 bg-white p-3 pb-8 rounded-2xl shadow-2xl border-2 border-amber-300 transform group-hover:rotate-0 transition-transform"
-              >
-                <div className="w-full h-full rounded-xl overflow-hidden relative">
-                  <img
-                    src={magicPhotos[activePhotoIndex].url}
-                    alt={magicPhotos[activePhotoIndex].caption}
-                    className="w-full h-full object-cover"
-                  />
-                  <div className="absolute bottom-3 left-3 right-3 bg-black/60 backdrop-blur-md px-3 py-1.5 rounded-full text-[10px] font-sans-clean text-white uppercase tracking-widest font-bold text-center">
-                    {magicPhotos[activePhotoIndex].caption}
-                  </div>
-                </div>
-              </motion.div>
-            </AnimatePresence>
-
-            {/* Tap Badge */}
-            <div className="absolute -bottom-4 left-1/2 -translate-x-1/2 px-4 py-1.5 rounded-full bg-[#660B14] text-[#FFD700] text-[10px] font-sans-clean uppercase tracking-widest font-bold border border-[#D4AF37] shadow-xl flex items-center gap-1.5">
-              <Sparkles className="w-3 h-3 text-[#FFD700]" />
-              <span>Tap to Flip Photo</span>
-            </div>
-          </div>
         </motion.div>
-      </div>
-
-      {/* Red Sandstone Mountains & Golden Temple Gopuram Artwork Footer (New Screenshot 2 Bottom) */}
-      <div className="relative w-full max-w-5xl mx-auto mt-16 pt-8 text-center border-t-2 border-[#D4AF37]/40">
-        <div className="relative h-48 sm:h-64 rounded-t-3xl overflow-hidden border-t-4 border-[#D4AF37] shadow-2xl">
-          <img
-            src="https://images.unsplash.com/photo-1583939003579-730e3918a45a?auto=format&fit=crop&w=1200&q=85"
-            alt="Red Mountain Peaks and Temple Gopuram Tower Artwork"
-            className="w-full h-full object-cover object-bottom"
-          />
-          <div className="absolute inset-0 bg-gradient-to-t from-[#660B14] via-[#660B14]/40 to-transparent" />
-          <span className="absolute bottom-4 left-1/2 -translate-x-1/2 font-sans-clean text-xs uppercase tracking-[0.3em] text-[#FFD700] font-bold">
-            #VivekWedsVarshini • Amalapuram, AP
-          </span>
-        </div>
       </div>
     </section>
   );

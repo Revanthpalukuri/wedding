@@ -12,9 +12,6 @@ import JoinUsInstagram from './components/JoinUsInstagram';
 import CountingDaysMagic from './components/CountingDaysMagic';
 import Schedule from './components/Schedule';
 import Gallery from './components/Gallery';
-import TravelStay from './components/TravelStay';
-import RSVP from './components/RSVP';
-import Footer from './components/Footer';
 import MusicPlayer from './components/MusicPlayer';
 import MouseFollower from './components/MouseFollower';
 import FestivePopAnimation from './components/FestivePopAnimation';
@@ -65,15 +62,10 @@ export default function App() {
             <LiveStream />
             <OurStory />
             <JoinUsInstagram />
-            <CountingDaysMagic />
             <Schedule />
             <Gallery />
-            <TravelStay />
-            <RSVP />
+            <CountingDaysMagic />
           </main>
-
-          {/* Footer */}
-          <Footer />
 
           {/* Floating Shehnai/Flute Audio Player */}
           <MusicPlayer isMuted={isMuted} toggleAudio={toggleAudio} />

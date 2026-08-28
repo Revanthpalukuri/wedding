@@ -10,10 +10,11 @@ export default function JoinUsInstagram() {
     <section className="relative bg-[#210202] text-[#FFF8E7] py-12 sm:py-20 px-4 overflow-hidden border-b-4 border-[#D4AF37] flex items-center justify-center min-h-screen">
       {/* Full-Bleed Full Screen Background Photo */}
       <div className="absolute inset-0 z-0">
+        {/* Stretched to match the exact screen size — full image, no trimming */}
         <img
           src="https://framerusercontent.com/images/6f9AxarIs54UBYT1Lrm4ws9V764.webp?scale-down-to=2048&width=3008&height=2080"
           alt="Will You Join Us & Instagram Background"
-          className="w-full h-full object-cover object-center opacity-100 transition-all duration-700"
+          className="w-full h-full object-fill opacity-100 transition-all duration-700"
         />
         {/* Soft edge vignetting for smooth border transition */}
         <div className="absolute inset-0 bg-gradient-to-b from-[#210202]/30 via-transparent to-[#210202]/40 pointer-events-none" />
