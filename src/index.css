@@ -1,0 +1,147 @@
+@import "tailwindcss";
+
+@layer base {
+  :root {
+    --color-dark-crimson: #8B0000;
+    --color-temple-sky: #4CA5FF;
+    --color-temple-blue: #1E70E2;
+    --color-gold-temple: #D4AF37;
+    --color-gold-bright: #FFD700;
+    --color-maroon-dark: #660B14;
+    --color-maroon: #3A0303;
+    --color-cream: #FFF8E7;
+  }
+
+  html {
+    scroll-behavior: smooth;
+    font-family: 'Inter', sans-serif;
+  }
+
+  /* Global mobile typography scale adjustment:
+     Automatically decreases font size on mobile screens (<640px)
+     so all text, titles, headings, and script calligraphy display compact and readable! */
+  @media (max-width: 640px) {
+    html {
+      font-size: 82%;
+    }
+  }
+
+  body {
+    background-color: #2D68C4;
+    color: #FFF8E7;
+    font-family: 'Inter', sans-serif;
+    overflow-x: hidden;
+  }
+
+  h1, h2, h3, h4, .font-royal {
+    font-family: 'Marcellus', serif;
+  }
+
+  .font-heading-devanagari {
+    font-family: 'Rozha One', 'Marcellus', serif;
+  }
+
+  .font-script-calligraphy {
+    font-family: 'Great Vibes', cursive;
+  }
+
+  .font-cinzel {
+    font-family: 'Cinzel Decorative', serif;
+  }
+}
+
+/* Sky Background with Clouds */
+.sky-gopuram-bg {
+  background: linear-gradient(180deg, #257CE6 0%, #4EA4FF 40%, #76BCFF 70%, #A4D4FF 100%);
+}
+
+/* Temple Pattern Background Overlay */
+.temple-gopuram-pattern-bg {
+  background-color: #1E60BF;
+  background-image: radial-gradient(#4CA5FF 1.5px, transparent 1.5px), radial-gradient(#317CE8 1.5px, #1E60BF 1.5px);
+  background-size: 60px 60px;
+  background-position: 0 0, 30px 30px;
+}
+
+/* Floating Card over Gopuram Background */
+.temple-floating-card {
+  background: #FFFFFF;
+  color: #1E293B;
+  border-radius: 28px;
+  border: 3px solid #3B82F6;
+  box-shadow: 0 20px 50px rgba(0, 30, 80, 0.35);
+  overflow: hidden;
+}
+
+/* Ornate Gold Picture Frame styling */
+.gold-ornate-frame {
+  border: 12px solid #D4AF37;
+  border-image: linear-gradient(135deg, #FFE89C 0%, #D4AF37 50%, #997406 100%) 1;
+  box-shadow: 0 0 35px rgba(212, 175, 55, 0.4), inset 0 0 20px rgba(0,0,0,0.5);
+  position: relative;
+}
+
+.gold-ornate-frame::before {
+  content: '';
+  position: absolute;
+  inset: -6px;
+  border: 2px solid #FFD700;
+  pointer-events: none;
+}
+
+/* Temple Arch Portal Styling */
+.temple-arch-container {
+  background: #FFFBF0;
+  color: #3A0303;
+  border: 4px solid #D4AF37;
+  border-radius: 40px 40px 16px 16px;
+  box-shadow: 0 25px 60px rgba(0, 0, 0, 0.4);
+}
+
+/* Cloud floating animation */
+@keyframes cloudMove {
+  0% { transform: translateX(-10%); }
+  50% { transform: translateX(10%); }
+  100% { transform: translateX(-10%); }
+}
+
+.animate-cloud-slow {
+  animation: cloudMove 20s ease-in-out infinite;
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 7px;
+}
+::-webkit-scrollbar-track {
+  background: #1E60BF;
+}
+::-webkit-scrollbar-thumb {
+  background: #FFD700;
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #FFF;
+}
+
+/* Ambient Floating Particle Animation */
+@keyframes floatParticle {
+  0% {
+    transform: translateY(0) rotate(0deg) scale(0.8);
+    opacity: 0;
+  }
+  15% {
+    opacity: 0.8;
+  }
+  85% {
+    opacity: 0.8;
+  }
+  100% {
+    transform: translateY(105vh) rotate(360deg) scale(1.2);
+    opacity: 0;
+  }
+}
+
+.animate-float-particle {
+  animation: floatParticle linear infinite;
+}
