@@ -1,18 +1,14 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 
-import ScratchCardCountdown from './ScratchCardCountdown';
-
 export default function CountingDaysMagic() {
   // Target Wedding Muhurtham: 19th December 2026 at 03:35 AM early morning
   const targetDate = new Date('2026-12-19T03:35:00');
   const [timeLeft, setTimeLeft] = useState(calculateTimeLeft());
   const [spawnedPhotos, setSpawnedPhotos] = useState([]);
-  const [isCursorInside, setIsCursorInside] = useState(false);
   const nextPhotoRef = useRef(0);
   const spawnIdRef = useRef(0);
   const lastSpawnPosRef = useRef(null);
-  const cursorPosRef = useRef(null);
   const sectionRef = useRef(null);
 
   function calculateTimeLeft() {
@@ -36,7 +32,7 @@ export default function CountingDaysMagic() {
     return () => clearInterval(timer);
   }, []);
 
-  // Stacked Polaroid Deck photos
+  // Magic deck photos
   const magicPhotos = [
     {
       url: 'https://images.unsplash.com/photo-1519741497674-611481863552?auto=format&fit=crop&w=800&q=80',
@@ -56,8 +52,8 @@ export default function CountingDaysMagic() {
     },
   ];
 
-  // Spawn the next photo of the set at the cursor point with a random tilt.
-  // Each photo lingers briefly, then fades away on its own (image-trail effect).
+  // Spawn the next photo at the cursor point with a subtle random tilt.
+  // Each photo fades away smoothly after lingering.
   const spawnPhotoAt = (clientX, clientY, target) => {
     const rect = target.getBoundingClientRect();
     const photo = magicPhotos[nextPhotoRef.current % magicPhotos.length];
@@ -71,139 +67,196 @@ export default function CountingDaysMagic() {
       caption: photo.caption,
       x: clientX - rect.left,
       y: clientY - rect.top,
-      rotate: Math.random() * 32 - 16,
+      rotate: Math.random() * 20 - 10,
     };
     setSpawnedPhotos((prev) => [...prev.slice(-5), entry]);
     setTimeout(() => {
       setSpawnedPhotos((prev) => prev.filter((p) => p.id !== id));
-    }, 1000);
+    }, 1100);
   };
 
-  // Photos appear automatically wherever the cursor moves — no click needed.
-  // A new one drops every ~70px of cursor travel inside this section.
+  // Photos appear ONLY when the mouse/touch is moving (no spawn when idle)
   const handlePointerMove = (e) => {
-    cursorPosRef.current = { x: e.clientX, y: e.clientY };
-    setIsCursorInside(true);
     const last = lastSpawnPosRef.current;
     if (!last) {
       spawnPhotoAt(e.clientX, e.clientY, e.currentTarget);
       return;
     }
     const dist = Math.hypot(e.clientX - last.x, e.clientY - last.y);
-    if (dist > 70) {
+    if (dist > 65) {
       spawnPhotoAt(e.clientX, e.clientY, e.currentTarget);
     }
   };
 
-  // Even with the cursor resting still inside the section, keep the magic
-  // flowing — a fresh photo pops at the cursor position every 350ms
-  useEffect(() => {
-    if (!isCursorInside) return;
-    const autoSpawn = setInterval(() => {
-      const pos = cursorPosRef.current;
-      if (pos && sectionRef.current) {
-        spawnPhotoAt(pos.x, pos.y, sectionRef.current);
-      }
-    }, 350);
-    return () => clearInterval(autoSpawn);
-  }, [isCursorInside]);
-
-  // Touch support: touchmove keeps firing even while the page scrolls
-  // (pointermove gets cancelled by scrolling), so the trail follows the finger
-  const handleTouch = (e) => {
+  // Touch support for mobile: spawn photos only while actively dragging/moving
+  const handleTouchMove = (e) => {
     const touch = e.touches[0];
     if (!touch || !sectionRef.current) return;
-    cursorPosRef.current = { x: touch.clientX, y: touch.clientY };
-    setIsCursorInside(true);
     const last = lastSpawnPosRef.current;
-    if (!last || Math.hypot(touch.clientX - last.x, touch.clientY - last.y) > 70) {
+    if (!last || Math.hypot(touch.clientX - last.x, touch.clientY - last.y) > 65) {
       spawnPhotoAt(touch.clientX, touch.clientY, sectionRef.current);
     }
   };
 
+  const handleTouchStart = (e) => {
+    const touch = e.touches[0];
+    if (!touch || !sectionRef.current) return;
+    spawnPhotoAt(touch.clientX, touch.clientY, sectionRef.current);
+  };
+
   const stopTrail = () => {
-    setIsCursorInside(false);
-    cursorPosRef.current = null;
     lastSpawnPosRef.current = null;
   };
+
+  const formatDigits = (val) => String(val).padStart(2, '0');
 
   return (
     <section
       ref={sectionRef}
       onPointerMove={handlePointerMove}
       onPointerLeave={stopTrail}
-      onTouchStart={handleTouch}
-      onTouchMove={handleTouch}
+      onTouchStart={handleTouchStart}
+      onTouchMove={handleTouchMove}
       onTouchEnd={stopTrail}
       onTouchCancel={stopTrail}
-      className="relative min-h-screen bg-[#F7F2E7] text-[#3A0303] py-20 px-4 flex flex-col justify-between overflow-hidden"
+      className="relative w-full aspect-[1872/3344] min-h-[max(100svh,calc(100vw*3344/1872))] overflow-hidden bg-[#F7F2E7] select-none"
     >
-      {/* Carved Sandstone Relief Pattern Texture */}
-      <div className="absolute inset-0 opacity-15 bg-[radial-gradient(#8B0000_1px,transparent_1px)] [background-size:28px_28px] pointer-events-none" />
+      {/* Full Artwork Image — rendered with full natural 1872:3344 portrait aspect ratio so full artwork is scrollable */}
+      <img
+        src="/countdown_bg.png"
+        alt="Countdown Temple Artwork Background"
+        className="absolute inset-0 w-full h-full object-fill pointer-events-none"
+        draggable="false"
+      />
 
-      {/* Magic Photo Trail — photos follow the cursor across this whole section */}
-      <div className="absolute inset-0 z-20 pointer-events-none overflow-hidden">
+      {/* Magic Photo Trail — photos with NO border appear only when moving cursor/touch */}
+      <div className="absolute inset-0 z-30 pointer-events-none overflow-hidden">
         <AnimatePresence>
           {spawnedPhotos.map((photo) => (
             <motion.div
               key={photo.id}
-              initial={{ opacity: 0, scale: 0.3, rotate: photo.rotate * 1.6 }}
+              initial={{ opacity: 0, scale: 0.4, rotate: photo.rotate * 1.5 }}
               animate={{ opacity: 1, scale: 1, rotate: photo.rotate }}
-              exit={{ opacity: 0, scale: 0.6 }}
-              transition={{ type: 'spring', stiffness: 260, damping: 20 }}
-              className="absolute w-32 h-40 sm:w-40 sm:h-52 bg-white p-2 pb-5 rounded-xl shadow-2xl border border-amber-300"
+              exit={{ opacity: 0, scale: 0.6, y: 15 }}
+              transition={{ type: 'spring', stiffness: 280, damping: 22 }}
+              className="absolute w-32 h-44 sm:w-44 sm:h-60 md:w-56 md:h-72 rounded-2xl shadow-[0_20px_45px_rgba(0,0,0,0.5)] overflow-hidden pointer-events-none border-0"
               style={{ left: photo.x, top: photo.y, x: '-50%', y: '-50%' }}
             >
               <img
                 src={photo.url}
                 alt={photo.caption}
                 draggable="false"
-                className="w-full h-full object-cover rounded-lg"
+                className="w-full h-full object-cover rounded-2xl border-0 outline-none"
               />
             </motion.div>
           ))}
         </AnimatePresence>
       </div>
 
-      <div className="max-w-4xl mx-auto text-center relative z-10 w-full">
-        {/* Title: Counting the Days / Happily Married */}
+      {/* Content Layout Pinned to the Cream Arch Panel */}
+      <div className="absolute inset-x-0 top-0 bottom-[45%] flex flex-col items-center justify-start text-center px-4 z-20 pointer-events-none">
+        
+        {/* Title: Counting the Days */}
         <motion.div
-          initial={{ opacity: 0, y: 20 }}
+          initial={{ opacity: 0, y: 25 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.8 }}
-          className="mb-10"
+          className="pt-[14%] sm:pt-[12%] md:pt-[10%]"
         >
-          <span className="font-script-calligraphy text-4xl sm:text-6xl text-[#660B14] block mb-2 font-normal">
+          <h2 className="font-script-calligraphy text-4xl sm:text-6xl md:text-7xl lg:text-8xl text-[#580B1A] font-normal leading-tight drop-shadow-sm">
             {timeLeft.isMarried ? 'Celebrating Our Holy Union' : 'Counting the Days'}
-          </span>
-          <p className="font-sans-clean text-xs uppercase tracking-[0.25em] text-[#8B0000] font-bold">
+          </h2>
+          <p className="font-sans-clean text-[9px] sm:text-xs md:text-sm uppercase tracking-[0.25em] text-[#8B0000] font-bold mt-1 sm:mt-2">
             {timeLeft.isMarried
               ? '✨ Vivek & Varshini are Now Married! ✨'
               : 'Towards Shubh Muhurtham • 19th Dec 2026, 03:35 AM'}
           </p>
-
-          {/* Royal Mandap Double Arch Doors Countdown */}
-          <ScratchCardCountdown
-            days={timeLeft.days}
-            hours={timeLeft.hours}
-            minutes={timeLeft.minutes}
-            seconds={timeLeft.seconds}
-            isMarried={timeLeft.isMarried}
-          />
         </motion.div>
 
-        {/* Section: Touch here for Magic — move the cursor anywhere in this slide */}
+        {/* Framer-Style Luxury White Countdown Cards (D : H : M : S) */}
         <motion.div
           initial={{ opacity: 0, scale: 0.95 }}
           whileInView={{ opacity: 1, scale: 1 }}
           viewport={{ once: true }}
-          transition={{ duration: 0.9 }}
-          className="my-12 relative w-full"
+          transition={{ duration: 0.8, delay: 0.15 }}
+          className="mt-[6%] sm:mt-[5%] md:mt-[4%] flex items-center justify-center gap-2 sm:gap-4 md:gap-6 lg:gap-8 w-full max-w-2xl px-2"
         >
-          <span className="font-script-calligraphy text-3xl sm:text-5xl text-[#660B14] block mb-4 font-normal">
-            Touch here for Magic
+          {/* Days */}
+          <div className="flex flex-col items-center">
+            <div className="bg-white/95 backdrop-blur-sm rounded-xl sm:rounded-2xl md:rounded-3xl shadow-[0_4px_16px_rgba(0,0,0,0.08)] border border-[#580B1A]/10 w-[clamp(46px,11vw,84px)] h-[clamp(50px,12vw,92px)] flex items-center justify-center">
+              <span className="font-serif font-bold text-[#1A1A1A] text-[clamp(18px,4.5vw,36px)] tracking-tight tabular-nums">
+                {formatDigits(timeLeft.days)}
+              </span>
+            </div>
+            <span className="font-sans-clean font-semibold uppercase text-[clamp(9px,2vw,14px)] text-[#580B1A]/80 tracking-widest mt-1.5 sm:mt-2">
+              D
+            </span>
+          </div>
+
+          <span className="text-[clamp(16px,3.5vw,26px)] font-light text-[#580B1A]/50 self-start mt-[clamp(12px,3vw,26px)]">
+            :
           </span>
+
+          {/* Hours */}
+          <div className="flex flex-col items-center">
+            <div className="bg-white/95 backdrop-blur-sm rounded-xl sm:rounded-2xl md:rounded-3xl shadow-[0_4px_16px_rgba(0,0,0,0.08)] border border-[#580B1A]/10 w-[clamp(46px,11vw,84px)] h-[clamp(50px,12vw,92px)] flex items-center justify-center">
+              <span className="font-serif font-bold text-[#1A1A1A] text-[clamp(18px,4.5vw,36px)] tracking-tight tabular-nums">
+                {formatDigits(timeLeft.hours)}
+              </span>
+            </div>
+            <span className="font-sans-clean font-semibold uppercase text-[clamp(9px,2vw,14px)] text-[#580B1A]/80 tracking-widest mt-1.5 sm:mt-2">
+              H
+            </span>
+          </div>
+
+          <span className="text-[clamp(16px,3.5vw,26px)] font-light text-[#580B1A]/50 self-start mt-[clamp(12px,3vw,26px)]">
+            :
+          </span>
+
+          {/* Minutes */}
+          <div className="flex flex-col items-center">
+            <div className="bg-white/95 backdrop-blur-sm rounded-xl sm:rounded-2xl md:rounded-3xl shadow-[0_4px_16px_rgba(0,0,0,0.08)] border border-[#580B1A]/10 w-[clamp(46px,11vw,84px)] h-[clamp(50px,12vw,92px)] flex items-center justify-center">
+              <span className="font-serif font-bold text-[#1A1A1A] text-[clamp(18px,4.5vw,36px)] tracking-tight tabular-nums">
+                {formatDigits(timeLeft.minutes)}
+              </span>
+            </div>
+            <span className="font-sans-clean font-semibold uppercase text-[clamp(9px,2vw,14px)] text-[#580B1A]/80 tracking-widest mt-1.5 sm:mt-2">
+              M
+            </span>
+          </div>
+
+          <span className="text-[clamp(16px,3.5vw,26px)] font-light text-[#580B1A]/50 self-start mt-[clamp(12px,3vw,26px)]">
+            :
+          </span>
+
+          {/* Seconds */}
+          <div className="flex flex-col items-center">
+            <div className="bg-white/95 backdrop-blur-sm rounded-xl sm:rounded-2xl md:rounded-3xl shadow-[0_4px_16px_rgba(0,0,0,0.08)] border border-[#580B1A]/10 w-[clamp(46px,11vw,84px)] h-[clamp(50px,12vw,92px)] flex items-center justify-center">
+              <span className="font-serif font-bold text-[#1A1A1A] text-[clamp(18px,4.5vw,36px)] tracking-tight tabular-nums">
+                {formatDigits(timeLeft.seconds)}
+              </span>
+            </div>
+            <span className="font-sans-clean font-semibold uppercase text-[clamp(9px,2vw,14px)] text-[#580B1A]/80 tracking-widest mt-1.5 sm:mt-2">
+              S
+            </span>
+          </div>
+        </motion.div>
+
+        {/* Touch here for magic */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.9, delay: 0.25 }}
+          className="mt-[6%] sm:mt-[5%] md:mt-[4%]"
+        >
+          <h3 className="font-script-calligraphy text-3xl sm:text-5xl md:text-6xl text-[#580B1A] font-normal drop-shadow-sm">
+            Touch here for magic
+          </h3>
+          <p className="font-sans-clean text-[9px] sm:text-xs tracking-widest text-[#8B0000]/80 uppercase font-semibold mt-1">
+            ✨ Move your cursor or swipe around to reveal memories ✨
+          </p>
         </motion.div>
       </div>
     </section>

@@ -145,3 +145,32 @@
 .animate-float-particle {
   animation: floatParticle linear infinite;
 }
+
+/* Romantic Heart & Sparkle Pop Click Animation */
+@keyframes heartPop {
+  0% {
+    transform: translate(0, 0) scale(0.4) rotate(0deg);
+    opacity: 1;
+  }
+  40% {
+    opacity: 1;
+    transform: translate(var(--dx), var(--dy)) scale(1.2) rotate(var(--rot));
+  }
+  100% {
+    transform: translate(var(--dx), calc(var(--dy) - 35px)) scale(0.6) rotate(calc(var(--rot) * 1.5));
+    opacity: 0;
+  }
+}
+
+.animate-heart-pop {
+  animation: heartPop 0.85s cubic-bezier(0.25, 1, 0.5, 1) forwards;
+  pointer-events: none;
+}
+
+/* Hide default cursor on fine desktop pointers so custom Heart Cursor takes over */
+@media (hover: hover) and (pointer: fine) {
+  body, a, button, input, [role="button"] {
+    cursor: none !important;
+  }
+}
+
