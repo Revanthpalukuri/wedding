@@ -1,100 +1,164 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import { MessageCircle, Camera } from 'lucide-react';
+import { MessageCircle, Heart, Share2, Bookmark } from 'lucide-react';
 
 export default function JoinUsInstagram() {
   const whatsappUrl = 'https://wa.me/?text=Hi%20Vivek%20%26%20Varshini,%20I%20would%20love%20to%20attend%20your%20wedding!';
   const instagramUrl = 'https://instagram.com';
 
   return (
-    <section className="relative bg-[#210202] text-[#FFF8E7] py-12 sm:py-20 px-4 overflow-hidden border-b-4 border-[#D4AF37] flex items-center justify-center min-h-screen">
-      {/* Full-Bleed Full Screen Background Photo */}
-      <div className="absolute inset-0 z-0">
-        {/* Stretched to match the exact screen size — full image, no trimming */}
+    <div className="w-full flex flex-col select-none">
+      {/* PAGE 6: RSVP - Will You Join Us? (Maintains original 3008:2080 aspect ratio, no vertical stretching) */}
+      <section
+        id="rsvp"
+        className="relative w-full aspect-[3008/2080] min-h-[calc(100vw*2080/3008)] bg-[#210202] text-[#FFF8E7] overflow-hidden flex items-center justify-center text-center"
+      >
+        {/* Full Bleed Background Artwork maintaining natural aspect ratio */}
         <img
           src="https://framerusercontent.com/images/6f9AxarIs54UBYT1Lrm4ws9V764.webp?scale-down-to=2048&width=3008&height=2080"
-          alt="Will You Join Us & Instagram Background"
-          className="w-full h-full object-fill opacity-100 transition-all duration-700"
+          alt="RSVP Will You Join Us Artwork"
+          className="absolute inset-0 w-full h-full object-cover pointer-events-none"
+          draggable="false"
         />
-        {/* Soft edge vignetting for smooth border transition */}
-        <div className="absolute inset-0 bg-gradient-to-b from-[#210202]/30 via-transparent to-[#210202]/40 pointer-events-none" />
-      </div>
 
-      <div className="max-w-xl mx-auto space-y-6 sm:space-y-10 relative z-10 w-full my-auto text-center">
-        {/* Card 1: Will You Join Us? (WhatsApp RSVP) */}
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.9 }}
-          className="bg-transparent text-[#FFF8E7] p-2 relative"
-        >
-          {/* Calligraphic Heading */}
-          <span className="font-script-calligraphy text-xl sm:text-3xl md:text-4xl text-[#FFD700] block mb-1 drop-shadow-[0_2px_8px_rgba(0,0,0,0.95)]">
-            Will You Join Us?
-          </span>
-
-          <p className="font-serif text-[10px] sm:text-xs md:text-sm text-[#FFF8E7] leading-relaxed max-w-sm sm:max-w-md mx-auto italic font-semibold drop-shadow-[0_2px_8px_rgba(0,0,0,1)] mb-4">
-            “We would be truly honoured to celebrate this day with you. Please let us know if you'll be joining the festivities — your presence is the only gift we need.”
-          </p>
-
-          {/* WhatsApp Button */}
-          <div className="flex flex-col items-center gap-1">
-            <a
-              href={whatsappUrl}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="w-10 h-10 sm:w-14 sm:h-14 rounded-xl bg-[#3A0303]/90 text-[#FFD700] border-2 border-[#FFD700] flex items-center justify-center shadow-[0_8px_20px_rgba(0,0,0,0.8)] hover:scale-110 transition-transform duration-300 group backdrop-blur-md"
-              title="RSVP via WhatsApp"
-            >
-              <MessageCircle className="w-5 h-5 sm:w-7 sm:h-7 fill-current text-[#FFD700] group-hover:rotate-12 transition-transform" />
-            </a>
-            <span className="font-sans-clean text-[8px] sm:text-[10px] font-bold uppercase tracking-[0.2em] text-[#FFD700] drop-shadow-[0_2px_6px_rgba(0,0,0,0.9)] pt-0.5">
-              TAP TO RSVP VIA WHATSAPP
+        {/* Content pinned proportionally inside the artwork panel */}
+        <div className="absolute inset-0 flex flex-col items-center justify-center pointer-events-none z-10 px-4">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.9 }}
+            className="flex flex-col items-center justify-center max-w-[85%] sm:max-w-xl text-center space-y-1 sm:space-y-3 md:space-y-4"
+          >
+            {/* Top RSVP Tag */}
+            <span className="font-sans-clean text-[8px] sm:text-xs md:text-sm font-bold tracking-[0.25em] text-[#580B1A] uppercase">
+              RSVP
             </span>
-          </div>
-        </motion.div>
 
-        {/* Card 2: Instagram #VivekWedsVarshini */}
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.9, delay: 0.2 }}
-          className="bg-transparent text-[#FFF8E7] p-2 relative"
-        >
-          {/* Script Instagram Heading */}
-          <span className="font-script-calligraphy text-xl sm:text-3xl md:text-4xl text-[#FFD700] block mb-1 drop-shadow-[0_2px_8px_rgba(0,0,0,0.95)]">
-            Instagram
-          </span>
+            {/* Calligraphic Title */}
+            <h2 className="font-serif text-2xl sm:text-4xl md:text-5xl lg:text-6xl text-[#580B1A] font-normal leading-none">
+              <span className="font-script-calligraphy text-3xl sm:text-5xl md:text-6xl lg:text-7xl text-[#580B1A]">W</span>
+              ill You Join Us?
+            </h2>
 
-          {/* Hashtag */}
-          <h2 className="font-cinzel text-base sm:text-2xl md:text-3xl font-extrabold text-white tracking-wider mb-4 drop-shadow-[0_2px_10px_rgba(0,0,0,0.95)]">
-            #VivekWedsVarshini
-          </h2>
+            {/* Note */}
+            <p className="font-serif text-[7.5px] sm:text-[11px] md:text-xs lg:text-sm text-[#580B1A] leading-relaxed max-w-xs sm:max-w-md mx-auto italic font-medium">
+              We would be truly honoured to celebrate this day with you. Please let us know if you'll be joining the festivities — your presence is the only gift we need.
+            </p>
 
-          {/* Instagram Button */}
-          <div className="flex flex-col items-center gap-1">
-            <a
-              href={instagramUrl}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="w-10 h-10 sm:w-14 sm:h-14 rounded-xl bg-gradient-to-tr from-amber-500 via-rose-500 to-purple-600 text-white border-2 border-white flex items-center justify-center shadow-[0_8px_20px_rgba(0,0,0,0.8)] hover:scale-110 transition-transform duration-300 group"
-              title="View Wedding Hashtag on Instagram"
-            >
-              <Camera className="w-5 h-5 sm:w-7 sm:h-7 text-white group-hover:rotate-12 transition-transform" />
-            </a>
-            <span className="font-sans-clean text-[8px] sm:text-[10px] font-bold uppercase tracking-[0.25em] text-[#FFD700] drop-shadow-[0_2px_6px_rgba(0,0,0,0.9)]">
-              TAP HERE
+            {/* WhatsApp RSVP Button */}
+            <div className="pt-1 sm:pt-2 flex flex-col items-center gap-1 pointer-events-auto">
+              <a
+                href={whatsappUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center justify-center gap-1.5 sm:gap-2.5 px-4 sm:px-8 py-2 sm:py-3.5 rounded-lg sm:rounded-xl bg-[rgb(88,11,26)] text-white font-sans-clean text-[9px] sm:text-xs md:text-sm uppercase font-semibold shadow-lg hover:scale-105 transition-transform duration-300 cursor-pointer"
+              >
+                <MessageCircle className="w-3.5 h-3.5 sm:w-5 sm:h-5 fill-current text-white" />
+                <span>RSVP on WhatsApp</span>
+              </a>
+              <span className="font-sans-clean text-[7px] sm:text-[9px] md:text-[10px] uppercase tracking-widest text-[#580B1A] font-bold">
+                TAP HERE
+              </span>
+            </div>
+          </motion.div>
+        </div>
+      </section>
+
+      {/* PAGE 7 Top: Instagram Section (Maintains original 3008:2080 aspect ratio, no vertical stretching) */}
+      <section
+        id="instagram"
+        className="relative w-full aspect-[3008/2080] min-h-[calc(100vw*2080/3008)] bg-[#210202] text-[#FFF8E7] overflow-hidden flex items-center justify-center text-center"
+      >
+        {/* Full Bleed Background Artwork */}
+        <img
+          src="https://framerusercontent.com/images/f7X3FcEZ4muD31rwPB6wnsMnmsw.webp?scale-down-to=2048&width=3008&height=2080"
+          alt="Instagram Artwork"
+          className="absolute inset-0 w-full h-full object-cover pointer-events-none"
+          draggable="false"
+        />
+
+        {/* Content pinned proportionally inside the Instagram panel */}
+        <div className="absolute inset-0 flex flex-col items-center justify-center pointer-events-none z-10 px-4">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.9 }}
+            className="flex flex-col items-center justify-center max-w-[85%] sm:max-w-xl text-center space-y-1 sm:space-y-3 md:space-y-4"
+          >
+            {/* Instagram Heading */}
+            <span className="font-script-calligraphy text-3xl sm:text-5xl md:text-6xl lg:text-7xl text-[#580B1A] block font-normal leading-none">
+              Instagram
             </span>
-          </div>
 
-          {/* Tagline */}
-          <div className="mt-4 pt-2 border-t border-[#FFD700]/30 flex justify-center text-[9px] sm:text-xs text-amber-100 font-sans-clean font-semibold uppercase tracking-widest drop-shadow-[0_2px_6px_rgba(0,0,0,0.9)]">
-            <span>🏛️ Tag your memories with #VivekWedsVarshini</span>
-          </div>
-        </motion.div>
-      </div>
-    </section>
+            {/* Hashtag */}
+            <h3 className="font-serif text-xl sm:text-3xl md:text-4xl text-[#580B1A] font-bold tracking-tight">
+              #VivekWedsVarshini
+            </h3>
+
+            {/* 3 Luxury Angled Instagram Cards */}
+            <div className="relative w-48 sm:w-72 md:w-80 h-24 sm:h-36 md:h-40 my-1 flex items-center justify-center">
+              {/* Left Card */}
+              <div className="absolute left-2 sm:left-4 w-14 sm:w-20 md:w-24 aspect-[3/4] bg-white p-0.5 sm:p-1 rounded sm:rounded-lg shadow-xl -rotate-6 border border-slate-200">
+                <img
+                  src="https://images.unsplash.com/photo-1519741497674-611481863552?auto=format&fit=crop&w=400&q=80"
+                  alt="Memory 1"
+                  className="w-full h-[78%] object-cover rounded-sm sm:rounded-md"
+                />
+                <div className="flex items-center justify-between px-0.5 sm:px-1 pt-0.5 text-slate-700">
+                  <Heart className="w-2 sm:w-2.5 h-2 sm:h-2.5 fill-rose-500 text-rose-500" />
+                  <Share2 className="w-2 sm:w-2.5 h-2 sm:h-2.5" />
+                  <Bookmark className="w-2 sm:w-2.5 h-2 sm:h-2.5" />
+                </div>
+              </div>
+
+              {/* Middle Card */}
+              <div className="relative z-10 w-16 sm:w-24 md:w-28 aspect-[3/4] bg-white p-0.5 sm:p-1 rounded sm:rounded-lg shadow-2xl border border-slate-200">
+                <img
+                  src="https://images.unsplash.com/photo-1583939003579-730e3918a45a?auto=format&fit=crop&w=400&q=80"
+                  alt="Memory 2"
+                  className="w-full h-[78%] object-cover rounded-sm sm:rounded-md"
+                />
+                <div className="flex items-center justify-between px-0.5 sm:px-1 pt-0.5 text-slate-700">
+                  <Heart className="w-2 sm:w-3 h-2 sm:h-3 fill-rose-500 text-rose-500" />
+                  <Share2 className="w-2 sm:w-3 h-2 sm:h-3" />
+                  <Bookmark className="w-2 sm:w-3 h-2 sm:h-3" />
+                </div>
+              </div>
+
+              {/* Right Card */}
+              <div className="absolute right-2 sm:right-4 w-14 sm:w-20 md:w-24 aspect-[3/4] bg-white p-0.5 sm:p-1 rounded sm:rounded-lg shadow-xl rotate-6 border border-slate-200">
+                <img
+                  src="https://images.unsplash.com/photo-1610030469983-98e550d6193c?auto=format&fit=crop&w=400&q=80"
+                  alt="Memory 3"
+                  className="w-full h-[78%] object-cover rounded-sm sm:rounded-md"
+                />
+                <div className="flex items-center justify-between px-0.5 sm:px-1 pt-0.5 text-slate-700">
+                  <Heart className="w-2 sm:w-2.5 h-2 sm:h-2.5 fill-rose-500 text-rose-500" />
+                  <Share2 className="w-2 sm:w-2.5 h-2 sm:h-2.5" />
+                  <Bookmark className="w-2 sm:w-2.5 h-2 sm:h-2.5" />
+                </div>
+              </div>
+            </div>
+
+            {/* Instagram Button */}
+            <div className="pt-1 flex flex-col items-center gap-1 pointer-events-auto">
+              <a
+                href={instagramUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center justify-center px-6 sm:px-8 py-1.5 sm:py-2.5 rounded-full bg-[rgb(88,11,26)] text-white font-sans-clean text-[9px] sm:text-xs uppercase font-bold tracking-wider shadow-md hover:scale-105 hover:bg-gradient-to-r hover:from-amber-500 hover:via-rose-500 hover:to-purple-600 transition-all duration-300 cursor-pointer"
+              >
+                <span>instagram</span>
+              </a>
+              <span className="font-sans-clean text-[7px] sm:text-[9px] md:text-[10px] uppercase tracking-widest text-[#580B1A] font-bold">
+                TAP HERE
+              </span>
+            </div>
+          </motion.div>
+        </div>
+      </section>
+    </div>
   );
 }

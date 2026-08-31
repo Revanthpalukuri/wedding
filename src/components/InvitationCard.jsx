@@ -1,6 +1,5 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import { Flame } from 'lucide-react';
 
 export default function InvitationCard() {
   return (
@@ -23,8 +22,14 @@ export default function InvitationCard() {
       >
         {/* Top Blessing Ornament */}
         <div className="mb-2 sm:mb-3">
-          <div className="w-9 h-9 sm:w-14 sm:h-14 md:w-20 md:h-20 mx-auto mb-1.5 sm:mb-2 rounded-full border-2 border-amber-500 bg-amber-100 flex items-center justify-center shadow-md">
-            <Flame className="w-4 h-4 sm:w-7 sm:h-7 md:w-10 md:h-10 text-amber-600 animate-flame" />
+          <div className="w-10 h-10 sm:w-16 sm:h-16 md:w-20 md:h-20 mx-auto mb-1.5 sm:mb-2">
+            <img
+              decoding="auto"
+              loading="lazy"
+              src="https://framerusercontent.com/images/7Jc7F5U6LjAzdX4ypVkjja74nO8.webp?scale-down-to=512&width=2500&height=2500"
+              alt="Lord Ganesha"
+              className="w-full h-full object-contain drop-shadow-md"
+            />
           </div>
           <span className="font-serif text-xs sm:text-base md:text-xl lg:text-2xl text-amber-700 tracking-widest font-bold block">
             ॥ శ్రీ గణేశాయ నమః ॥
@@ -67,7 +72,7 @@ export default function InvitationCard() {
               Beloved daughter of
             </span>
             <p className="font-bold text-amber-900 text-[10px] sm:text-sm md:text-lg lg:text-xl">
-              Mr. B.S.V.N.V.S Murthu & Mrs. Ratnamala
+              Mr. S V N V S Murthy & Mrs. Ratnamala
             </p>
           </div>
         </div>
