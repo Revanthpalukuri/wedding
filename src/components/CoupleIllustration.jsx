@@ -1,101 +1,125 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import { Heart, Sparkles } from 'lucide-react';
 
 export default function CoupleIllustration() {
   return (
-    <section id="varmala" className="relative min-h-screen sky-gopuram-bg flex flex-col items-center justify-center py-20 px-4 overflow-hidden">
-      {/* Clouds Background */}
-      <div className="absolute top-8 left-10 w-48 h-20 bg-white/30 rounded-full blur-xl pointer-events-none" />
-      <div className="absolute top-16 right-10 w-64 h-24 bg-white/30 rounded-full blur-xl pointer-events-none" />
+    <section
+      id="varmala"
+      className="relative w-full aspect-[2/3] min-h-[calc(100vw*1.5)] overflow-hidden flex items-center justify-center select-none bg-[#1E60BF]"
+    >
+      {/* Edge-to-Edge Full Canvas Artwork with pre-rendered typography */}
+      <img
+        src="/images/meet_the_bride_groom_bg.jpg"
+        alt="Meet The Bride & Bridegroom Artwork"
+        className="absolute inset-0 w-full h-full object-cover pointer-events-none"
+        draggable="false"
+      />
 
-      <div className="max-w-4xl mx-auto text-center relative z-10 w-full">
-        {/* Section Header */}
+      {/* Top-Left Corner Cascading Floral Garland */}
+      <img
+        src="/images/TopLeftCorner.png"
+        alt="Top Left Floral Corner"
+        className="absolute top-0 left-0 w-[42%] sm:w-[38%] md:w-[34%] pointer-events-none z-20 drop-shadow-[0_6px_16px_rgba(0,0,0,0.15)]"
+        draggable="false"
+      />
+
+      {/* 1. Top Section: THE BRIDE (Left: Photo, Right: Lineage Box) */}
+      <div className="absolute top-[32%] left-[16%] right-[16%] h-[24%] flex items-center justify-between z-10">
+        {/* Bride Photo Frame (Aligned in background slot) */}
         <motion.div
-          initial={{ opacity: 0, y: 20 }}
+          initial={{ opacity: 0, scale: 0.95 }}
+          whileInView={{ opacity: 1, scale: 1 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.8 }}
+          className="w-[45%] h-full flex items-center justify-center relative pl-0 sm:pl-1"
+        >
+          <div className="relative w-[84%] sm:w-[88%] h-[88%] sm:h-[94%] rounded-xl sm:rounded-2xl border-2 sm:border-3 border-[#D4AF37] shadow-[0_8px_20px_rgba(0,0,0,0.25)] bg-[#102A4E]">
+            <img
+              src="/images/bride_portrait.jpg"
+              alt="The Bride"
+              className="w-full h-full object-cover object-center rounded-xl sm:rounded-2xl"
+            />
+            {/* Floral Cluster Ornament on Bottom-Left Corner (+50% Enlarged) */}
+            <img
+              src="/images/BackgroundFlower.png"
+              alt="Floral Ornament"
+              className="absolute -bottom-6 -left-6 sm:-bottom-10 sm:-left-10 md:-bottom-12 md:-left-12 w-[110px] sm:w-[160px] md:w-[210px] lg:w-[240px] max-w-none pointer-events-none z-20 drop-shadow-[0_8px_18px_rgba(0,0,0,0.4)]"
+              draggable="false"
+            />
+          </div>
+        </motion.div>
+
+        {/* Bride Lineage Box (Larger font, shifted down into the box center) */}
+        <motion.div
+          initial={{ opacity: 0, y: 15 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.8 }}
-          className="mb-12"
+          className="w-[55%] h-full flex flex-col items-center justify-center text-center pl-0 sm:pl-0 pt-15 sm:pt-50 md:pt-50"
         >
-          <span className="font-sans-clean text-xs uppercase tracking-[0.3em] text-amber-200 block mb-2 font-bold">
-            The Auspicious Couple
-          </span>
-          <h2 className="font-cinzel text-3xl sm:text-5xl text-white font-bold tracking-wider">
-            Meet The Bridegroom & Bride
-          </h2>
-          <div className="w-20 h-[2px] bg-amber-300 mx-auto my-4" />
+          <div className="w-full max-w-[280px] text-center bg-transparent flex flex-col items-center justify-center space-y-0.5 sm:space-y-1.5">
+            <p className="font-serif text-xs sm:text-base md:text-lg lg:text-xl xl:text-2xl text-[#6B3E11] italic font-semibold leading-tight">
+              Daughter of
+            </p>
+            <p className="font-serif text-[13px] sm:text-lg md:text-xl lg:text-2xl xl:text-3xl font-extrabold text-[#0E2A54] leading-snug tracking-tight">
+              S V N V S Murthy and<br />Ratnamala
+            </p>
+          </div>
+        </motion.div>
+      </div>
+
+      {/* 2. Bottom Section: THE GROOM (Left: Lineage Box, Right: Photo) */}
+      <div className="absolute top-[60%] left-[16%] right-[16%] h-[24%] flex items-center justify-between z-10">
+        {/* Groom Lineage Box (Larger font, shifted down into the box center) */}
+        <motion.div
+          initial={{ opacity: 0, y: 15 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.8, delay: 0.1 }}
+          className="w-[55%] h-full flex flex-col items-center justify-center text-center pr-0 sm:pr-0 pt-5 sm:pt-30 md:pt-30"
+        >
+          <div className="w-full max-w-[280px] text-center bg-transparent flex flex-col items-center justify-center space-y-0.5 sm:space-y-1.5">
+            <p className="font-serif text-xs sm:text-base md:text-lg lg:text-xl xl:text-2xl text-[#6B3E11] italic font-semibold leading-tight">
+              Son of
+            </p>
+            <p className="font-serif text-[13px] sm:text-lg md:text-xl lg:text-2xl xl:text-3xl font-extrabold text-[#0E2A54] leading-snug tracking-tight">
+              Nageswara Rao and<br />Neeraja
+            </p>
+          </div>
         </motion.div>
 
-        {/* Stacked Groom & Bride Cards */}
-        <div className="space-y-12 max-w-2xl mx-auto">
-          {/* Meet the Bridegroom */}
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.8 }}
-            className="bg-amber-50/95 rounded-3xl p-6 sm:p-10 border-4 border-amber-300 shadow-2xl overflow-hidden text-slate-800"
-          >
-            <span className="inline-block px-4 py-1 rounded-full bg-amber-600 text-white font-sans-clean text-xs font-bold uppercase tracking-widest mb-4">
-              The Groom
-            </span>
-            <h3 className="font-cinzel text-3xl sm:text-4xl text-amber-900 font-bold mb-4">
-              Meet the Bridegroom
-            </h3>
-
-            {/* Groom Photo */}
-            <div className="relative w-full h-80 sm:h-96 rounded-2xl overflow-hidden shadow-lg border-2 border-amber-200 mb-6">
-              <img
-                src="https://images.unsplash.com/photo-1610030469983-98e550d6193c?auto=format&fit=crop&w=1000&q=85"
-                alt="Meet the Bridegroom - Vivek"
-                className="w-full h-full object-cover object-top hover:scale-105 transition-transform duration-700"
-              />
-              <div className="absolute inset-0 bg-gradient-to-t from-amber-950/40 via-transparent to-transparent" />
-            </div>
-
-            {/* Groom Lineage Details */}
-            <div className="bg-amber-100/70 p-4 rounded-xl border border-amber-300/80">
-              <p className="font-serif text-lg sm:text-xl text-amber-950 font-semibold">
-                Son of Nageswara Rao and Neeraja
-              </p>
-            </div>
-          </motion.div>
-
-          {/* Meet the Bride */}
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.8, delay: 0.2 }}
-            className="bg-amber-50/95 rounded-3xl p-6 sm:p-10 border-4 border-amber-300 shadow-2xl overflow-hidden text-slate-800"
-          >
-            <span className="inline-block px-4 py-1 rounded-full bg-amber-600 text-white font-sans-clean text-xs font-bold uppercase tracking-widest mb-4">
-              The Bride
-            </span>
-            <h3 className="font-cinzel text-3xl sm:text-4xl text-amber-900 font-bold mb-4">
-              Meet the Bride
-            </h3>
-
-            {/* Bride Photo */}
-            <div className="relative w-full h-80 sm:h-96 rounded-2xl overflow-hidden shadow-lg border-2 border-amber-200 mb-6">
-              <img
-                src="https://images.unsplash.com/photo-1583939003579-730e3918a45a?auto=format&fit=crop&w=1000&q=85"
-                alt="Meet the Bride - Varshini"
-                className="w-full h-full object-cover object-top hover:scale-105 transition-transform duration-700"
-              />
-              <div className="absolute inset-0 bg-gradient-to-t from-amber-950/40 via-transparent to-transparent" />
-            </div>
-
-            {/* Bride Lineage Details */}
-            <div className="bg-amber-100/70 p-4 rounded-xl border border-amber-300/80">
-              <p className="font-serif text-lg sm:text-xl text-amber-950 font-semibold">
-                Daughter of B.S.V.N.V.S Murthu and Ratnamala
-              </p>
-            </div>
-          </motion.div>
-        </div>
+        {/* Groom Photo Frame (Shifted left to align with background frame) */}
+        <motion.div
+          initial={{ opacity: 0, scale: 0.95 }}
+          whileInView={{ opacity: 1, scale: 1 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.8, delay: 0.1 }}
+          className="w-[45%] h-full flex items-center justify-center relative pr-0 sm:pr-2 md:pr-4 -translate-x-1 sm:-translate-x-2"
+        >
+          <div className="relative w-[84%] sm:w-[88%] h-[88%] sm:h-[94%] rounded-xl sm:rounded-2xl border-2 sm:border-3 border-[#D4AF37] shadow-[0_8px_20px_rgba(0,0,0,0.25)] bg-[#102A4E]">
+            <img
+              src="/images/groom_portrait.jpg"
+              alt="The Bridegroom"
+              className="w-full h-full object-cover object-center rounded-xl sm:rounded-2xl"
+            />
+            {/* Floral Cluster Ornament on Bottom-Right Corner (+50% Enlarged) */}
+            <img
+              src="/images/BackgroundFlower.png"
+              alt="Floral Ornament"
+              className="absolute -bottom-6 -right-6 sm:-bottom-10 sm:-right-10 md:-bottom-12 md:-right-12 w-[110px] sm:w-[160px] md:w-[210px] lg:w-[240px] max-w-none pointer-events-none z-20 drop-shadow-[0_8px_18px_rgba(0,0,0,0.4)] -scale-x-100"
+              draggable="false"
+            />
+          </div>
+        </motion.div>
       </div>
+
+      {/* Bottom Full-Width Decorative Diyas & Floral Railing Ornament */}
+      <img
+        src="/images/BottomImage.png"
+        alt="Bottom Floral & Diya Ornament"
+        className="absolute bottom-0 inset-x-0 w-full pointer-events-none z-20 object-contain drop-shadow-[0_-6px_16px_rgba(0,0,0,0.18)]"
+        draggable="false"
+      />
     </section>
   );
 }

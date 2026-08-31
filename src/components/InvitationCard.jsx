@@ -72,7 +72,7 @@ export default function InvitationCard() {
               Beloved daughter of
             </span>
             <p className="font-bold text-amber-900 text-[10px] sm:text-sm md:text-lg lg:text-xl">
-              Mr. B.S.V.N.V.S Murthu & Mrs. Ratnamala
+              Mr. S V N V S Murthy & Mrs. Ratnamala
             </p>
           </div>
         </div>

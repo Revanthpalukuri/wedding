@@ -95,10 +95,10 @@ export default function MouseFollower() {
     <>
       {/* 1. Trailing Heart Halo Glow */}
       <div
-        className="fixed pointer-events-none z-50 hidden md:block transition-transform duration-75 ease-out"
+        className="fixed pointer-events-none z-[99999] hidden md:block transition-transform duration-75 ease-out"
         style={{
-          left: `${trailingPos.x}px`,
-          top: `${trailingPos.y}px`,
+          left: `${trailingPos.x + 8}px`,
+          top: `${trailingPos.y + 8}px`,
           transform: 'translate(-50%, -50%)',
         }}
       >
@@ -111,12 +111,12 @@ export default function MouseFollower() {
         />
       </div>
 
-      {/* 2. Main Glowing Love Heart Pointer Symbol */}
+      {/* 2. Glowing Love Heart Companion Follower (Floats smoothly beside mouse tip) */}
       <div
-        className="fixed pointer-events-none z-50 hidden md:block"
+        className="fixed pointer-events-none z-[99999] hidden md:block"
         style={{
-          left: `${mousePos.x}px`,
-          top: `${mousePos.y}px`,
+          left: `${mousePos.x + 12}px`,
+          top: `${mousePos.y + 12}px`,
           transform: `translate(-50%, -50%) scale(${isClicking ? 0.8 : isHoveringClickable ? 1.35 : 1})`,
           transition: 'transform 0.15s cubic-bezier(0.175, 0.885, 0.32, 1.275)',
         }}
@@ -139,7 +139,7 @@ export default function MouseFollower() {
       </div>
 
       {/* 3. Click Love Burst Particles */}
-      <div className="fixed inset-0 pointer-events-none z-50 overflow-hidden hidden md:block">
+      <div className="fixed inset-0 pointer-events-none z-[99999] overflow-hidden hidden md:block">
         {heartBursts.map((burst) => (
           <div key={burst.id} className="absolute" style={{ left: burst.x, top: burst.y }}>
             {burst.particles.map((p) => (

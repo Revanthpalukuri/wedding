@@ -167,10 +167,3 @@
   pointer-events: none;
 }
 
-/* Hide default cursor on fine desktop pointers so custom Heart Cursor takes over */
-@media (hover: hover) and (pointer: fine) {
-  body, a, button, input, [role="button"] {
-    cursor: none !important;
-  }
-}
-
