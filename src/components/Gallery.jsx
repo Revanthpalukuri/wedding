@@ -26,6 +26,7 @@ const preWeddingPhotos = Object.values(preWeddingImagesMap).map((url, idx) => ({
 export default function Gallery() {
   const [activeImageIndex, setActiveImageIndex] = useState(null);
   const [currentSlide, setCurrentSlide] = useState(0);
+  const [isPaused, setIsPaused] = useState(false);
   const scrollContainerRef = useRef(null);
 
   // Auto detect active slide while scrolling
@@ -52,13 +53,35 @@ export default function Gallery() {
     setCurrentSlide(index);
   };
 
+  // Automatically advance photos every 3.5 seconds in a continuous loop
+  useEffect(() => {
+    if (isPaused || activeImageIndex !== null || preWeddingPhotos.length === 0) return;
+
+    const interval = setInterval(() => {
+      setCurrentSlide((prev) => {
+        const next = (prev + 1) % preWeddingPhotos.length;
+        if (scrollContainerRef.current) {
+          const container = scrollContainerRef.current;
+          const cardWidth = container.offsetWidth > 640 ? 334 : 270;
+          container.scrollTo({
+            left: next * cardWidth,
+            behavior: 'smooth',
+          });
+        }
+        return next;
+      });
+    }, 3500);
+
+    return () => clearInterval(interval);
+  }, [isPaused, activeImageIndex, preWeddingPhotos.length]);
+
   const scrollPrev = () => {
-    const nextIndex = Math.max(0, currentSlide - 1);
+    const nextIndex = currentSlide === 0 ? preWeddingPhotos.length - 1 : currentSlide - 1;
     scrollToSlide(nextIndex);
   };
 
   const scrollNext = () => {
-    const nextIndex = Math.min(preWeddingPhotos.length - 1, currentSlide + 1);
+    const nextIndex = (currentSlide + 1) % preWeddingPhotos.length;
     scrollToSlide(nextIndex);
   };
 
@@ -158,15 +181,18 @@ export default function Gallery() {
           </div>
 
           {/* Animated Carousel Track & Navigation Buttons */}
-          <div className="relative mt-4">
+          <div
+            onMouseEnter={() => setIsPaused(true)}
+            onMouseLeave={() => setIsPaused(false)}
+            onTouchStart={() => setIsPaused(true)}
+            onTouchEnd={() => setIsPaused(false)}
+            className="relative mt-4"
+          >
             {/* Left Chevron Button */}
             <button
               onClick={scrollPrev}
-              disabled={currentSlide === 0}
               aria-label="Scroll left"
-              className={`absolute left-2 sm:left-4 top-1/2 -translate-y-1/2 z-20 w-11 h-11 rounded-full bg-[#3A0303]/90 hover:bg-[#580B1A] text-[#FFD700] border border-[#D4AF37]/60 items-center justify-center shadow-[0_8px_25px_rgba(0,0,0,0.6)] hover:scale-105 active:scale-95 transition-all duration-300 hidden md:flex cursor-pointer ${
-                currentSlide === 0 ? 'opacity-30 cursor-not-allowed' : 'opacity-100'
-              }`}
+              className="absolute left-2 sm:left-4 top-1/2 -translate-y-1/2 z-20 w-11 h-11 rounded-full bg-[#3A0303]/90 hover:bg-[#580B1A] text-[#FFD700] border border-[#D4AF37]/60 items-center justify-center shadow-[0_8px_25px_rgba(0,0,0,0.6)] hover:scale-105 active:scale-95 transition-all duration-300 hidden md:flex cursor-pointer"
             >
               <ChevronLeft className="h-6 w-6" />
             </button>
@@ -174,11 +200,8 @@ export default function Gallery() {
             {/* Right Chevron Button */}
             <button
               onClick={scrollNext}
-              disabled={currentSlide === preWeddingPhotos.length - 1}
               aria-label="Scroll right"
-              className={`absolute right-2 sm:right-4 top-1/2 -translate-y-1/2 z-20 w-11 h-11 rounded-full bg-[#3A0303]/90 hover:bg-[#580B1A] text-[#FFD700] border border-[#D4AF37]/60 items-center justify-center shadow-[0_8px_25px_rgba(0,0,0,0.6)] hover:scale-105 active:scale-95 transition-all duration-300 hidden md:flex cursor-pointer ${
-                currentSlide === preWeddingPhotos.length - 1 ? 'opacity-30 cursor-not-allowed' : 'opacity-100'
-              }`}
+              className="absolute right-2 sm:right-4 top-1/2 -translate-y-1/2 z-20 w-11 h-11 rounded-full bg-[#3A0303]/90 hover:bg-[#580B1A] text-[#FFD700] border border-[#D4AF37]/60 items-center justify-center shadow-[0_8px_25px_rgba(0,0,0,0.6)] hover:scale-105 active:scale-95 transition-all duration-300 hidden md:flex cursor-pointer"
             >
               <ChevronRight className="h-6 w-6" />
             </button>
