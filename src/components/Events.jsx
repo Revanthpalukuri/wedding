@@ -1,5 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
+import { weddingConfig } from '../utils/config';
+import haldiImg from '../images/events/haldi.webp';
+import sangeetImg from '../images/events/sangeet.webp';
+import weddingImg from '../images/events/wedding.webp';
+import receptionImg from '../images/events/reception.webp';
 
 export default function Events() {
   const [currentSlide, setCurrentSlide] = useState(0);
@@ -9,37 +14,37 @@ export default function Events() {
       title: 'Haldi Ceremony',
       date: '17 December 2026',
       time: '10:00 AM IST',
-      venue: 'KSHATRIYA KALYANA MANDAPAM',
-      mapUrl: 'https://www.google.com/maps/place/Kshatriya+Kalyana+Mandapam/@16.5607114,81.993831,17z/data=!3m1!4b1!4m6!3m5!1s0x3a37e583a8300001:0xa14bf2c729820592!8m2!3d16.5607114!4d81.993831!16s%2Fg%2F11sskr8sqc!5m1!1e2!18m1!1e1?entry=ttu',
+      venue: weddingConfig.wedding.venue,
+      mapUrl: weddingConfig.wedding.mapUrl,
       description: 'Join us as we celebrate this beautiful auspicious occasion with turmeric blessings, love, and joyful folk music.',
-      image: 'https://framerusercontent.com/images/AiodKv9zJ0BlEmWhyX3vawMBKn4.webp?width=1086&height=1448',
+      image: haldiImg,
     },
     {
       title: 'Sangeet Night',
       date: '18 December 2026',
       time: '06:30 PM IST',
-      venue: 'KSHATRIYA KALYANA MANDAPAM',
-      mapUrl: 'https://www.google.com/maps/place/Kshatriya+Kalyana+Mandapam/@16.5607114,81.993831,17z/data=!3m1!4b1!4m6!3m5!1s0x3a37e583a8300001:0xa14bf2c729820592!8m2!3d16.5607114!4d81.993831!16s%2Fg%2F11sskr8sqc!5m1!1e2!18m1!1e1?entry=ttu',
+      venue: weddingConfig.wedding.venue,
+      mapUrl: weddingConfig.wedding.mapUrl,
       description: 'An evening filled with energetic family dance performances, classical fusion melodies, and delightful dinner.',
-      image: 'https://framerusercontent.com/images/zjqtpqy1i6UVkVV7j0yqT92xg.webp?width=1086&height=1448',
+      image: sangeetImg,
     },
     {
       title: 'Wedding Ceremony',
-      date: '19 December 2026',
-      time: '03:35 AM IST',
-      venue: 'KSHATRIYA KALYANA MANDAPAM',
-      mapUrl: 'https://www.google.com/maps/place/Kshatriya+Kalyana+Mandapam/@16.5607114,81.993831,17z/data=!3m1!4b1!4m6!3m5!1s0x3a37e583a8300001:0xa14bf2c729820592!8m2!3d16.5607114!4d81.993831!16s%2Fg%2F11sskr8sqc!5m1!1e2!18m1!1e1?entry=ttu',
+      date: weddingConfig.wedding.date,
+      time: weddingConfig.wedding.time,
+      venue: weddingConfig.wedding.venue,
+      mapUrl: weddingConfig.wedding.mapUrl,
       description: 'Witness our sacred Vedic vows, Jeelakarra Bellam, and traditional Mangalsutra rituals in the presence of loved ones.',
-      image: 'https://framerusercontent.com/images/89YF55J2ugFQJf4BGdUezGe9VYo.webp?width=1086&height=1448',
+      image: weddingImg,
     },
     {
       title: 'Grand Reception',
       date: '19 December 2026',
       time: '07:00 PM IST',
-      venue: 'KSHATRIYA KALYANA MANDAPAM',
-      mapUrl: 'https://www.google.com/maps/place/Kshatriya+Kalyana+Mandapam/@16.5607114,81.993831,17z/data=!3m1!4b1!4m6!3m5!1s0x3a37e583a8300001:0xa14bf2c729820592!8m2!3d16.5607114!4d81.993831!16s%2Fg%2F11sskr8sqc!5m1!1e2!18m1!1e1?entry=ttu',
+      venue: weddingConfig.wedding.venue,
+      mapUrl: weddingConfig.wedding.mapUrl,
       description: 'Celebrate our holy union with authentic traditional royal feast, warm blessings, and live musical orchestra.',
-      image: 'https://framerusercontent.com/images/R1S7l0vmwR8QKFU0cqM6naz69g.webp?width=1086&height=1448',
+      image: receptionImg,
     },
   ];
 

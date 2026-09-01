@@ -109,6 +109,7 @@ export default function LiveStream() {
           <iframe
             src={youtubeEmbedUrl}
             title="Vivek & Varshini Wedding Live YouTube Stream"
+            loading="lazy"
             allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
             allowFullScreen
             className="w-full h-full border-0"
@@ -139,6 +140,7 @@ export default function LiveStream() {
               href={youtubeWatchUrl}
               target="_blank"
               rel="noopener noreferrer"
+              aria-label="Watch live wedding broadcast directly on YouTube in new tab"
               className="inline-flex items-center gap-1.5 px-4 sm:px-5 py-2 rounded-full bg-red-600 hover:bg-red-700 text-white font-sans-clean text-xs sm:text-sm font-bold uppercase tracking-wider shadow-lg transition-all hover:scale-105"
             >
               <Video className="w-4 h-4" />
@@ -148,6 +150,7 @@ export default function LiveStream() {
 
             <button
               onClick={handleCopyLink}
+              aria-label="Copy live wedding broadcast link to clipboard"
               className="inline-flex items-center gap-1.5 px-4 sm:px-5 py-2 rounded-full bg-stone-900/90 border border-[#D4AF37] hover:border-[#FFD700] hover:bg-stone-800 text-amber-300 font-sans-clean text-xs sm:text-sm font-bold uppercase tracking-wider shadow-lg transition-all hover:scale-105 cursor-pointer"
               title="Copy Live Stream Link"
             >
@@ -169,6 +172,7 @@ export default function LiveStream() {
           <div className="flex flex-wrap items-center gap-2">
             <button
               onClick={() => handleShowerBlessings('flowers')}
+              aria-label="Shower Pushpa Vrishti flower petals blessing animation"
               className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-amber-500/20 border border-amber-400/50 hover:bg-amber-500 hover:text-stone-950 text-amber-200 text-xs font-sans-clean font-bold transition-all hover:scale-105 active:scale-95 cursor-pointer"
             >
               <span>🪷 Pushpa Vrishti</span>
@@ -176,6 +180,7 @@ export default function LiveStream() {
 
             <button
               onClick={() => handleShowerBlessings('hearts')}
+              aria-label="Shower love and romantic blessings animation"
               className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-rose-500/20 border border-rose-400/50 hover:bg-rose-600 hover:text-white text-rose-200 text-xs font-sans-clean font-bold transition-all hover:scale-105 active:scale-95 cursor-pointer"
             >
               <Heart className="w-3.5 h-3.5 fill-current text-rose-400" />
@@ -184,6 +189,7 @@ export default function LiveStream() {
 
             <button
               onClick={() => handleShowerBlessings('gold')}
+              aria-label="Shower sacred Akshatalu golden sparkles blessing animation"
               className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-yellow-500/20 border border-yellow-400/50 hover:bg-yellow-400 hover:text-stone-950 text-yellow-200 text-xs font-sans-clean font-bold transition-all hover:scale-105 active:scale-95 cursor-pointer"
             >
               <Sparkles className="w-3.5 h-3.5 text-yellow-300" />

@@ -153,6 +153,7 @@ export default function Gallery() {
             <iframe
               src={getYouTubeEmbedUrl(weddingConfig.preWeddingVideoUrl, 'autoplay=1&mute=1&enablejsapi=1')}
               title="Pre-Wedding Video"
+              loading="lazy"
               allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
               allowFullScreen
               className="w-full h-full border-0"
