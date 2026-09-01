@@ -6,7 +6,7 @@ export default function InvitationCard() {
     <section id="invite" className="relative w-full h-[max(100svh,150vw)] overflow-hidden bg-[#dce6f5]">
       {/* Full-Screen Temple Arch Frame Artwork — stretched to the exact screen size */}
       <img
-        src="/temple2.webp"
+        src="/images/invitation/temple2.webp"
         alt="Ornate Temple Arch Invitation Frame"
         className="absolute inset-0 w-full h-full object-fill"
         draggable="false"

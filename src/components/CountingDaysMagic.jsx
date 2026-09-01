@@ -32,25 +32,12 @@ export default function CountingDaysMagic() {
     return () => clearInterval(timer);
   }, []);
 
-  // Magic deck photos
-  const magicPhotos = [
-    {
-      url: 'https://images.unsplash.com/photo-1519741497674-611481863552?auto=format&fit=crop&w=800&q=80',
-      caption: 'Lakeside Pre-wedding Blessing',
-    },
-    {
-      url: 'https://images.unsplash.com/photo-1610030469983-98e550d6193c?auto=format&fit=crop&w=800&q=80',
-      caption: 'Traditional Ethnic Elegance',
-    },
-    {
-      url: 'https://images.unsplash.com/photo-1583939003579-730e3918a45a?auto=format&fit=crop&w=800&q=80',
-      caption: 'Kshatriya Kalyana Mandapam Courtyard',
-    },
-    {
-      url: 'https://images.unsplash.com/photo-1544078751-58fee2d8a03b?auto=format&fit=crop&w=800&q=80',
-      caption: 'Ring Ceremony Memories',
-    },
-  ];
+// Dynamically load all images placed in src/images/touch_for_magic/
+const magicImagesMap = import.meta.glob('../images/touch_for_magic/*.{jpg,jpeg,png,webp,avif,JPG,JPEG,PNG,WEBP}', { eager: true, import: 'default' });
+const magicPhotos = Object.values(magicImagesMap).map((url, idx) => ({
+  url,
+  caption: `Wedding Memory ${idx + 1}`,
+}));
 
   // Spawn the next photo at the cursor point with a subtle random tilt.
   // Each photo fades away smoothly after lingering.
@@ -123,7 +110,7 @@ export default function CountingDaysMagic() {
     >
       {/* Full Artwork Image — rendered with full natural 1872:3344 portrait aspect ratio so full artwork is scrollable */}
       <img
-        src="/countdown_bg.png"
+        src="/images/countdown/countdown_bg.png"
         alt="Countdown Temple Artwork Background"
         className="absolute inset-0 w-full h-full object-fill pointer-events-none"
         draggable="false"

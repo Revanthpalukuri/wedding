@@ -9,7 +9,7 @@ export default function CoupleIllustration() {
     >
       {/* Edge-to-Edge Full Canvas Artwork with pre-rendered typography */}
       <img
-        src="/images/meet_the_bride_groom_bg.jpg"
+        src="/images/meet_couple/meet_the_bride_groom_bg.png"
         alt="Meet The Bride & Bridegroom Artwork"
         className="absolute inset-0 w-full h-full object-cover pointer-events-none"
         draggable="false"
@@ -17,7 +17,7 @@ export default function CoupleIllustration() {
 
       {/* Top-Left Corner Cascading Floral Garland */}
       <img
-        src="/images/TopLeftCorner.png"
+        src="/images/decorations/TopLeftCorner.png"
         alt="Top Left Floral Corner"
         className="absolute top-0 left-0 w-[42%] sm:w-[38%] md:w-[34%] pointer-events-none z-20 drop-shadow-[0_6px_16px_rgba(0,0,0,0.15)]"
         draggable="false"
@@ -25,23 +25,23 @@ export default function CoupleIllustration() {
 
       {/* 1. Top Section: THE BRIDE (Left: Photo, Right: Lineage Box) */}
       <div className="absolute top-[32%] left-[16%] right-[16%] h-[24%] flex items-center justify-between z-10">
-        {/* Bride Photo Frame (Aligned in background slot) */}
+        {/* Groom Photo Frame (Shifted down/right and adjusted top by -5%) */}
         <motion.div
           initial={{ opacity: 0, scale: 0.95 }}
           whileInView={{ opacity: 1, scale: 1 }}
           viewport={{ once: true }}
           transition={{ duration: 0.8 }}
-          className="w-[45%] h-full flex items-center justify-center relative pl-0 sm:pl-1"
+          className="w-[45%] h-full flex items-end justify-center relative pl-0 sm:pl-1 translate-x-2.5 sm:translate-x-4 md:translate-x-5 translate-y-3.5 sm:translate-y-6 pb-[1.5%]"
         >
-          <div className="relative w-[84%] sm:w-[88%] h-[88%] sm:h-[94%] rounded-xl sm:rounded-2xl border-2 sm:border-3 border-[#D4AF37] shadow-[0_8px_20px_rgba(0,0,0,0.25)] bg-[#102A4E]">
+          <div className="relative w-[84%] sm:w-[88%] h-[93%] sm:h-[102%] rounded-xl sm:rounded-2xl border-2 sm:border-3 border-[#D4AF37] shadow-[0_8px_20px_rgba(0,0,0,0.25)] bg-[#102A4E]">
             <img
-              src="/images/bride_portrait.jpg"
-              alt="The Bride"
+              src="/images/meet_couple/groom_portrait.jpg"
+              alt="The Groom"
               className="w-full h-full object-cover object-center rounded-xl sm:rounded-2xl"
             />
             {/* Floral Cluster Ornament on Bottom-Left Corner (+50% Enlarged) */}
             <img
-              src="/images/BackgroundFlower.png"
+              src="/images/decorations/BackgroundFlower.png"
               alt="Floral Ornament"
               className="absolute -bottom-6 -left-6 sm:-bottom-10 sm:-left-10 md:-bottom-12 md:-left-12 w-[110px] sm:w-[160px] md:w-[210px] lg:w-[240px] max-w-none pointer-events-none z-20 drop-shadow-[0_8px_18px_rgba(0,0,0,0.4)]"
               draggable="false"
@@ -88,23 +88,23 @@ export default function CoupleIllustration() {
           </div>
         </motion.div>
 
-        {/* Groom Photo Frame (Shifted left to align with background frame) */}
+        {/* Bride Photo Frame (Shifted down and left to align with background frame) */}
         <motion.div
           initial={{ opacity: 0, scale: 0.95 }}
           whileInView={{ opacity: 1, scale: 1 }}
           viewport={{ once: true }}
           transition={{ duration: 0.8, delay: 0.1 }}
-          className="w-[45%] h-full flex items-center justify-center relative pr-0 sm:pr-2 md:pr-4 -translate-x-1 sm:-translate-x-2"
+          className="w-[45%] h-full flex items-center justify-center relative pr-0 sm:pr-2 md:pr-4 -translate-x-3 sm:-translate-x-5 md:-translate-x-6 translate-y-5 sm:translate-y-8"
         >
           <div className="relative w-[84%] sm:w-[88%] h-[88%] sm:h-[94%] rounded-xl sm:rounded-2xl border-2 sm:border-3 border-[#D4AF37] shadow-[0_8px_20px_rgba(0,0,0,0.25)] bg-[#102A4E]">
             <img
-              src="/images/groom_portrait.jpg"
-              alt="The Bridegroom"
+              src="/images/meet_couple/bride_portrait.jpg"
+              alt="The Bride"
               className="w-full h-full object-cover object-center rounded-xl sm:rounded-2xl"
             />
             {/* Floral Cluster Ornament on Bottom-Right Corner (+50% Enlarged) */}
             <img
-              src="/images/BackgroundFlower.png"
+              src="/images/decorations/BackgroundFlower.png"
               alt="Floral Ornament"
               className="absolute -bottom-6 -right-6 sm:-bottom-10 sm:-right-10 md:-bottom-12 md:-right-12 w-[110px] sm:w-[160px] md:w-[210px] lg:w-[240px] max-w-none pointer-events-none z-20 drop-shadow-[0_8px_18px_rgba(0,0,0,0.4)] -scale-x-100"
               draggable="false"
@@ -115,7 +115,7 @@ export default function CoupleIllustration() {
 
       {/* Bottom Full-Width Decorative Diyas & Floral Railing Ornament */}
       <img
-        src="/images/BottomImage.png"
+        src="/images/decorations/BottomImage.png"
         alt="Bottom Floral & Diya Ornament"
         className="absolute bottom-0 inset-x-0 w-full pointer-events-none z-20 object-contain drop-shadow-[0_-6px_16px_rgba(0,0,0,0.18)]"
         draggable="false"

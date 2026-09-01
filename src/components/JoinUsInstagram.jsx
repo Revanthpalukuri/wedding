@@ -1,6 +1,11 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import { MessageCircle, Heart, Share2, Bookmark } from 'lucide-react';
+import insta1 from '../images/instagram/insta_1.jpg';
+import insta2 from '../images/instagram/insta_2.jpg';
+import insta3 from '../images/instagram/insta_3.jpg';
+import instagramBg from '../images/instagram/instagram_bg.webp';
+import rsvpBg from '../images/rsvp/rsvp_bg.webp';
 
 export default function JoinUsInstagram() {
   const whatsappUrl = 'https://wa.me/?text=Hi%20Vivek%20%26%20Varshini,%20I%20would%20love%20to%20attend%20your%20wedding!';
@@ -15,7 +20,7 @@ export default function JoinUsInstagram() {
       >
         {/* Full Bleed Background Artwork maintaining natural aspect ratio */}
         <img
-          src="https://framerusercontent.com/images/6f9AxarIs54UBYT1Lrm4ws9V764.webp?scale-down-to=2048&width=3008&height=2080"
+          src={rsvpBg}
           alt="RSVP Will You Join Us Artwork"
           className="absolute inset-0 w-full h-full object-cover pointer-events-none"
           draggable="false"
@@ -72,7 +77,7 @@ export default function JoinUsInstagram() {
       >
         {/* Full Bleed Background Artwork */}
         <img
-          src="https://framerusercontent.com/images/f7X3FcEZ4muD31rwPB6wnsMnmsw.webp?scale-down-to=2048&width=3008&height=2080"
+          src={instagramBg}
           alt="Instagram Artwork"
           className="absolute inset-0 w-full h-full object-cover pointer-events-none"
           draggable="false"
@@ -102,7 +107,7 @@ export default function JoinUsInstagram() {
               {/* Left Card */}
               <div className="absolute left-2 sm:left-4 w-14 sm:w-20 md:w-24 aspect-[3/4] bg-white p-0.5 sm:p-1 rounded sm:rounded-lg shadow-xl -rotate-6 border border-slate-200">
                 <img
-                  src="https://images.unsplash.com/photo-1519741497674-611481863552?auto=format&fit=crop&w=400&q=80"
+                  src={insta1}
                   alt="Memory 1"
                   className="w-full h-[78%] object-cover rounded-sm sm:rounded-md"
                 />
@@ -116,7 +121,7 @@ export default function JoinUsInstagram() {
               {/* Middle Card */}
               <div className="relative z-10 w-16 sm:w-24 md:w-28 aspect-[3/4] bg-white p-0.5 sm:p-1 rounded sm:rounded-lg shadow-2xl border border-slate-200">
                 <img
-                  src="https://images.unsplash.com/photo-1583939003579-730e3918a45a?auto=format&fit=crop&w=400&q=80"
+                  src={insta2}
                   alt="Memory 2"
                   className="w-full h-[78%] object-cover rounded-sm sm:rounded-md"
                 />
@@ -130,7 +135,7 @@ export default function JoinUsInstagram() {
               {/* Right Card */}
               <div className="absolute right-2 sm:right-4 w-14 sm:w-20 md:w-24 aspect-[3/4] bg-white p-0.5 sm:p-1 rounded sm:rounded-lg shadow-xl rotate-6 border border-slate-200">
                 <img
-                  src="https://images.unsplash.com/photo-1610030469983-98e550d6193c?auto=format&fit=crop&w=400&q=80"
+                  src={insta3}
                   alt="Memory 3"
                   className="w-full h-[78%] object-cover rounded-sm sm:rounded-md"
                 />

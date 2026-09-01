@@ -7,10 +7,16 @@ export default defineConfig({
   plugins: [react(), tailwindcss()],
   server: {
     port: 1430,
-    strictPort: false,
+    strictPort: true,
+    host: true,
     open: true,
+    hmr: {
+      overlay: true,
+    },
     watch: {
-      ignored: ['**/.vscode/**'],
+      usePolling: true,
+      interval: 100,
     },
   },
 })
+

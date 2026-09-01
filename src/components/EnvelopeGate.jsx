@@ -6,10 +6,8 @@ export default function EnvelopeGate({ onOpen }) {
   const [isOpen, setIsOpen] = useState(false);
 
   const handleOpen = () => {
+    onOpen();
     setIsOpen(true);
-    setTimeout(() => {
-      onOpen();
-    }, 500);
   };
 
   return (
