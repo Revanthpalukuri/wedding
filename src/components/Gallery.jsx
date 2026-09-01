@@ -1,48 +1,19 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Maximize2, X, ChevronLeft, ChevronRight, Video, Camera, Play } from 'lucide-react';
+import { weddingConfig, getYouTubeEmbedUrl } from '../utils/config';
+
+// Dynamically load all images placed in src/images/pre_wedding/
+const preWeddingImagesMap = import.meta.glob('../images/pre_wedding/*.{jpg,jpeg,png,webp,avif,JPG,JPEG,PNG,WEBP}', { eager: true, import: 'default' });
+const preWeddingPhotos = Object.values(preWeddingImagesMap).map((url, idx) => ({
+  url,
+  title: `Pre-Wedding Moment ${idx + 1}`,
+  category: 'Pre-Wedding Photos',
+  aspect: idx % 2 === 0 ? 'h-80' : 'h-96',
+}));
 
 export default function Gallery() {
   const [activeImageIndex, setActiveImageIndex] = useState(null);
-
-  const preWeddingPhotos = [
-    {
-      url: 'https://images.unsplash.com/photo-1583939003579-730e3918a45a?auto=format&fit=crop&w=1200&q=80',
-      title: 'Pre-Wedding Sunset Romance',
-      category: 'Pre-Wedding Photos',
-      aspect: 'h-80',
-    },
-    {
-      url: 'https://images.unsplash.com/photo-1610030469983-98e550d6193c?auto=format&fit=crop&w=1200&q=80',
-      title: 'Royal Ethnic Portrait',
-      category: 'Pre-Wedding Photos',
-      aspect: 'h-96',
-    },
-    {
-      url: 'https://images.unsplash.com/photo-1519741497674-611481863552?auto=format&fit=crop&w=1200&q=80',
-      title: 'Love & Laughter in Amalapuram',
-      category: 'Pre-Wedding Photos',
-      aspect: 'h-80',
-    },
-    {
-      url: 'https://images.unsplash.com/photo-1544078751-58fee2d8a03b?auto=format&fit=crop&w=1200&q=80',
-      title: 'Golden Hour Moments',
-      category: 'Pre-Wedding Photos',
-      aspect: 'h-96',
-    },
-    {
-      url: 'https://images.unsplash.com/photo-1511285560929-80b456fea0bc?auto=format&fit=crop&w=1200&q=80',
-      title: 'Pre-Wedding Celebrations',
-      category: 'Pre-Wedding Photos',
-      aspect: 'h-72',
-    },
-    {
-      url: 'https://images.unsplash.com/photo-1519167758481-83f550bb49b3?auto=format&fit=crop&w=1200&q=80',
-      title: 'Festive & Traditional Elegance',
-      category: 'Pre-Wedding Photos',
-      aspect: 'h-80',
-    },
-  ];
 
   const openLightbox = (index) => {
     setActiveImageIndex(index);
@@ -109,7 +80,7 @@ export default function Gallery() {
           {/* YouTube Video Player */}
           <div className="relative w-full aspect-video rounded-2xl overflow-hidden border-2 border-[#D4AF37] shadow-2xl bg-black">
             <iframe
-              src="https://www.youtube.com/embed/tVT4vd4Mj1Q?autoplay=1&mute=1&enablejsapi=1"
+              src={getYouTubeEmbedUrl(weddingConfig.preWeddingVideoUrl, 'autoplay=1&mute=1&enablejsapi=1')}
               title="Pre-Wedding Video"
               allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
               allowFullScreen

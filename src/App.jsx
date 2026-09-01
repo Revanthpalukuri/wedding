@@ -40,6 +40,9 @@ export default function App() {
       {/* Initial Gate Invitation Card - Shown on start */}
       <EnvelopeGate onOpen={handleOpenEnvelope} />
 
+      {/* Floating Shehnai/Flute Audio Player (Initialized early, UI shown when opened) */}
+      <MusicPlayer isMuted={isMuted} toggleAudio={toggleAudio} isOpened={isOpened} />
+
       {/* Main Website Invitation Content - Displayed ONLY after clicking Open Invitation */}
       {isOpened && (
         <motion.div
@@ -66,9 +69,6 @@ export default function App() {
             <Gallery />
             <CountingDaysMagic />
           </main>
-
-          {/* Floating Shehnai/Flute Audio Player */}
-          <MusicPlayer isMuted={isMuted} toggleAudio={toggleAudio} />
 
           {/* Persistent Floating Cartoon Musicians Video Overlay Throughout Page */}
           <FloatingMusiciansBanner />

@@ -20,7 +20,7 @@ export default function Hero() {
     >
       {/* Layer 1: Blue Sky with Clouds — slow drifting zoom */}
       <motion.img
-        src="/cloud.webp"
+        src="/images/hero/cloud.webp"
         alt=""
         aria-hidden="true"
         initial={{ scale: 1.15 }}
@@ -39,7 +39,7 @@ export default function Hero() {
       >
         <motion.div style={{ y: templeParallaxY }} className="h-full flex items-end justify-center">
           <motion.img
-            src="/temple.webp"
+            src="/images/hero/hero_temple.webp"
             alt="Meenakshi Amman Temple Gopuram"
             animate={{ y: [0, -10, 0] }}
             transition={{ duration: 7, repeat: Infinity, ease: 'easeInOut' }}
@@ -51,7 +51,7 @@ export default function Hero() {
 
       {/* Layer 3: Foreground Trees — frame the temple through the canopy opening */}
       <motion.img
-        src="/trees.avif"
+        src="/images/hero/trees.avif"
         alt=""
         aria-hidden="true"
         initial={{ opacity: 0, scale: 1.12 }}
