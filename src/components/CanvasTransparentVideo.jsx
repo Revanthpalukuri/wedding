@@ -6,6 +6,7 @@ export default function CanvasTransparentVideo({ src, className, style }) {
 
   useEffect(() => {
     let animationFrameId;
+    let isMounted = true;
     const video = videoRef.current;
     const canvas = canvasRef.current;
 
@@ -13,10 +14,22 @@ export default function CanvasTransparentVideo({ src, className, style }) {
 
     const ctx = canvas.getContext('2d', { willReadFrequently: true });
 
+    const playVideo = () => {
+      if (video && video.paused && isMounted) {
+        video.play().catch(() => {});
+      }
+    };
+
+    // Auto-resume if browser tries to pause or stall
+    video.addEventListener('pause', playVideo);
+    video.addEventListener('ended', playVideo);
+    video.addEventListener('stalled', playVideo);
+    video.addEventListener('waiting', playVideo);
+
     const renderFrame = () => {
       if (video && video.readyState >= 2 && !video.paused) {
-        const vWidth = video.videoWidth || 500;
-        const vHeight = video.videoHeight || 300;
+        const vWidth = video.videoWidth || 480;
+        const vHeight = video.videoHeight || 270;
 
         if (canvas.width !== vWidth || canvas.height !== vHeight) {
           canvas.width = vWidth;
@@ -28,50 +41,54 @@ export default function CanvasTransparentVideo({ src, className, style }) {
         const data = frame.data;
         const len = data.length;
 
-        // Chroma-key out the encoded grey & white checkerboard background grid
+        // High-performance chroma-key processing for checkerboard removal
         for (let i = 0; i < len; i += 4) {
           const r = data[i];
           const g = data[i + 1];
           const b = data[i + 2];
 
-          const maxC = Math.max(r, g, b);
-          const minC = Math.min(r, g, b);
+          const maxC = r > g ? (r > b ? r : b) : (g > b ? g : b);
+          const minC = r < g ? (r < b ? r : b) : (g < b ? g : b);
           const diff = maxC - minC;
 
-          // Checkerboard pattern detector:
-          // Grid tiles consist of neutral grey (#808080 - #CCCCCC) and white (#FFFFFF) pixels
-          // where Red, Green, and Blue values are virtually identical (low saturation: diff < 22)
-          // and brightness is medium-high (maxC > 85).
-          if (diff < 22 && maxC > 85) {
+          // Remove neutral white/grey background tiles
+          if (diff < 22 && maxC > 80) {
             if (diff < 12) {
-              data[i + 3] = 0; // Completely transparent
+              data[i + 3] = 0; // Transparent
             } else {
-              // Smooth alpha feathering on edges
-              const alphaFactor = (diff - 12) / 10;
-              data[i + 3] = Math.floor(alphaFactor * 255);
+              data[i + 3] = ((diff - 12) * 25.5) | 0; // Smooth feather
             }
           }
         }
 
         ctx.putImageData(frame, 0, 0);
+      } else if (video && video.paused && isMounted) {
+        video.play().catch(() => {});
       }
-      animationFrameId = requestAnimationFrame(renderFrame);
+
+      if (isMounted) {
+        animationFrameId = requestAnimationFrame(renderFrame);
+      }
     };
 
-    // Ensure video plays automatically
-    video.play().catch(() => {});
-
+    playVideo();
     animationFrameId = requestAnimationFrame(renderFrame);
 
     return () => {
+      isMounted = false;
       if (animationFrameId) {
         cancelAnimationFrame(animationFrameId);
       }
+      video.removeEventListener('pause', playVideo);
+      video.removeEventListener('ended', playVideo);
+      video.removeEventListener('stalled', playVideo);
+      video.removeEventListener('waiting', playVideo);
     };
   }, [src]);
 
   return (
     <>
+      {/* Off-screen active video (not display:none so browser does not freeze video decoder) */}
       <video
         ref={videoRef}
         src={src}
@@ -80,7 +97,7 @@ export default function CanvasTransparentVideo({ src, className, style }) {
         muted
         playsInline
         preload="auto"
-        className="hidden"
+        className="fixed -top-[9999px] -left-[9999px] w-2 h-2 opacity-0 pointer-events-none"
       />
       <canvas
         ref={canvasRef}

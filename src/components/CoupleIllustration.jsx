@@ -23,95 +23,85 @@ export default function CoupleIllustration() {
         draggable="false"
       />
 
-      {/* 1. Top Section: THE BRIDE (Left: Photo, Right: Lineage Box) */}
-      <div className="absolute top-[32%] left-[16%] right-[16%] h-[24%] flex items-center justify-between z-10">
-        {/* Groom Photo Frame (Shifted down/right and adjusted top by -5%) */}
-        <motion.div
-          initial={{ opacity: 0, scale: 0.95 }}
-          whileInView={{ opacity: 1, scale: 1 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.8 }}
-          className="w-[45%] h-full flex items-end justify-center relative pl-0 sm:pl-1 translate-x-2.5 sm:translate-x-4 md:translate-x-5 translate-y-3.5 sm:translate-y-6 pb-[1.5%]"
-        >
-          <div className="relative w-[84%] sm:w-[88%] h-[93%] sm:h-[102%] rounded-xl sm:rounded-2xl border-2 sm:border-3 border-[#D4AF37] shadow-[0_8px_20px_rgba(0,0,0,0.25)] bg-[#102A4E]">
-            <img
-              src="/images/meet_couple/groom_portrait.jpg"
-              alt="The Groom"
-              className="w-full h-full object-cover object-center rounded-xl sm:rounded-2xl"
-            />
-            {/* Floral Cluster Ornament on Bottom-Left Corner (+50% Enlarged) */}
-            <img
-              src="/images/decorations/BackgroundFlower.png"
-              alt="Floral Ornament"
-              className="absolute -bottom-6 -left-6 sm:-bottom-10 sm:-left-10 md:-bottom-12 md:-left-12 w-[110px] sm:w-[160px] md:w-[210px] lg:w-[240px] max-w-none pointer-events-none z-20 drop-shadow-[0_8px_18px_rgba(0,0,0,0.4)]"
-              draggable="false"
-            />
-          </div>
-        </motion.div>
+      {/* 1. GROOM PHOTO (Top-Left Background Frame Slot) */}
+      <motion.div
+        initial={{ opacity: 0, scale: 0.95 }}
+        whileInView={{ opacity: 1, scale: 1 }}
+        viewport={{ once: true }}
+        transition={{ duration: 0.8 }}
+        className="absolute top-[32.2%] left-[19.2%] w-[27.6%] h-[24.4%] z-10 flex items-center justify-center"
+      >
+        <div className="w-full h-full rounded-xl sm:rounded-2xl border-2 sm:border-3 border-[#D4AF37] shadow-[0_8px_20px_rgba(0,0,0,0.25)] bg-[#102A4E] relative overflow-hidden">
+          <img
+            src="/images/meet_couple/groom_portrait.jpg"
+            alt="The Groom - Vivek"
+            className="w-full h-full object-cover object-center rounded-xl sm:rounded-2xl"
+          />
+        </div>
+        {/* Floral Cluster Ornament on Bottom-Left Corner */}
+        <img
+          src="/images/decorations/BackgroundFlower.png"
+          alt="Floral Ornament"
+          className="absolute -bottom-4 -left-4 sm:-bottom-7 sm:-left-7 md:-bottom-9 md:-left-9 w-[75px] sm:w-[125px] md:w-[165px] pointer-events-none z-20 drop-shadow-[0_8px_18px_rgba(0,0,0,0.4)]"
+          draggable="false"
+        />
+      </motion.div>
 
-        {/* Bride Lineage Box (Larger font, shifted down into the box center) */}
-        <motion.div
-          initial={{ opacity: 0, y: 15 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.8 }}
-          className="w-[55%] h-full flex flex-col items-center justify-center text-center pl-0 sm:pl-0 pt-15 sm:pt-50 md:pt-50"
-        >
-          <div className="w-full max-w-[280px] text-center bg-transparent flex flex-col items-center justify-center space-y-0.5 sm:space-y-1.5">
-            <p className="font-serif text-xs sm:text-base md:text-lg lg:text-xl xl:text-2xl text-[#6B3E11] italic font-semibold leading-tight">
-              Daughter of
-            </p>
-            <p className="font-serif text-[13px] sm:text-lg md:text-xl lg:text-2xl xl:text-3xl font-extrabold text-[#0E2A54] leading-snug tracking-tight">
-              S V N V S Murthy and<br />Ratnamala
-            </p>
-          </div>
-        </motion.div>
-      </div>
+      {/* 2. GROOM LINEAGE (Top-Right Background Box Slot under 'THE GROOM') */}
+      <motion.div
+        initial={{ opacity: 0, y: 15 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true }}
+        transition={{ duration: 0.8 }}
+        className="absolute top-[42.6%] left-[49.2%] w-[31.6%] h-[14.4%] z-10 flex flex-col items-center justify-center text-center px-1 sm:px-2"
+      >
+        <p className="font-serif text-[clamp(8px,1.15vw,16px)] text-[#6B3E11] italic font-semibold leading-tight">
+          Son of
+        </p>
+        <p className="font-serif text-[clamp(10px,1.45vw,22px)] font-extrabold text-[#0E2A54] leading-tight tracking-tight mt-0.5">
+          Nageswara Rao and<br />Neeraja
+        </p>
+      </motion.div>
 
-      {/* 2. Bottom Section: THE GROOM (Left: Lineage Box, Right: Photo) */}
-      <div className="absolute top-[60%] left-[16%] right-[16%] h-[24%] flex items-center justify-between z-10">
-        {/* Groom Lineage Box (Larger font, shifted down into the box center) */}
-        <motion.div
-          initial={{ opacity: 0, y: 15 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.8, delay: 0.1 }}
-          className="w-[55%] h-full flex flex-col items-center justify-center text-center pr-0 sm:pr-0 pt-5 sm:pt-30 md:pt-30"
-        >
-          <div className="w-full max-w-[280px] text-center bg-transparent flex flex-col items-center justify-center space-y-0.5 sm:space-y-1.5">
-            <p className="font-serif text-xs sm:text-base md:text-lg lg:text-xl xl:text-2xl text-[#6B3E11] italic font-semibold leading-tight">
-              Son of
-            </p>
-            <p className="font-serif text-[13px] sm:text-lg md:text-xl lg:text-2xl xl:text-3xl font-extrabold text-[#0E2A54] leading-snug tracking-tight">
-              Nageswara Rao and<br />Neeraja
-            </p>
-          </div>
-        </motion.div>
+      {/* 3. BRIDE LINEAGE (Bottom-Left Background Box Slot under 'THE BRIDE') */}
+      <motion.div
+        initial={{ opacity: 0, y: 15 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true }}
+        transition={{ duration: 0.8, delay: 0.1 }}
+        className="absolute top-[70.4%] left-[19.2%] w-[31.6%] h-[14.4%] z-10 flex flex-col items-center justify-center text-center px-1 sm:px-2"
+      >
+        <p className="font-serif text-[clamp(8px,1.15vw,16px)] text-[#6B3E11] italic font-semibold leading-tight">
+          Daughter of
+        </p>
+        <p className="font-serif text-[clamp(10px,1.45vw,22px)] font-extrabold text-[#0E2A54] leading-tight tracking-tight mt-0.5">
+          S V N V S Murthy and<br />Ratnamala
+        </p>
+      </motion.div>
 
-        {/* Bride Photo Frame (Shifted down and left to align with background frame) */}
-        <motion.div
-          initial={{ opacity: 0, scale: 0.95 }}
-          whileInView={{ opacity: 1, scale: 1 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.8, delay: 0.1 }}
-          className="w-[45%] h-full flex items-center justify-center relative pr-0 sm:pr-2 md:pr-4 -translate-x-3 sm:-translate-x-5 md:-translate-x-6 translate-y-5 sm:translate-y-8"
-        >
-          <div className="relative w-[84%] sm:w-[88%] h-[88%] sm:h-[94%] rounded-xl sm:rounded-2xl border-2 sm:border-3 border-[#D4AF37] shadow-[0_8px_20px_rgba(0,0,0,0.25)] bg-[#102A4E]">
-            <img
-              src="/images/meet_couple/bride_portrait.jpg"
-              alt="The Bride"
-              className="w-full h-full object-cover object-center rounded-xl sm:rounded-2xl"
-            />
-            {/* Floral Cluster Ornament on Bottom-Right Corner (+50% Enlarged) */}
-            <img
-              src="/images/decorations/BackgroundFlower.png"
-              alt="Floral Ornament"
-              className="absolute -bottom-6 -right-6 sm:-bottom-10 sm:-right-10 md:-bottom-12 md:-right-12 w-[110px] sm:w-[160px] md:w-[210px] lg:w-[240px] max-w-none pointer-events-none z-20 drop-shadow-[0_8px_18px_rgba(0,0,0,0.4)] -scale-x-100"
-              draggable="false"
-            />
-          </div>
-        </motion.div>
-      </div>
+      {/* 4. BRIDE PHOTO (Bottom-Right Background Frame Slot) */}
+      <motion.div
+        initial={{ opacity: 0, scale: 0.95 }}
+        whileInView={{ opacity: 1, scale: 1 }}
+        viewport={{ once: true }}
+        transition={{ duration: 0.8, delay: 0.1 }}
+        className="absolute top-[61.0%] left-[53.2%] w-[27.6%] h-[24.4%] z-10 flex items-center justify-center"
+      >
+        <div className="w-full h-full rounded-xl sm:rounded-2xl border-2 sm:border-3 border-[#D4AF37] shadow-[0_8px_20px_rgba(0,0,0,0.25)] bg-[#102A4E] relative overflow-hidden">
+          <img
+            src="/images/meet_couple/bride_portrait.jpg"
+            alt="The Bride - Varshini"
+            className="w-full h-full object-cover object-center rounded-xl sm:rounded-2xl"
+          />
+        </div>
+        {/* Floral Cluster Ornament on Bottom-Right Corner */}
+        <img
+          src="/images/decorations/BackgroundFlower.png"
+          alt="Floral Ornament"
+          className="absolute -bottom-4 -right-4 sm:-bottom-7 sm:-right-7 md:-bottom-9 md:-right-9 w-[75px] sm:w-[125px] md:w-[165px] pointer-events-none z-20 drop-shadow-[0_8px_18px_rgba(0,0,0,0.4)] -scale-x-100"
+          draggable="false"
+        />
+      </motion.div>
 
       {/* Bottom Full-Width Decorative Diyas & Floral Railing Ornament */}
       <img
