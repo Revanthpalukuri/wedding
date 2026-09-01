@@ -6,8 +6,8 @@ export default function EnvelopeGate({ onOpen }) {
   const [isOpen, setIsOpen] = useState(false);
 
   const handleOpen = () => {
-    onOpen();
     setIsOpen(true);
+    onOpen();
   };
 
   return (
@@ -15,7 +15,7 @@ export default function EnvelopeGate({ onOpen }) {
       {!isOpen && (
         <motion.div
           initial={{ opacity: 1 }}
-          exit={{ opacity: 0, scale: 1.05, transition: { duration: 1.2, ease: [0.16, 1, 0.3, 1] } }}
+          exit={{ opacity: 0, scale: 1.02, transition: { duration: 0.4, ease: 'easeOut' } }}
           className="fixed inset-0 z-50 flex items-center justify-center bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-[#4A0404] via-[#230202] to-[#0D0000] text-[#FFF8E7] p-4 overflow-hidden"
         >
           {/* Animated Background Lights & Marigold Aura */}

@@ -43,37 +43,31 @@ export default function App() {
       {/* Floating Shehnai/Flute Audio Player (Initialized early, UI shown when opened) */}
       <MusicPlayer isMuted={isMuted} toggleAudio={toggleAudio} isOpened={isOpened} />
 
-      {/* Main Website Invitation Content - Displayed ONLY after clicking Open Invitation */}
-      {isOpened && (
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ duration: 1 }}
-        >
-          {/* Festive Party Pop Cannon & Ambient Floating Sparkles */}
-          <FestivePopAnimation triggerOnOpen={triggerPop} />
+      {/* Main Website Invitation Content - Pre-mounted so images & components load instantly */}
+      <div className={isOpened ? 'opacity-100 transition-opacity duration-500' : 'opacity-0 pointer-events-none'}>
+        {/* Festive Party Pop Cannon & Ambient Floating Sparkles */}
+        <FestivePopAnimation triggerOnOpen={triggerPop} />
 
-          {/* Floating Navbar */}
-          <Navbar isMuted={isMuted} toggleAudio={toggleAudio} />
+        {/* Floating Navbar */}
+        <Navbar isMuted={isMuted} toggleAudio={toggleAudio} />
 
-          {/* Main Temple Theme Sections */}
-          <main>
-            <Hero />
-            <InvitationCard />
-            <CoupleIllustration />
-            <Events />
-            <LiveStream />
-            <OurStory />
-            <JoinUsInstagram />
-            <Schedule />
-            <Gallery />
-            <CountingDaysMagic />
-          </main>
+        {/* Main Temple Theme Sections */}
+        <main>
+          <Hero />
+          <InvitationCard />
+          <CoupleIllustration />
+          <Events />
+          <LiveStream />
+          <OurStory />
+          <JoinUsInstagram />
+          <Schedule />
+          <Gallery />
+          <CountingDaysMagic />
+        </main>
 
-          {/* Persistent Floating Cartoon Musicians Video Overlay Throughout Page */}
-          <FloatingMusiciansBanner />
-        </motion.div>
-      )}
+        {/* Persistent Floating Cartoon Musicians Video Overlay Throughout Page */}
+        <FloatingMusiciansBanner />
+      </div>
     </div>
   );
 }
