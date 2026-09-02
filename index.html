@@ -7,6 +7,58 @@
     <meta name="theme-color" content="#2B0404" />
     <title>Vivek Weds Varshini — Traditional Indian Wedding Celebration</title>
     <meta name="description" content="|| Shree Ganeshay Namah || Together with their families, Vivek & Varshini cordially invite you to celebrate the holy union of their matrimony on December 19, 2026 at Kshatriya Kalyana Mandapam, Amalapuram." />
+
+    <!-- Console Filter to suppress third-party browser extensions and Chromium warnings -->
+    <script>
+      (function() {
+        const origError = console.error;
+        const origWarn = console.warn;
+        const origLog = console.log;
+        const noiseKeywords = [
+          'chrome-extension',
+          'couponCollection',
+          '[BHK]',
+          'affiliateCashback',
+          'powerPreference',
+          'requestAdapter',
+          'React DevTools',
+          'web_accessible_resources',
+          'Failed to fetch dynamically imported module'
+        ];
+
+        function matchesNoise(args) {
+          try {
+            const text = Array.from(args).map(arg => {
+              if (arg instanceof Error) return arg.message + ' ' + (arg.stack || '');
+              if (typeof arg === 'object') {
+                try { return JSON.stringify(arg); } catch (_) { return String(arg); }
+              }
+              return String(arg);
+            }).join(' ');
+            return noiseKeywords.some(kw => text.includes(kw));
+          } catch (_) {
+            return false;
+          }
+        }
+
+        console.error = function(...args) {
+          if (!matchesNoise(args)) origError.apply(console, args);
+        };
+        console.warn = function(...args) {
+          if (!matchesNoise(args)) origWarn.apply(console, args);
+        };
+        console.log = function(...args) {
+          if (!matchesNoise(args)) origLog.apply(console, args);
+        };
+
+        window.addEventListener('error', function(event) {
+          if (event.filename && event.filename.includes('chrome-extension')) {
+            event.stopImmediatePropagation();
+            event.preventDefault();
+          }
+        }, true);
+      })();
+    </script>
     
     <!-- Open Graph / WhatsApp / Facebook Preview Tags -->
     <meta property="og:type" content="website" />
