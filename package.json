@@ -6,6 +6,7 @@
   "scripts": {
     "dev": "vite",
     "restart": "node scripts/restart-dev.js",
+    "push:main": "node scripts/push-to-main.js",
     "build": "vite build",
     "lint": "oxlint",
     "preview": "vite preview"
