@@ -5,23 +5,21 @@ import { weddingConfig, getYouTubeEmbedUrl } from '../utils/config';
 
 // Dynamically load all images placed in src/images/pre_wedding/
 const preWeddingImagesMap = import.meta.glob('../images/pre_wedding/*.{jpg,jpeg,png,webp,avif,JPG,JPEG,PNG,WEBP}', { eager: true, import: 'default' });
-const romanticCaptions = [
-  'With you, every place is magical ✨',
-  'Two souls, one beautiful journey together 💫',
-  'A lifetime of love, laughter, and forever 🌸',
-  'Cherishing every smile and quiet moment 💖',
-  'Where forever begins in each other\'s eyes 🪷',
-  'Holding hands towards a lifetime of happiness 🌟',
-  'Every love story is beautiful, but ours is our favorite 🌹',
-  'Stepping into forever with my favorite person 🕊️',
-];
 
-const preWeddingPhotos = Object.values(preWeddingImagesMap).map((url, idx) => ({
-  url,
-  title: `Moment of Love ${idx + 1}`,
-  caption: romanticCaptions[idx % romanticCaptions.length],
-  category: 'Pre-Wedding Photos',
-}));
+const configPhotos = weddingConfig.preWeddingPhotos || [];
+
+const preWeddingPhotos = Object.values(preWeddingImagesMap).map((url, idx) => {
+  const itemConfig = configPhotos[idx] || {};
+  const caption = typeof itemConfig === 'string' ? itemConfig : (itemConfig.caption || `Moment of Love ${idx + 1} ✨`);
+  const title = typeof itemConfig === 'object' && itemConfig.title ? itemConfig.title : `Moment of Love ${idx + 1}`;
+
+  return {
+    url,
+    title,
+    caption,
+    category: 'Pre-Wedding Photos',
+  };
+});
 
 export default function Gallery() {
   const [activeImageIndex, setActiveImageIndex] = useState(null);
