@@ -22,10 +22,42 @@ export default function App() {
   const [isOpened, setIsOpened] = useState(false);
   const [triggerPop, setTriggerPop] = useState(0);
 
+  // Disable browser automatic scroll restoration and force top: 0 on start
+  useEffect(() => {
+    if ('scrollRestoration' in window.history) {
+      window.history.scrollRestoration = 'manual';
+    }
+    window.scrollTo({ top: 0, left: 0, behavior: 'instant' });
+  }, []);
+
+  // Lock scroll while gate is closed and strictly reset scroll to top on open
+  useEffect(() => {
+    if (!isOpened) {
+      document.body.style.overflow = 'hidden';
+      document.documentElement.style.overflow = 'hidden';
+      window.scrollTo({ top: 0, left: 0, behavior: 'instant' });
+    } else {
+      document.body.style.overflow = '';
+      document.documentElement.style.overflow = '';
+      window.scrollTo({ top: 0, left: 0, behavior: 'instant' });
+      requestAnimationFrame(() => {
+        window.scrollTo({ top: 0, left: 0, behavior: 'instant' });
+      });
+    }
+    return () => {
+      document.body.style.overflow = '';
+      document.documentElement.style.overflow = '';
+    };
+  }, [isOpened]);
+
   const handleOpenEnvelope = () => {
+    window.scrollTo({ top: 0, left: 0, behavior: 'instant' });
     setIsOpened(true);
     setIsMuted(false);
     setTriggerPop((prev) => prev + 1);
+    requestAnimationFrame(() => {
+      window.scrollTo({ top: 0, left: 0, behavior: 'instant' });
+    });
   };
 
   const toggleAudio = () => {

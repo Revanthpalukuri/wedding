@@ -118,17 +118,17 @@ export default function OurStory() {
         </p>
       </motion.div>
 
-      {/* 6. Center Golden Frame & Responsive Rotating Photo Slideshow */}
+      {/* 6. Center Golden Frame & Responsive Rotating Photo Slideshow - Resolution-Based Positioning */}
       <motion.div
         initial={{ opacity: 0, scale: 0.94 }}
         whileInView={{ opacity: 1, scale: 1 }}
         viewport={{ once: true }}
         transition={{ duration: 1, delay: 0.4 }}
-        className="absolute top-[73%] left-1/2 -translate-x-1/2 -translate-y-1/2 w-[46%] sm:w-[40%] md:w-[36%] max-w-[450px] pointer-events-auto z-10"
+        className="absolute top-[72%] sm:top-[70%] md:top-[66%] lg:top-[64%] left-1/2 -translate-x-1/2 -translate-y-1/2 w-[44%] sm:w-[38%] md:w-[32%] lg:w-[28%] max-w-[420px] pointer-events-auto z-10"
       >
         {/* Frame Outer Shell maintaining Framer's exact portrait proportion (1492/2016) */}
         <div className="relative w-full aspect-[1492/2016] flex items-center justify-center">
-          
+
           {/* Inner Photo Container (Centered perfectly inside the golden frame window) */}
           <div className="absolute top-[12%] bottom-[12%] left-[13%] right-[13%] rounded-[6px] overflow-hidden bg-black/90 shadow-2xl z-0">
             {storyPhotos.map((photoUrl, idx) => (
@@ -137,9 +137,8 @@ export default function OurStory() {
                 src={photoUrl}
                 alt={`Vivek & Varshini Portrait ${idx + 1}`}
                 loading="lazy"
-                className={`absolute inset-0 w-full h-full object-cover transition-opacity duration-800 ease-in-out pointer-events-none ${
-                  photoIndex === idx ? 'opacity-100' : 'opacity-0'
-                }`}
+                className={`absolute inset-0 w-full h-full object-cover transition-opacity duration-800 ease-in-out pointer-events-none ${photoIndex === idx ? 'opacity-100' : 'opacity-0'
+                  }`}
                 style={{
                   transition: 'opacity 0.8s ease',
                   willChange: 'opacity',

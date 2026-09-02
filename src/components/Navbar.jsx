@@ -56,11 +56,11 @@ export default function Navbar({ isMuted, toggleAudio }) {
     >
       <div className="max-w-7xl mx-auto px-6 sm:px-12 flex items-center justify-between">
         {/* Monogram / Brand */}
-        <a href="#home" className="group flex items-center gap-2">
-          <span className="font-heading-devanagari text-2xl sm:text-3xl text-amber-300 tracking-wider group-hover:text-white transition-colors duration-300">
-            Vivek & Varshini
+        <a href="#home" className="group flex items-center gap-2 select-none">
+          <span className="font-heading-devanagari text-2xl sm:text-3xl text-white tracking-wider group-hover:text-amber-300 group-active:text-amber-400 group-focus:text-amber-300 transition-colors duration-300 drop-shadow-sm">
+            Vivek &amp; Varshini
           </span>
-          <Flame className="w-4 h-4 text-amber-300 animate-flame" />
+          <Flame className="w-4 h-4 text-white group-hover:text-amber-300 group-active:text-amber-400 transition-colors duration-300 animate-flame" />
         </a>
 
         {/* Desktop Links */}
