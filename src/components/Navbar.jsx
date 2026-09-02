@@ -41,7 +41,6 @@ export default function Navbar({ isMuted, toggleAudio }) {
     { name: 'Our Story', href: '#story' },
     { name: 'Schedule', href: '#schedule' },
     { name: 'Gallery', href: '#gallery' },
-    { name: 'Travel', href: '#travel' },
   ];
 
   const isBlue = headerTheme === 'blue';
