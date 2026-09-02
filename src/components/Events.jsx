@@ -1,6 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
+import { Calendar, MapPin, ExternalLink } from 'lucide-react';
 import { weddingConfig } from '../utils/config';
+import { createGoogleCalendarUrl } from '../utils/calendar';
+import { triggerHaptic } from '../utils/haptics';
 import haldiImg from '../images/events/haldi.webp';
 import sangeetImg from '../images/events/sangeet.webp';
 import weddingImg from '../images/events/wedding.webp';
@@ -9,8 +12,34 @@ import receptionImg from '../images/events/reception.webp';
 export default function Events() {
   const [currentSlide, setCurrentSlide] = useState(0);
 
-  const eventsList = [
-    {
+  const eventsList = [];
+
+  if (weddingConfig.events.groomHaldi) {
+    eventsList.push({
+      title: weddingConfig.events.groomHaldi.title,
+      date: weddingConfig.events.groomHaldi.date,
+      time: weddingConfig.events.groomHaldi.time,
+      venue: weddingConfig.events.groomHaldi.venue,
+      mapUrl: weddingConfig.events.groomHaldi.mapUrl,
+      description: weddingConfig.events.groomHaldi.description,
+      image: haldiImg,
+    });
+  }
+
+  if (weddingConfig.events.brideHaldi) {
+    eventsList.push({
+      title: weddingConfig.events.brideHaldi.title,
+      date: weddingConfig.events.brideHaldi.date,
+      time: weddingConfig.events.brideHaldi.time,
+      venue: weddingConfig.events.brideHaldi.venue,
+      mapUrl: weddingConfig.events.brideHaldi.mapUrl,
+      description: weddingConfig.events.brideHaldi.description,
+      image: haldiImg,
+    });
+  }
+
+  if (!weddingConfig.events.groomHaldi && !weddingConfig.events.brideHaldi && weddingConfig.events.haldi) {
+    eventsList.push({
       title: weddingConfig.events.haldi.title,
       date: weddingConfig.events.haldi.date,
       time: weddingConfig.events.haldi.time,
@@ -18,8 +47,11 @@ export default function Events() {
       mapUrl: weddingConfig.events.haldi.mapUrl,
       description: weddingConfig.events.haldi.description,
       image: haldiImg,
-    },
-    {
+    });
+  }
+
+  if (weddingConfig.events.sangeet) {
+    eventsList.push({
       title: weddingConfig.events.sangeet.title,
       date: weddingConfig.events.sangeet.date,
       time: weddingConfig.events.sangeet.time,
@@ -27,8 +59,11 @@ export default function Events() {
       mapUrl: weddingConfig.events.sangeet.mapUrl,
       description: weddingConfig.events.sangeet.description,
       image: sangeetImg,
-    },
-    {
+    });
+  }
+
+  if (weddingConfig.events.wedding) {
+    eventsList.push({
       title: weddingConfig.events.wedding.title,
       date: weddingConfig.events.wedding.date,
       time: weddingConfig.events.wedding.time,
@@ -36,8 +71,11 @@ export default function Events() {
       mapUrl: weddingConfig.events.wedding.mapUrl,
       description: weddingConfig.events.wedding.description,
       image: weddingImg,
-    },
-    {
+    });
+  }
+
+  if (weddingConfig.events.reception) {
+    eventsList.push({
       title: weddingConfig.events.reception.title,
       date: weddingConfig.events.reception.date,
       time: weddingConfig.events.reception.time,
@@ -45,8 +83,8 @@ export default function Events() {
       mapUrl: weddingConfig.events.reception.mapUrl,
       description: weddingConfig.events.reception.description,
       image: receptionImg,
-    },
-  ];
+    });
+  }
 
   const nextSlide = () => {
     setCurrentSlide((prev) => (prev + 1) % eventsList.length);
@@ -243,15 +281,29 @@ export default function Events() {
                       {activeEvent.description}
                     </p>
 
-                    {/* CTA Button */}
-                    <div className="pt-2">
+                    {/* CTA Actions: View Location & Add to Calendar */}
+                    <div className="pt-2 flex flex-wrap items-center gap-2.5 sm:gap-3">
                       <a
                         href={activeEvent.mapUrl}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="inline-flex items-center justify-center px-5 py-3 rounded-full no-underline bg-[rgb(10,48,127)] text-white border border-[rgb(215,162,42)] text-xs font-semibold uppercase tracking-wider shadow-md hover:-translate-y-0.5 hover:shadow-lg transition-all cursor-pointer"
+                        onClick={() => triggerHaptic(15)}
+                        className="inline-flex items-center gap-1.5 justify-center px-4 sm:px-5 py-2.5 sm:py-3 rounded-full no-underline bg-[rgb(10,48,127)] text-white border border-[rgb(215,162,42)] text-xs font-semibold uppercase tracking-wider shadow-md hover:-translate-y-0.5 hover:shadow-lg transition-all cursor-pointer transform-gpu"
                       >
-                        View Location
+                        <MapPin className="w-3.5 h-3.5 text-amber-300" />
+                        <span>View Location</span>
+                      </a>
+
+                      <a
+                        href={createGoogleCalendarUrl(activeEvent)}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        onClick={() => triggerHaptic(20)}
+                        className="inline-flex items-center gap-1.5 justify-center px-4 sm:px-5 py-2.5 sm:py-3 rounded-full no-underline bg-[#FFF8E7] text-[rgb(10,48,127)] border-2 border-[rgb(215,162,42)] text-xs font-bold uppercase tracking-wider shadow-md hover:-translate-y-0.5 hover:bg-white hover:shadow-lg transition-all cursor-pointer transform-gpu"
+                        title="Add this wedding event to Google Calendar"
+                      >
+                        <Calendar className="w-3.5 h-3.5 text-[rgb(10,48,127)]" />
+                        <span>Add To Calendar</span>
                       </a>
                     </div>
                   </motion.div>

@@ -35,13 +35,21 @@ export const weddingConfig = {
     hashtag: '#VivekWedsVarshini',
   },
   events: configData.events || {
-    haldi: {
-      title: 'Haldi Ceremony',
-      date: '17 December 2026',
-      time: '10:00 AM IST',
-      venue: 'Kshatriya Kalyana Mandapam, Amalapuram',
+    groomHaldi: {
+      title: "Groom's Haldi (Pellikoduku)",
+      date: '18 December 2026',
+      time: '09:00 AM IST',
+      venue: "Groom's Residence, Amalapuram",
       mapUrl: 'https://www.google.com/maps/place/Kshatriya+Kalyana+Mandapam/@16.5607114,81.993831,17z/data=!3m1!4b1!4m6!3m5!1s0x3a37e583a8300001:0xa14bf2c729820592!8m2!3d16.5607114!4d81.993831!16s%2Fg%2F11sskr8sqc!5m1!1e2!18m1!1e1?entry=ttu',
-      description: 'Join us as we celebrate this beautiful auspicious occasion with turmeric blessings, love, and joyful folk music.',
+      description: 'Auspicious Mangala Snanam and traditional turmeric ceremony for Vivek with joyful folk beats, family blessings, and love.',
+    },
+    brideHaldi: {
+      title: "Bride's Haldi (Pellikuthuru)",
+      date: '18 December 2026',
+      time: '11:30 AM IST',
+      venue: "Bride's Residence, Amalapuram",
+      mapUrl: 'https://www.google.com/maps/place/Kshatriya+Kalyana+Mandapam/@16.5607114,81.993831,17z/data=!3m1!4b1!4m6!3m5!1s0x3a37e583a8300001:0xa14bf2c729820592!8m2!3d16.5607114!4d81.993831!16s%2Fg%2F11sskr8sqc!5m1!1e2!18m1!1e1?entry=ttu',
+      description: 'Sacred turmeric ceremony & Nalugu rituals for Varshini amidst vibrant marigold blooms, joyful songs, and heartfelt blessings.',
     },
     sangeet: {
       title: 'Sangeet Night',

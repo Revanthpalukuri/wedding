@@ -5,13 +5,21 @@
     "hashtag": "#VivekWedsVarshini"
   },
   "events": {
-    "haldi": {
-      "title": "Haldi Ceremony",
-      "date": "17 December 2026",
-      "time": "10:00 AM IST",
-      "venue": "Kshatriya Kalyana Mandapam, Amalapuram",
+    "groomHaldi": {
+      "title": "Groom's Haldi (Pellikoduku)",
+      "date": "18 December 2026",
+      "time": "09:00 AM IST",
+      "venue": "Groom's Residence, Narsipatnam",
+      "mapUrl": "https://www.google.com/maps/place/P.Nageswararao/@17.6673069,82.5989351,16z/data=!4m10!1m2!2m1!1sp+nageswara+rao+narsipatnam!3m6!1s0x3a3993abcf63a543:0xa00daa4df335967e!8m2!3d17.6673069!4d82.6084623!15sChtwIG5hZ2Vzd2FyYSByYW8gbmFyc2lwYXRuYW2SAQ5jaXZpbF9lbmdpbmVlcuABAA!16s%2Fg%2F11c60m_vdc?entry=ttu&g_ep=EgoyMDI2MDgzMS4wIKXMDSoASAFQAw%3D%3D",
+      "description": "Auspicious Mangala Snanam and traditional turmeric ceremony for Vivek with joyful folk beats, family blessings, and love."
+    },
+    "brideHaldi": {
+      "title": "Bride's Haldi (Pellikuthuru)",
+      "date": "18 December 2026",
+      "time": "11:30 AM IST",
+      "venue": "Bride's Residence, Amalapuram",
       "mapUrl": "https://www.google.com/maps/place/Kshatriya+Kalyana+Mandapam/@16.5607114,81.993831,17z/data=!3m1!4b1!4m6!3m5!1s0x3a37e583a8300001:0xa14bf2c729820592!8m2!3d16.5607114!4d81.993831!16s%2Fg%2F11sskr8sqc!5m1!1e2!18m1!1e1?entry=ttu",
-      "description": "Join us as we celebrate this beautiful auspicious occasion with turmeric blessings, love, and joyful folk music."
+      "description": "Sacred turmeric ceremony & Nalugu rituals for Varshini amidst vibrant marigold blooms, joyful songs, and heartfelt blessings."
     },
     "sangeet": {
       "title": "Sangeet Night",

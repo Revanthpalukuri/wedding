@@ -1,21 +1,22 @@
-import React, { useState, useEffect } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+import React, { useState, useEffect, lazy, Suspense } from 'react';
 import EnvelopeGate from './components/EnvelopeGate';
 import Navbar from './components/Navbar';
 import Hero from './components/Hero';
 import CoupleIllustration from './components/CoupleIllustration';
 import InvitationCard from './components/InvitationCard';
 import Events from './components/Events';
-import LiveStream from './components/LiveStream';
 import OurStory from './components/OurStory';
-import JoinUsInstagram from './components/JoinUsInstagram';
-import CountingDaysMagic from './components/CountingDaysMagic';
-import Schedule from './components/Schedule';
-import Gallery from './components/Gallery';
 import MusicPlayer from './components/MusicPlayer';
 import MouseFollower from './components/MouseFollower';
 import FestivePopAnimation from './components/FestivePopAnimation';
 import FloatingMusiciansBanner from './components/FloatingMusiciansBanner';
+
+// Lazy-loaded Below-the-Fold Components (Drastically reduces initial JavaScript load)
+const LiveStream = lazy(() => import('./components/LiveStream'));
+const JoinUsInstagram = lazy(() => import('./components/JoinUsInstagram'));
+const Schedule = lazy(() => import('./components/Schedule'));
+const Gallery = lazy(() => import('./components/Gallery'));
+const CountingDaysMagic = lazy(() => import('./components/CountingDaysMagic'));
 
 export default function App() {
   const [isMuted, setIsMuted] = useState(true);
@@ -89,12 +90,26 @@ export default function App() {
           <InvitationCard />
           <CoupleIllustration />
           <Events />
-          <LiveStream />
           <OurStory />
-          <JoinUsInstagram />
-          <Schedule />
-          <Gallery />
-          <CountingDaysMagic />
+          
+          {/* Below-the-fold sections with optimized on-demand rendering */}
+          <Suspense fallback={<div className="w-full h-40 bg-transparent" />}>
+            <div className="optimized-render-section">
+              <LiveStream />
+            </div>
+            <div className="optimized-render-section">
+              <JoinUsInstagram />
+            </div>
+            <div className="optimized-render-section">
+              <Schedule />
+            </div>
+            <div className="optimized-render-section">
+              <Gallery />
+            </div>
+            <div className="optimized-render-section">
+              <CountingDaysMagic />
+            </div>
+          </Suspense>
         </main>
 
         {/* Persistent Floating Cartoon Musicians Video Overlay Throughout Page */}

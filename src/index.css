@@ -167,3 +167,9 @@
   pointer-events: none;
 }
 
+/* Rendering Performance Optimization: skips rendering calculation until scrolled near */
+.optimized-render-section {
+  content-visibility: auto;
+  contain-intrinsic-size: 1px 800px;
+}
+

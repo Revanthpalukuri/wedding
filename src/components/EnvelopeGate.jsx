@@ -1,98 +1,247 @@
-import React, { useState } from 'react';
+import React, { useState, useMemo } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Sparkles, Music, Flame, Heart } from 'lucide-react';
+import { ChevronRight, Sparkles, Music } from 'lucide-react';
+import gateBackdrop from '../images/decorations/royal_gate_backdrop.jpg';
+import gatePortrait from '../images/decorations/royal_gate_portrait.jpg';
+import { triggerHaptic } from '../utils/haptics';
 
 export default function EnvelopeGate({ onOpen }) {
   const [isOpen, setIsOpen] = useState(false);
 
   const handleOpen = () => {
+    triggerHaptic(25);
     setIsOpen(true);
     onOpen();
   };
+
+  // Generate 18 floating golden dust / diya firefly particles
+  const floatingParticles = useMemo(() => {
+    return Array.from({ length: 18 }).map((_, i) => ({
+      id: i,
+      x: Math.random() * 100,
+      y: Math.random() * 100,
+      size: Math.random() * 3 + 2,
+      duration: Math.random() * 5 + 4,
+      delay: Math.random() * 3,
+    }));
+  }, []);
 
   return (
     <AnimatePresence>
       {!isOpen && (
         <motion.div
           initial={{ opacity: 1 }}
-          exit={{ opacity: 0, scale: 1.02, transition: { duration: 0.4, ease: 'easeOut' } }}
-          className="fixed inset-0 z-50 flex items-center justify-center bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-[#4A0404] via-[#230202] to-[#0D0000] text-[#FFF8E7] p-4 overflow-hidden"
+          exit={{ opacity: 0, scale: 1.04, transition: { duration: 0.5, ease: [0.16, 1, 0.3, 1] } }}
+          className="fixed inset-0 z-50 flex items-center justify-center bg-[#180101] text-[#FFF8E7] overflow-hidden select-none h-[100dvh] w-full"
         >
-          {/* Animated Background Lights & Marigold Aura */}
-          <div className="absolute top-1/4 left-1/3 w-96 h-96 bg-[#FFD700]/10 rounded-full blur-3xl animate-pulse pointer-events-none" />
-          <div className="absolute bottom-1/4 right-1/3 w-96 h-96 bg-[#D4AF37]/15 rounded-full blur-3xl animate-pulse pointer-events-none" style={{ animationDelay: '2s' }} />
+          {/* 1. Responsive Palace Backdrop Image (Portrait for Mobile, Landscape for Desktop) */}
+          <div className="absolute inset-0 pointer-events-none">
+            <picture>
+              <source media="(max-width: 768px)" srcSet={gatePortrait} />
+              <img
+                src={gateBackdrop}
+                alt="Royal Wedding Backdrop"
+                className="w-full h-full object-cover object-center"
+              />
+            </picture>
+            {/* Rich Radial Dark Gradient Overlay for Maximum Text Contrast */}
+            <div className="absolute inset-0 bg-radial-[ellipse_at_center] from-[#2B0303]/70 via-[#160101]/85 to-[#080000]/95" />
+          </div>
 
-          {/* Floating Subtle Sparkles Background Decorative Accent */}
-          <div className="absolute inset-0 bg-[radial-gradient(#D4AF37_1px,transparent_1px)] [background-size:32px_32px] opacity-15 pointer-events-none" />
+          {/* 2. Ambient Floating Golden Sparkle Particles */}
+          <div className="absolute inset-0 pointer-events-none overflow-hidden">
+            {floatingParticles.map((p) => (
+              <motion.div
+                key={p.id}
+                initial={{ opacity: 0, y: 0 }}
+                animate={{
+                  opacity: [0, 0.9, 0.2, 0.9, 0],
+                  y: [-10, -120],
+                  x: [0, (p.id % 2 === 0 ? 15 : -15)],
+                }}
+                transition={{
+                  duration: p.duration,
+                  repeat: Infinity,
+                  delay: p.delay,
+                  ease: 'easeInOut',
+                }}
+                style={{
+                  left: `${p.x}%`,
+                  top: `${p.y}%`,
+                  width: `${p.size}px`,
+                  height: `${p.size}px`,
+                }}
+                className="absolute rounded-full bg-gradient-to-tr from-[#FFD700] to-[#FFF5C0] shadow-[0_0_8px_#FFD700]"
+              />
+            ))}
+          </div>
 
-          {/* Main Royal Card Frame */}
+          {/* 3. Four Ornate Golden Filigree Corner Accents (Top & Bottom) */}
+          <div className="absolute top-2.5 left-2.5 sm:top-5 sm:left-5 w-14 h-14 sm:w-20 sm:h-20 pointer-events-none opacity-85 z-20">
+            <svg viewBox="0 0 100 100" fill="none" className="w-full h-full text-[#D4AF37]">
+              <path d="M5 5 H45 C25 5 5 25 5 45 Z" fill="currentColor" opacity="0.4" />
+              <path d="M5 5 H70 M5 5 V70" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" />
+              <circle cx="12" cy="12" r="4" fill="currentColor" />
+              <path d="M12 12 Q40 12 40 40 Q40 12 70 12" stroke="currentColor" strokeWidth="1.5" fill="none" />
+            </svg>
+          </div>
+          <div className="absolute top-2.5 right-2.5 sm:top-5 sm:right-5 w-14 h-14 sm:w-20 sm:h-20 pointer-events-none opacity-85 scale-x-[-1] z-20">
+            <svg viewBox="0 0 100 100" fill="none" className="w-full h-full text-[#D4AF37]">
+              <path d="M5 5 H45 C25 5 5 25 5 45 Z" fill="currentColor" opacity="0.4" />
+              <path d="M5 5 H70 M5 5 V70" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" />
+              <circle cx="12" cy="12" r="4" fill="currentColor" />
+              <path d="M12 12 Q40 12 40 40 Q40 12 70 12" stroke="currentColor" strokeWidth="1.5" fill="none" />
+            </svg>
+          </div>
+          <div className="absolute bottom-2.5 left-2.5 sm:bottom-5 sm:left-5 w-14 h-14 sm:w-20 sm:h-20 pointer-events-none opacity-85 scale-y-[-1] z-20">
+            <svg viewBox="0 0 100 100" fill="none" className="w-full h-full text-[#D4AF37]">
+              <path d="M5 5 H45 C25 5 5 25 5 45 Z" fill="currentColor" opacity="0.4" />
+              <path d="M5 5 H70 M5 5 V70" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" />
+              <circle cx="12" cy="12" r="4" fill="currentColor" />
+              <path d="M12 12 Q40 12 40 40 Q40 12 70 12" stroke="currentColor" strokeWidth="1.5" fill="none" />
+            </svg>
+          </div>
+          <div className="absolute bottom-2.5 right-2.5 sm:bottom-5 sm:right-5 w-14 h-14 sm:w-20 sm:h-20 pointer-events-none opacity-85 scale-[-1] z-20">
+            <svg viewBox="0 0 100 100" fill="none" className="w-full h-full text-[#D4AF37]">
+              <path d="M5 5 H45 C25 5 5 25 5 45 Z" fill="currentColor" opacity="0.4" />
+              <path d="M5 5 H70 M5 5 V70" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" />
+              <circle cx="12" cy="12" r="4" fill="currentColor" />
+              <path d="M12 12 Q40 12 40 40 Q40 12 70 12" stroke="currentColor" strokeWidth="1.5" fill="none" />
+            </svg>
+          </div>
+
+          {/* 4. Main Center Royal Invitation Card Container (Balanced fluid environment sizing) */}
           <motion.div
-            initial={{ scale: 0.88, opacity: 0, y: 30 }}
-            animate={{ scale: 1, opacity: 1, y: 0 }}
-            transition={{ duration: 1, ease: [0.16, 1, 0.3, 1] }}
-            className="relative w-full max-w-lg bg-[#3A0303]/95 border-4 border-[#D4AF37] rounded-[36px] p-8 sm:p-12 shadow-[0_0_60px_rgba(212,175,55,0.3)] text-center backdrop-blur-2xl mandap-arch-border overflow-hidden"
+            initial={{ opacity: 0, y: 20, scale: 0.96 }}
+            animate={{ opacity: 1, y: 0, scale: 1 }}
+            transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
+            className="relative z-10 w-full max-w-xl mx-auto px-4 sm:px-6 py-2 sm:py-4 text-center flex flex-col items-center justify-center max-h-[100dvh]"
           >
-            {/* Corner Gold Floral Ornaments */}
-            <div className="absolute top-3 left-3 text-[#D4AF37] opacity-70 text-lg">🪷</div>
-            <div className="absolute top-3 right-3 text-[#D4AF37] opacity-70 text-lg">🪷</div>
-            <div className="absolute bottom-3 left-3 text-[#D4AF37] opacity-70 text-lg">🪷</div>
-            <div className="absolute bottom-3 right-3 text-[#D4AF37] opacity-70 text-lg">🪷</div>
-
-            {/* Telugu Ganesha Mantram Header */}
-            <div className="mb-6">
-              <span className="font-serif text-2xl sm:text-3xl text-[#FFD700] tracking-widest block font-bold drop-shadow-md">
+            {/* Sacred Telugu Wedding Blessing Mantrams */}
+            <motion.div
+              initial={{ opacity: 0, scale: 0.92 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ duration: 0.7, delay: 0.1 }}
+              className="mb-1 text-center"
+            >
+              <h2 className="font-serif text-[clamp(22px,4vw,36px)] text-[#FFD700] tracking-[0.14em] font-extrabold drop-shadow-[0_0_20px_rgba(255,215,0,0.6)] my-0 leading-tight">
                 ॥ శ్రీ గణేశాయ నమః ॥
+              </h2>
+              <p className="font-serif text-[clamp(12px,2vw,18px)] text-[#FFE58F] tracking-[0.12em] font-bold mt-1 mb-0 drop-shadow-sm">
+                ॥ శ్రీరస్తు శుభమస్తు అవిఘ్నమస్తు ॥
+              </p>
+            </motion.div>
+
+            {/* Blessing Sub-text */}
+            <motion.p
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ duration: 0.6, delay: 0.18 }}
+              className="font-sans-clean text-[clamp(9.5px,1.2vw,12px)] uppercase tracking-[0.24em] text-[#E5C158] font-bold mt-1 mb-1.5 max-w-md mx-auto"
+            >
+              With the Divine Blessings of Lord Ganesha &amp; Almighty
+            </motion.p>
+
+            {/* Cordially Invited Ribbon Divider */}
+            <motion.div
+              initial={{ width: 0, opacity: 0 }}
+              animate={{ width: '100%', opacity: 1 }}
+              transition={{ duration: 0.7, delay: 0.25 }}
+              className="flex items-center justify-center gap-2 max-w-xs sm:max-w-sm mx-auto my-1.5 opacity-95"
+            >
+              <div className="h-[1px] flex-1 bg-gradient-to-r from-transparent via-[#FFD700] to-transparent" />
+              <span className="font-sans-clean text-[clamp(9px,1.1vw,11.5px)] tracking-[0.2em] text-[#FFD700] uppercase font-extrabold whitespace-nowrap drop-shadow-xs">
+                ◆ You Are Cordially Invited To ◆
               </span>
-              <p className="font-serif text-xs uppercase tracking-[0.25em] text-[#FFD700]/90 mt-2 font-medium">
-                With the divine blessings of Lord Ganesha & Almighty
-              </p>
-            </div>
+              <div className="h-[1px] flex-1 bg-gradient-to-l from-transparent via-[#FFD700] to-transparent" />
+            </motion.div>
 
-            {/* Glowing Diya Lamp Icon */}
-            <div className="relative w-20 h-20 mx-auto mb-6 rounded-full border-2 border-[#FFD700] flex items-center justify-center bg-gradient-to-tr from-[#660B14] to-[#2B0404] shadow-[0_0_30px_rgba(255,215,0,0.5)] diya-glow">
-              <Flame className="w-10 h-10 text-[#FFD700] animate-flame drop-shadow-lg" />
-              <div className="absolute -inset-1 rounded-full border border-[#FFD700]/40 animate-ping opacity-40" />
-            </div>
-
-            {/* Section Tagline */}
-            <p className="font-sans-clean text-xs uppercase tracking-[0.35em] text-[#FFD700] mb-2 font-bold">
-              Royal Wedding Invitation
+            {/* Sub-header */}
+            <p className="font-sans-clean text-[clamp(10px,1.25vw,13px)] uppercase tracking-[0.3em] text-[#FFF8E7] font-bold mt-1 mb-0.5">
+              The Royal Wedding Of
             </p>
 
-            {/* Couple Names */}
-            <h1 className="font-heading-devanagari text-4xl sm:text-6xl font-bold tracking-wide text-[#FFF8E7] my-3 drop-shadow-lg">
-              Vivek <span className="font-script-calligraphy text-4xl sm:text-5xl text-[#FFD700]">&</span> Varshini
-            </h1>
+            {/* Grand Couple Names with Fluid Environment Sizing */}
+            <motion.div
+              initial={{ scale: 0.9, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              transition={{ duration: 0.8, delay: 0.32, ease: [0.16, 1, 0.3, 1] }}
+              className="my-1.5 sm:my-2"
+            >
+              <h1 className="font-serif text-[clamp(30px,5.2vw,50px)] font-extrabold tracking-[0.06em] text-transparent bg-clip-text bg-gradient-to-r from-[#FFF8D6] via-[#FFD700] to-[#FFA000] drop-shadow-[0_4px_25px_rgba(255,215,0,0.55)] leading-tight">
+                VIVEK <span className="font-script-calligraphy text-[clamp(36px,6.2vw,62px)] text-[#FFD700] font-normal mx-1 drop-shadow-[0_0_15px_rgba(255,215,0,0.7)]">&amp;</span> VARSHINI
+              </h1>
+            </motion.div>
 
-            <div className="w-24 h-[2px] bg-gradient-to-r from-transparent via-[#FFD700] to-transparent mx-auto my-5" />
+            {/* Decorative Lotus Divider Accent */}
+            <motion.div
+              initial={{ opacity: 0, scale: 0.8 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ duration: 0.6, delay: 0.4 }}
+              className="flex items-center justify-center gap-2.5 my-1.5 opacity-95"
+            >
+              <div className="w-14 sm:w-24 h-[1px] bg-gradient-to-r from-transparent to-[#FFD700]" />
+              <span className="text-[#FFD700] text-lg sm:text-2xl drop-shadow-[0_0_10px_#FFD700]">🪷</span>
+              <div className="w-14 sm:w-24 h-[1px] bg-gradient-to-l from-transparent to-[#FFD700]" />
+            </motion.div>
 
-            {/* Invitation Request Sentence */}
-            <p className="font-serif text-base sm:text-lg text-[#FFF8E7]/95 italic mb-6 leading-relaxed max-w-sm mx-auto">
-              Together with their families, cordially invite you to celebrate the holy union of matrimony
-            </p>
-
-            {/* Date & Venue Badge */}
-            <div className="inline-block px-6 py-2.5 rounded-full bg-[#2B0404] border border-[#FFD700]/60 shadow-md mb-8">
-              <p className="font-sans-clean text-xs sm:text-sm tracking-widest text-[#FFD700] uppercase font-bold">
-                December 19, 2026 • 03:35 AM • Kshatriya Kalyana Mandapam, Amalapuram
+            {/* Family Invitation Text */}
+            <motion.div
+              initial={{ opacity: 0, y: 8 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.7, delay: 0.48 }}
+              className="space-y-0.5 my-1.5 max-w-md mx-auto"
+            >
+              <p className="font-sans-clean text-[clamp(10px,1.25vw,13px)] uppercase tracking-[0.22em] text-[#FFF8E7] font-bold drop-shadow-xs">
+                Together with their families,
               </p>
-            </div>
+              <p className="font-serif italic text-[clamp(11.5px,1.5vw,15.5px)] text-[#FFE58F] font-semibold leading-relaxed">
+                We cordially invite you to celebrate the holy union of matrimony
+              </p>
+            </motion.div>
 
-            {/* Open Button with Pulse Glow */}
-            <div className="pt-2">
+            {/* Grand Glowing Neon Royal Button */}
+            <motion.div
+              initial={{ scale: 0.92, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              transition={{ duration: 0.7, delay: 0.55 }}
+              className="mt-3 sm:mt-4 w-full max-w-md mx-auto"
+            >
               <button
                 onClick={handleOpen}
-                className="group relative inline-flex items-center gap-3 px-10 py-4 rounded-full royal-gold-button font-sans-clean text-xs sm:text-sm tracking-[0.2em] uppercase font-extrabold shadow-[0_10px_35px_rgba(255,215,0,0.4)] transition-all duration-300 hover:scale-105 active:scale-95"
+                type="button"
+                className="group relative w-full inline-flex items-center justify-between px-5 sm:px-7 py-3 sm:py-3.5 rounded-full bg-gradient-to-r from-[#910C0C] via-[#C91E1E] to-[#910C0C] border-2 border-[#FFD700] text-[#FFF8E7] cursor-pointer shadow-[0_0_30px_rgba(255,215,0,0.65),inset_0_0_12px_rgba(255,215,0,0.45)] hover:shadow-[0_0_50px_rgba(255,215,0,0.9),inset_0_0_18px_rgba(255,215,0,0.65)] hover:scale-[1.02] active:scale-[0.98] transition-all duration-300"
               >
-                <Sparkles className="w-4 h-4 text-[#210202] group-hover:rotate-45 transition-transform duration-300" />
-                <span>Open Traditional Invitation</span>
-                <Music className="w-4 h-4 text-[#210202] opacity-80" />
-              </button>
-            </div>
+                {/* Subtle Inner Sparkle Left */}
+                <div className="flex items-center gap-1.5 text-[#FFD700] shrink-0">
+                  <Sparkles className="w-4 h-4 sm:w-5 sm:h-5 animate-pulse" />
+                  <Music className="w-3.5 h-3.5 opacity-85 hidden sm:block" />
+                </div>
 
-            <p className="mt-5 text-[11px] sm:text-xs text-[#FFF8E7]/70 tracking-wider font-sans-clean flex items-center justify-center gap-1.5">
-              🪔 Tap to listen to traditional Shehnai & Divine Flute instrumental
-            </p>
+                {/* Button Text */}
+                <span className="font-serif text-[clamp(12px,1.5vw,16px)] tracking-[0.12em] uppercase font-extrabold text-[#FFF8E7] drop-shadow-[0_2px_4px_rgba(0,0,0,0.9)] mx-2 text-center flex-1">
+                  Open Royal Wedding Invitation
+                </span>
+
+                {/* Circular Arrow Badge Right */}
+                <div className="w-7 h-7 sm:w-8 sm:h-8 rounded-full bg-[#5E0505] border border-[#FFD700] flex items-center justify-center shadow-inner group-hover:bg-[#FFD700] group-hover:text-[#5E0505] transition-colors duration-300 shrink-0">
+                  <ChevronRight className="w-4 h-4 sm:w-5 sm:h-5 text-[#FFD700] group-hover:text-[#5E0505] transition-transform duration-300 group-hover:translate-x-0.5" />
+                </div>
+              </button>
+            </motion.div>
+
+            {/* Footer Prompt */}
+            <motion.p
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ duration: 0.8, delay: 0.65 }}
+              className="font-sans-clean text-[clamp(8.5px,1.05vw,11px)] uppercase tracking-[0.22em] text-[#E5C158] font-bold mt-2.5 sm:mt-3 flex items-center justify-center gap-1.5 opacity-95"
+            >
+              <span>🪷</span>
+              <span>Tap the button above to begin our wedding journey</span>
+              <span>🪷</span>
+            </motion.p>
+
           </motion.div>
         </motion.div>
       )}

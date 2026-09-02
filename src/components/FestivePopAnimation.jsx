@@ -1,10 +1,13 @@
 import React, { useEffect } from 'react';
 import confetti from 'canvas-confetti';
 import { PartyPopper } from 'lucide-react';
+import { triggerHaptic } from '../utils/haptics';
 
 export default function FestivePopAnimation({ triggerOnOpen }) {
   // Fire a multi-cannon festive pop blast
   const fireFestiveBlast = () => {
+    triggerHaptic([30, 20, 30]);
+
     // 1. Center burst
     confetti({
       particleCount: 70,
@@ -71,12 +74,12 @@ export default function FestivePopAnimation({ triggerOnOpen }) {
 
   return (
     <>
-      {/* Floating Ambient Falling Golden Petals / Confetti (Throughout Page) */}
-      <div className="fixed inset-0 pointer-events-none z-30 overflow-hidden">
+      {/* Floating Ambient Falling Golden Petals / Confetti (GPU-accelerated) */}
+      <div className="fixed inset-0 pointer-events-none z-30 overflow-hidden transform-gpu">
         {[...Array(16)].map((_, i) => (
           <div
             key={i}
-            className="absolute rounded-full opacity-60 animate-float-particle"
+            className="absolute rounded-full opacity-60 animate-float-particle transform-gpu will-change-transform"
             style={{
               left: `${(i * 6.5) % 100}%`,
               top: `-${(i * 10) % 20}%`,
@@ -91,8 +94,8 @@ export default function FestivePopAnimation({ triggerOnOpen }) {
         ))}
       </div>
 
-      {/* Interactive Compact Celebrate Pill Button (~40% reduced width) */}
-      <div className="fixed bottom-[3.6rem] right-4 sm:bottom-[4.2rem] sm:right-6 z-40">
+      {/* Interactive Compact Celebrate Pill Button */}
+      <div className="fixed bottom-[3.6rem] right-4 sm:bottom-[4.2rem] sm:right-6 z-40 transform-gpu">
         <button
           onClick={fireFestiveBlast}
           type="button"

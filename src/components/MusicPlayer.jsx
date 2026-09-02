@@ -53,6 +53,20 @@ export default function MusicPlayer({ isMuted, toggleAudio, isOpened }) {
     }
   }, [isMuted, isOpened]);
 
+  // Lifecycle audio management: Pause playback when tab is hidden, resume when visible
+  useEffect(() => {
+    const handleVisibilityChange = () => {
+      if (document.visibilityState === 'hidden') {
+        pauseMusic();
+      } else if (document.visibilityState === 'visible' && isOpened && !isMuted) {
+        playMusic();
+      }
+    };
+
+    document.addEventListener('visibilitychange', handleVisibilityChange);
+    return () => document.removeEventListener('visibilitychange', handleVisibilityChange);
+  }, [isOpened, isMuted]);
+
   // Pre-load YouTube iframe API from page start so audio is pre-buffered for mobile gestures
   useEffect(() => {
     const initYT = () => {
