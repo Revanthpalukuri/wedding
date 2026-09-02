@@ -10,14 +10,18 @@ export default function Navbar({ isMuted, toggleAudio }) {
   useEffect(() => {
     const handleScroll = () => {
       const scrollPos = window.scrollY;
-      setScrolled(scrollPos > 50);
+      const heroEl = document.getElementById('home');
+      const heroHeight = heroEl ? heroEl.offsetHeight : window.innerHeight;
+      
+      // Hide completely on Hero page (both mobile and laptop)
+      // Only reveal once scrolled past 40% of the Hero section
+      const isPastHero = scrollPos > Math.min(heroHeight * 0.45, 300);
+      setScrolled(isPastHero);
 
       // Detect when #live (Watch Wedding Live) section comes into view
       const liveEl = document.getElementById('live') || document.getElementById('story');
       if (liveEl) {
         const liveTop = liveEl.getBoundingClientRect().top;
-        // Until #live reaches near top of screen (100px threshold), header remains BLUE.
-        // From #live onwards (Watch Wedding Live, Our Story, Schedule, etc.), header switches to MAROON.
         if (liveTop <= 100) {
           setHeaderTheme('maroon');
         } else {
@@ -26,7 +30,7 @@ export default function Navbar({ isMuted, toggleAudio }) {
       }
     };
 
-    window.addEventListener('scroll', handleScroll);
+    window.addEventListener('scroll', handleScroll, { passive: true });
     handleScroll(); // Initial check
 
     return () => window.removeEventListener('scroll', handleScroll);
@@ -47,12 +51,13 @@ export default function Navbar({ isMuted, toggleAudio }) {
 
   return (
     <header
-      className={`fixed top-0 left-0 right-0 z-40 transition-all duration-500 ${scrolled
+      className={`fixed top-0 left-0 right-0 z-40 transition-all duration-500 transform-gpu ${
+        scrolled
           ? isBlue
-            ? 'bg-[#1E60BF]/90 backdrop-blur-md border-b border-amber-200/40 py-3.5 shadow-xl'
-            : 'bg-[#3A0303]/95 backdrop-blur-md border-b border-[#D4AF37]/40 py-3.5 shadow-xl'
-          : 'bg-transparent py-6'
-        }`}
+            ? 'opacity-100 pointer-events-auto translate-y-0 bg-[#1E60BF]/90 backdrop-blur-md border-b border-amber-200/40 py-3.5 shadow-xl'
+            : 'opacity-100 pointer-events-auto translate-y-0 bg-[#3A0303]/95 backdrop-blur-md border-b border-[#D4AF37]/40 py-3.5 shadow-xl'
+          : 'opacity-0 pointer-events-none -translate-y-full bg-transparent py-4'
+      }`}
     >
       <div className="max-w-7xl mx-auto px-6 sm:px-12 flex items-center justify-between">
         {/* Monogram / Brand */}

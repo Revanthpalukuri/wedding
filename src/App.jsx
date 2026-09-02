@@ -98,13 +98,13 @@ export default function App() {
               <LiveStream />
             </div>
             <div className="optimized-render-section">
-              <JoinUsInstagram />
-            </div>
-            <div className="optimized-render-section">
               <Schedule />
             </div>
             <div className="optimized-render-section">
               <Gallery />
+            </div>
+            <div className="optimized-render-section">
+              <JoinUsInstagram />
             </div>
             <div className="optimized-render-section">
               <CountingDaysMagic />
