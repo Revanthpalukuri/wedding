@@ -51,7 +51,7 @@ export default function App() {
     };
   }, [isOpened]);
 
-  // Enable native pull-down-to-reload at the top, strictly lock scrolling at the ending page, and sync theme-color
+  // Dynamic overscroll control: allow top pull-down to reload, lock bottom ending page, and sync theme-color
   useEffect(() => {
     let touchStartY = 0;
     const metaThemeColor = document.getElementById('meta-theme-color');
@@ -64,7 +64,11 @@ export default function App() {
     };
 
     const handleScrollThemeAndLock = () => {
+      const scrollY = window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop || 0;
+      const maxScroll = getMaxScroll();
       const storyEl = document.getElementById('story');
+
+      // Theme color for mobile address bar
       if (metaThemeColor) {
         if (storyEl && storyEl.getBoundingClientRect().top <= 80) {
           metaThemeColor.setAttribute('content', '#3A0303');
@@ -73,10 +77,19 @@ export default function App() {
         }
       }
 
-      // Hard clamp: prevent scrolling beyond ending page
-      const maxScroll = getMaxScroll();
-      const scrollTop = window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop || 0;
-      if (scrollTop > maxScroll && maxScroll > 0) {
+      // Dynamic overscroll-behavior-y:
+      // At the top of page: 'auto' so user can pull down to reload
+      // Scrolled down: 'none' so mobile browser cannot bounce or overscroll past the ending page!
+      if (scrollY < 120) {
+        document.documentElement.style.overscrollBehaviorY = 'auto';
+        document.body.style.overscrollBehaviorY = 'auto';
+      } else {
+        document.documentElement.style.overscrollBehaviorY = 'none';
+        document.body.style.overscrollBehaviorY = 'none';
+      }
+
+      // Hard clamp: strictly prevent scrolling beyond ending page
+      if (scrollY > maxScroll && maxScroll > 0) {
         window.scrollTo({ top: maxScroll, left: 0, behavior: 'instant' });
       }
     };
@@ -100,7 +113,7 @@ export default function App() {
       const maxScroll = getMaxScroll();
 
       // At bottom boundary: strictly lock upward dragging (prevents rubber-banding/overflow past the ending page)
-      if (scrollTop >= maxScroll - 3 && deltaY < 0) {
+      if (scrollTop >= maxScroll - 2 && deltaY < 0) {
         if (e.cancelable) e.preventDefault();
       }
     };
@@ -143,7 +156,7 @@ export default function App() {
   };
 
   return (
-    <div className="min-h-screen bg-[#2D68C4] text-[#FFF8E7] relative selection:bg-[#FFD700] selection:text-[#1E293B]">
+    <div className="min-h-screen bg-[#340406] text-[#FFF8E7] relative selection:bg-[#FFD700] selection:text-[#1E293B]">
       {/* Luxury Mouse Follower */}
       <MouseFollower />
 
@@ -169,23 +182,13 @@ export default function App() {
           <Events />
           <OurStory />
           
-          {/* Below-the-fold sections with optimized on-demand rendering */}
+          {/* Below-the-fold sections */}
           <Suspense fallback={<div className="w-full h-40 bg-transparent" />}>
-            <div className="optimized-render-section">
-              <LiveStream />
-            </div>
-            <div className="optimized-render-section">
-              <Schedule />
-            </div>
-            <div className="optimized-render-section">
-              <Gallery />
-            </div>
-            <div className="optimized-render-section">
-              <JoinUsInstagram />
-            </div>
-            <div className="optimized-render-section">
-              <CountingDaysMagic />
-            </div>
+            <LiveStream />
+            <Schedule />
+            <Gallery />
+            <JoinUsInstagram />
+            <CountingDaysMagic />
           </Suspense>
         </main>
 

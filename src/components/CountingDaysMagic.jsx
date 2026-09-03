@@ -106,7 +106,7 @@ const magicPhotos = Object.values(magicImagesMap).map((url, idx) => ({
       onTouchMove={handleTouchMove}
       onTouchEnd={stopTrail}
       onTouchCancel={stopTrail}
-      className="relative w-full aspect-[1872/3344] min-h-[max(100svh,calc(100vw*3344/1872))] overflow-hidden bg-[#F7F2E7] select-none"
+      className="relative w-full aspect-[1872/3344] min-h-[max(100svh,calc(100vw*3344/1872))] overflow-hidden bg-[#340406] select-none"
     >
       {/* Full Artwork Image — rendered with full natural 1872:3344 portrait aspect ratio so full artwork is scrollable */}
       <img

@@ -99,7 +99,7 @@ export default function MusicPlayer({ isMuted, toggleAudio, isOpened }) {
   return (
     <>
       {/* Background Audio Source - Pre-mounted from initial page load for instantaneous mobile playback */}
-      <div className="fixed -bottom-[800px] -right-[800px] w-64 h-64 opacity-0 pointer-events-none overflow-hidden z-0">
+      <div className="fixed top-0 left-0 w-1 h-1 opacity-0 pointer-events-none overflow-hidden z-[-1]">
         <iframe
           id="wedding-bg-music-player"
           ref={iframeRef}

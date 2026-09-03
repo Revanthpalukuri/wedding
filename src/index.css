@@ -29,7 +29,7 @@
   }
 
   body {
-    background-color: #2D68C4;
+    background-color: #340406;
     color: #FFF8E7;
     font-family: 'Inter', sans-serif;
     overflow-x: hidden;
@@ -169,11 +169,5 @@
 .animate-heart-pop {
   animation: heartPop 0.85s cubic-bezier(0.25, 1, 0.5, 1) forwards;
   pointer-events: none;
-}
-
-/* Rendering Performance Optimization: skips rendering calculation until scrolled near */
-.optimized-render-section {
-  content-visibility: auto;
-  contain-intrinsic-size: 1px 800px;
 }
 
