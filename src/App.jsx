@@ -51,9 +51,21 @@ export default function App() {
     };
   }, [isOpened]);
 
-  // Prevent mobile overscroll rubber-banding above page 1 and below the ending page
+  // Enable native pull-down-to-reload at the top, prevent scrolling below the ending page, and sync theme-color
   useEffect(() => {
     let touchStartY = 0;
+    const metaThemeColor = document.getElementById('meta-theme-color');
+
+    const handleScrollTheme = () => {
+      const storyEl = document.getElementById('story');
+      if (metaThemeColor) {
+        if (storyEl && storyEl.getBoundingClientRect().top <= 80) {
+          metaThemeColor.setAttribute('content', '#3A0303');
+        } else {
+          metaThemeColor.setAttribute('content', '#257CE6');
+        }
+      }
+    };
 
     const handleTouchStart = (e) => {
       if (e.touches && e.touches.length === 1) {
@@ -76,21 +88,22 @@ export default function App() {
         document.body.scrollHeight
       ) - window.innerHeight;
 
-      // At top boundary: block pulling down (prevents scroll above page 1)
-      if (scrollTop <= 0 && deltaY > 0) {
-        if (e.cancelable) e.preventDefault();
-      }
+      // Note: We DO NOT block scrollTop <= 0 && deltaY > 0 so that mobile native pull-to-refresh reload works freely!
 
-      // At bottom boundary: block pulling up (prevents scroll below ending page)
+      // At bottom boundary: block pulling up (prevents empty gap/scroll below ending page)
       if (scrollTop >= maxScroll - 1 && deltaY < 0) {
         if (e.cancelable) e.preventDefault();
       }
     };
 
+    window.addEventListener('scroll', handleScrollTheme, { passive: true });
     window.addEventListener('touchstart', handleTouchStart, { passive: true });
     window.addEventListener('touchmove', handleTouchMove, { passive: false });
 
+    handleScrollTheme();
+
     return () => {
+      window.removeEventListener('scroll', handleScrollTheme);
       window.removeEventListener('touchstart', handleTouchStart);
       window.removeEventListener('touchmove', handleTouchMove);
     };
