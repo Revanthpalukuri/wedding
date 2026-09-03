@@ -12,9 +12,20 @@
     --color-cream: #FFF8E7;
   }
 
+  html,
+  body,
+  #root {
+    overscroll-behavior: none;
+    overscroll-behavior-y: none;
+    overscroll-behavior-x: none;
+  }
+
   html {
     scroll-behavior: smooth;
     font-family: 'Inter', sans-serif;
+    overscroll-behavior: none;
+    overscroll-behavior-y: none;
+    overscroll-behavior-x: none;
   }
 
   /* Global mobile typography scale adjustment:
@@ -31,6 +42,11 @@
     color: #FFF8E7;
     font-family: 'Inter', sans-serif;
     overflow-x: hidden;
+    overscroll-behavior: none;
+    overscroll-behavior-y: none;
+    overscroll-behavior-x: none;
+    position: relative;
+    min-height: 100%;
   }
 
   h1, h2, h3, h4, .font-royal {

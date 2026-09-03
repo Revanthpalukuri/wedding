@@ -51,6 +51,51 @@ export default function App() {
     };
   }, [isOpened]);
 
+  // Prevent mobile overscroll rubber-banding above page 1 and below the ending page
+  useEffect(() => {
+    let touchStartY = 0;
+
+    const handleTouchStart = (e) => {
+      if (e.touches && e.touches.length === 1) {
+        touchStartY = e.touches[0].clientY;
+      }
+    };
+
+    const handleTouchMove = (e) => {
+      if (!isOpened) {
+        if (e.cancelable) e.preventDefault();
+        return;
+      }
+
+      if (!e.touches || e.touches.length !== 1) return;
+      const currentY = e.touches[0].clientY;
+      const deltaY = currentY - touchStartY;
+      const scrollTop = window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop || 0;
+      const maxScroll = Math.max(
+        document.documentElement.scrollHeight,
+        document.body.scrollHeight
+      ) - window.innerHeight;
+
+      // At top boundary: block pulling down (prevents scroll above page 1)
+      if (scrollTop <= 0 && deltaY > 0) {
+        if (e.cancelable) e.preventDefault();
+      }
+
+      // At bottom boundary: block pulling up (prevents scroll below ending page)
+      if (scrollTop >= maxScroll - 1 && deltaY < 0) {
+        if (e.cancelable) e.preventDefault();
+      }
+    };
+
+    window.addEventListener('touchstart', handleTouchStart, { passive: true });
+    window.addEventListener('touchmove', handleTouchMove, { passive: false });
+
+    return () => {
+      window.removeEventListener('touchstart', handleTouchStart);
+      window.removeEventListener('touchmove', handleTouchMove);
+    };
+  }, [isOpened]);
+
   const handleOpenEnvelope = () => {
     window.scrollTo({ top: 0, left: 0, behavior: 'instant' });
     setIsOpened(true);

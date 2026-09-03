@@ -7,8 +7,15 @@ import insta3 from '../images/instagram/insta_3.jpg';
 import instagramBg from '../images/instagram/instagram_bg.webp';
 import rsvpBg from '../images/rsvp/rsvp_bg.webp';
 
+import { triggerHaptic } from '../utils/haptics';
+
 export default function JoinUsInstagram() {
-  const whatsappUrl = 'https://wa.me/?text=Hi%20Vivek%20%26%20Varshini,%20I%20would%20love%20to%20attend%20your%20wedding!';
+  const rsvpUrl = 'https://wa.me/?text=Hi%20Vivek%20%26%20Varshini,%20I%20would%20love%20to%20attend%20your%20wedding!';
+
+  const shareMessage = encodeURIComponent(
+    `🌸 *Wedding Invitation* 🌸\n\nWith the divine blessings of Lord Ganesha & Almighty, you are cordially invited to celebrate the holy union of *Vivek & Varshini* on *December 19, 2026* at *Kshatriya Kalyana Mandapam, Amalapuram*.\n\n✨ View Wedding Invitation & Events Schedule here:\n${typeof window !== 'undefined' ? window.location.origin + window.location.pathname : 'https://wedding.vivekvarshini.com'}`
+  );
+  const whatsappShareUrl = `https://api.whatsapp.com/send?text=${shareMessage}`;
   const instagramUrl = 'https://instagram.com';
 
   return (
@@ -37,7 +44,7 @@ export default function JoinUsInstagram() {
           >
             {/* Top RSVP Tag */}
             <span className="font-sans-clean text-[8px] sm:text-xs md:text-sm font-bold tracking-[0.25em] text-[#580B1A] uppercase">
-              RSVP
+              RSVP &amp; Share
             </span>
 
             {/* Calligraphic Title */}
@@ -51,21 +58,38 @@ export default function JoinUsInstagram() {
               We would be truly honoured to celebrate this day with you. Please let us know if you'll be joining the festivities — your presence is the only gift we need.
             </p>
 
-            {/* WhatsApp RSVP Button */}
-            <div className="pt-1 sm:pt-2 flex flex-col items-center gap-1 pointer-events-auto">
+            {/* Action Buttons: RSVP & Share Invitation */}
+            <div className="pt-1 sm:pt-2 flex flex-wrap items-center justify-center gap-2 sm:gap-3 pointer-events-auto">
+              {/* 1. WhatsApp RSVP Button */}
               <a
-                href={whatsappUrl}
+                href={rsvpUrl}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center justify-center gap-1.5 sm:gap-2.5 px-4 sm:px-8 py-2 sm:py-3.5 rounded-lg sm:rounded-xl bg-[rgb(88,11,26)] text-white font-sans-clean text-[9px] sm:text-xs md:text-sm uppercase font-semibold shadow-lg hover:scale-105 transition-transform duration-300 cursor-pointer"
+                onClick={() => triggerHaptic('medium')}
+                className="inline-flex items-center justify-center gap-1.5 sm:gap-2 px-3.5 sm:px-6 py-2 sm:py-3 rounded-lg sm:rounded-xl bg-[rgb(88,11,26)] text-white font-sans-clean text-[8.5px] sm:text-xs md:text-sm uppercase font-semibold shadow-lg hover:scale-105 active:scale-95 transition-all duration-300 cursor-pointer border border-amber-300/40"
+                title="Send your RSVP confirmation on WhatsApp"
               >
-                <MessageCircle className="w-3.5 h-3.5 sm:w-5 sm:h-5 fill-current text-white" />
+                <MessageCircle className="w-3.5 h-3.5 sm:w-4 sm:h-4 fill-current text-white shrink-0" />
                 <span>RSVP on WhatsApp</span>
               </a>
-              <span className="font-sans-clean text-[7px] sm:text-[9px] md:text-[10px] uppercase tracking-widest text-[#580B1A] font-bold">
-                TAP HERE
-              </span>
+
+              {/* 2. Share Invitation with Family Button */}
+              <a
+                href={whatsappShareUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                onClick={() => triggerHaptic('medium')}
+                className="inline-flex items-center justify-center gap-1.5 sm:gap-2 px-3.5 sm:px-6 py-2 sm:py-3 rounded-lg sm:rounded-xl bg-[#075E54] hover:bg-[#128C7E] text-white font-sans-clean text-[8.5px] sm:text-xs md:text-sm uppercase font-semibold shadow-lg hover:scale-105 active:scale-95 transition-all duration-300 cursor-pointer border border-[#25D366]/40"
+                title="Forward this wedding invitation on WhatsApp"
+              >
+                <Share2 className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-[#25D366] shrink-0" />
+                <span>Share with Family</span>
+              </a>
             </div>
+
+            <span className="font-sans-clean text-[7px] sm:text-[9px] md:text-[10px] uppercase tracking-widest text-[#580B1A] font-bold opacity-85">
+              TAP TO CONNECT &amp; SHARE
+            </span>
           </motion.div>
         </div>
       </section>

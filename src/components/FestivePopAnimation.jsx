@@ -6,7 +6,7 @@ import { triggerHaptic } from '../utils/haptics';
 export default function FestivePopAnimation({ triggerOnOpen }) {
   // Fire a multi-cannon festive pop blast
   const fireFestiveBlast = () => {
-    triggerHaptic([30, 20, 30]);
+    triggerHaptic('pop');
 
     // 1. Center burst
     confetti({

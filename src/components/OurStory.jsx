@@ -124,7 +124,7 @@ export default function OurStory() {
         whileInView={{ opacity: 1, scale: 1 }}
         viewport={{ once: true }}
         transition={{ duration: 1, delay: 0.4 }}
-        className="absolute top-[72%] sm:top-[70%] md:top-[66%] lg:top-[64%] left-1/2 -translate-x-1/2 -translate-y-1/2 w-[44%] sm:w-[38%] md:w-[32%] lg:w-[28%] max-w-[420px] pointer-events-auto z-10"
+        className="absolute top-[72%] sm:top-[70%] md:top-[66%] lg:top-[64%] left-1/2 -translate-x-1/2 -translate-y-1/2 w-[39.6%] sm:w-[38%] md:w-[32%] lg:w-[28%] max-w-[420px] pointer-events-auto z-10"
       >
         {/* Frame Outer Shell maintaining Framer's exact portrait proportion (1492/2016) */}
         <div className="relative w-full aspect-[1492/2016] flex items-center justify-center">

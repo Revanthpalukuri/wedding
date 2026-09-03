@@ -9,7 +9,7 @@ export default function EnvelopeGate({ onOpen }) {
   const [isOpen, setIsOpen] = useState(false);
 
   const handleOpen = () => {
-    triggerHaptic(25);
+    triggerHaptic('heavy');
     setIsOpen(true);
     onOpen();
   };
