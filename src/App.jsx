@@ -51,12 +51,19 @@ export default function App() {
     };
   }, [isOpened]);
 
-  // Enable native pull-down-to-reload at the top, prevent scrolling below the ending page, and sync theme-color
+  // Enable native pull-down-to-reload at the top, strictly lock scrolling at the ending page, and sync theme-color
   useEffect(() => {
     let touchStartY = 0;
     const metaThemeColor = document.getElementById('meta-theme-color');
 
-    const handleScrollTheme = () => {
+    const getMaxScroll = () => {
+      return Math.max(
+        document.documentElement.scrollHeight,
+        document.body.scrollHeight
+      ) - window.innerHeight;
+    };
+
+    const handleScrollThemeAndLock = () => {
       const storyEl = document.getElementById('story');
       if (metaThemeColor) {
         if (storyEl && storyEl.getBoundingClientRect().top <= 80) {
@@ -64,6 +71,13 @@ export default function App() {
         } else {
           metaThemeColor.setAttribute('content', '#257CE6');
         }
+      }
+
+      // Hard clamp: prevent scrolling beyond ending page
+      const maxScroll = getMaxScroll();
+      const scrollTop = window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop || 0;
+      if (scrollTop > maxScroll && maxScroll > 0) {
+        window.scrollTo({ top: maxScroll, left: 0, behavior: 'instant' });
       }
     };
 
@@ -83,29 +97,34 @@ export default function App() {
       const currentY = e.touches[0].clientY;
       const deltaY = currentY - touchStartY;
       const scrollTop = window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop || 0;
-      const maxScroll = Math.max(
-        document.documentElement.scrollHeight,
-        document.body.scrollHeight
-      ) - window.innerHeight;
+      const maxScroll = getMaxScroll();
 
-      // Note: We DO NOT block scrollTop <= 0 && deltaY > 0 so that mobile native pull-to-refresh reload works freely!
-
-      // At bottom boundary: block pulling up (prevents empty gap/scroll below ending page)
-      if (scrollTop >= maxScroll - 1 && deltaY < 0) {
+      // At bottom boundary: strictly lock upward dragging (prevents rubber-banding/overflow past the ending page)
+      if (scrollTop >= maxScroll - 3 && deltaY < 0) {
         if (e.cancelable) e.preventDefault();
       }
     };
 
-    window.addEventListener('scroll', handleScrollTheme, { passive: true });
+    const handleWheel = (e) => {
+      const scrollTop = window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop || 0;
+      const maxScroll = getMaxScroll();
+      if (scrollTop >= maxScroll - 1 && e.deltaY > 0) {
+        if (e.cancelable) e.preventDefault();
+      }
+    };
+
+    window.addEventListener('scroll', handleScrollThemeAndLock, { passive: true });
     window.addEventListener('touchstart', handleTouchStart, { passive: true });
     window.addEventListener('touchmove', handleTouchMove, { passive: false });
+    window.addEventListener('wheel', handleWheel, { passive: false });
 
-    handleScrollTheme();
+    handleScrollThemeAndLock();
 
     return () => {
-      window.removeEventListener('scroll', handleScrollTheme);
+      window.removeEventListener('scroll', handleScrollThemeAndLock);
       window.removeEventListener('touchstart', handleTouchStart);
       window.removeEventListener('touchmove', handleTouchMove);
+      window.removeEventListener('wheel', handleWheel);
     };
   }, [isOpened]);
 
