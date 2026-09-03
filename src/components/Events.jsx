@@ -231,17 +231,11 @@ export default function Events() {
               <circle cx="12" cy="12" r="2" fill="rgb(10, 48, 127)" />
             </svg>
 
-            {/* Subtitle & Status Badge */}
-            <div className="flex items-center justify-between px-1">
+            {/* Subtitle */}
+            <div className="text-left px-1">
               <span className="font-sans-clean text-sm font-semibold tracking-normal text-[rgb(7,95,203)] opacity-90">
                 Vivek &amp; VARSHINI
               </span>
-
-              {/* Status indicator: Reading / Auto-advancing */}
-              <div className="flex items-center gap-1.5 bg-amber-100/70 border border-amber-300/60 px-2 py-0.5 rounded-full text-[10px] sm:text-xs font-sans-clean font-semibold text-[#8B0000]">
-                <span className={`w-1.5 h-1.5 rounded-full ${isPaused ? 'bg-amber-600' : 'bg-emerald-600 animate-pulse'}`} />
-                <span>{isPaused ? 'Reading Mode (Paused)' : 'Ceremony 10s Timer'}</span>
-              </div>
             </div>
 
             {/* Event Grid */}
