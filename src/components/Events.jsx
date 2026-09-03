@@ -1,6 +1,6 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Calendar, MapPin, ExternalLink } from 'lucide-react';
+import { Calendar, MapPin, Pause, Play, ChevronLeft, ChevronRight } from 'lucide-react';
 import { weddingConfig } from '../utils/config';
 import { createGoogleCalendarUrl } from '../utils/calendar';
 import { triggerHaptic } from '../utils/haptics';
@@ -11,6 +11,13 @@ import receptionImg from '../images/events/reception.webp';
 
 export default function Events() {
   const [currentSlide, setCurrentSlide] = useState(0);
+  const [isPaused, setIsPaused] = useState(false);
+  const [slideDirection, setSlideDirection] = useState(1); // 1: next, -1: prev
+
+  const touchStartXRef = useRef(0);
+  const touchStartYRef = useRef(0);
+  const touchStartTimeRef = useRef(0);
+  const resumeTimerRef = useRef(null);
 
   const eventsList = [];
 
@@ -86,20 +93,83 @@ export default function Events() {
     });
   }
 
+  // Temporary pause on interaction with gentle resume after 12 seconds
+  const pauseTemporarilyForReading = () => {
+    setIsPaused(true);
+    if (resumeTimerRef.current) clearTimeout(resumeTimerRef.current);
+    resumeTimerRef.current = setTimeout(() => {
+      setIsPaused(false);
+    }, 12000);
+  };
+
   const nextSlide = () => {
+    triggerHaptic(10);
+    setSlideDirection(1);
     setCurrentSlide((prev) => (prev + 1) % eventsList.length);
+    pauseTemporarilyForReading();
   };
 
   const prevSlide = () => {
+    triggerHaptic(10);
+    setSlideDirection(-1);
     setCurrentSlide((prev) => (prev - 1 + eventsList.length) % eventsList.length);
+    pauseTemporarilyForReading();
   };
 
+  const goToSlide = (idx) => {
+    triggerHaptic(10);
+    setSlideDirection(idx >= currentSlide ? 1 : -1);
+    setCurrentSlide(idx);
+    pauseTemporarilyForReading();
+  };
+
+  const togglePause = () => {
+    triggerHaptic(15);
+    if (resumeTimerRef.current) clearTimeout(resumeTimerRef.current);
+    setIsPaused((prev) => !prev);
+  };
+
+  // Auto-advance with relaxed 10-second reading time (stops immediately when paused/touched)
   useEffect(() => {
+    if (isPaused || eventsList.length <= 1) return;
+
     const timer = setInterval(() => {
-      nextSlide();
-    }, 6000);
+      setSlideDirection(1);
+      setCurrentSlide((prev) => (prev + 1) % eventsList.length);
+    }, 10000);
+
     return () => clearInterval(timer);
-  }, [eventsList.length]);
+  }, [isPaused, eventsList.length, currentSlide]);
+
+  // Touch handlers for mobile swipe navigation
+  const handleTouchStart = (e) => {
+    pauseTemporarilyForReading();
+    if (e.touches && e.touches.length === 1) {
+      touchStartXRef.current = e.touches[0].clientX;
+      touchStartYRef.current = e.touches[0].clientY;
+      touchStartTimeRef.current = Date.now();
+    }
+  };
+
+  const handleTouchEnd = (e) => {
+    if (!e.changedTouches || e.changedTouches.length === 0) return;
+    const endX = e.changedTouches[0].clientX;
+    const endY = e.changedTouches[0].clientY;
+    const deltaX = endX - touchStartXRef.current;
+    const deltaY = endY - touchStartYRef.current;
+    const deltaTime = Date.now() - touchStartTimeRef.current;
+
+    // Detect horizontal swipe (at least 35px horizontally and predominantly horizontal swipe)
+    if (Math.abs(deltaX) > 35 && Math.abs(deltaX) > Math.abs(deltaY) * 1.1 && deltaTime < 800) {
+      if (deltaX < 0) {
+        // Swiped Left -> Next Event
+        nextSlide();
+      } else {
+        // Swiped Right -> Previous Event
+        prevSlide();
+      }
+    }
+  };
 
   const activeEvent = eventsList[currentSlide];
 
@@ -134,7 +204,11 @@ export default function Events() {
 
           {/* Inner Card with Double Gold/Blue Borders & 4 Corner Ornaments */}
           <div
-            className="relative z-10 grid grid-cols-1 gap-4 sm:gap-6 rounded-[28px] sm:rounded-[32px] p-4 sm:p-8 bg-gradient-to-b from-white/95 to-[#FFFAF2]/95 border-2 border-[rgb(7,95,203)]"
+            onTouchStart={handleTouchStart}
+            onTouchEnd={handleTouchEnd}
+            onMouseEnter={() => setIsPaused(true)}
+            onMouseLeave={() => setIsPaused(false)}
+            className="relative z-10 grid grid-cols-1 gap-4 sm:gap-6 rounded-[28px] sm:rounded-[32px] p-4 sm:p-8 bg-gradient-to-b from-white/95 to-[#FFFAF2]/95 border-2 border-[rgb(7,95,203)] select-none"
             style={{
               boxShadow: 'inset 0 0 0 4px rgb(215, 162, 42), inset 0 0 0 6px rgb(10, 48, 127)',
             }}
@@ -157,11 +231,17 @@ export default function Events() {
               <circle cx="12" cy="12" r="2" fill="rgb(10, 48, 127)" />
             </svg>
 
-            {/* Subtitle */}
-            <div className="text-left px-1">
+            {/* Subtitle & Status Badge */}
+            <div className="flex items-center justify-between px-1">
               <span className="font-sans-clean text-sm font-semibold tracking-normal text-[rgb(7,95,203)] opacity-90">
                 Vivek &amp; VARSHINI
               </span>
+
+              {/* Status indicator: Reading / Auto-advancing */}
+              <div className="flex items-center gap-1.5 bg-amber-100/70 border border-amber-300/60 px-2 py-0.5 rounded-full text-[10px] sm:text-xs font-sans-clean font-semibold text-[#8B0000]">
+                <span className={`w-1.5 h-1.5 rounded-full ${isPaused ? 'bg-amber-600' : 'bg-emerald-600 animate-pulse'}`} />
+                <span>{isPaused ? 'Reading Mode (Paused)' : 'Ceremony 10s Timer'}</span>
+              </div>
             </div>
 
             {/* Event Grid */}
@@ -176,10 +256,10 @@ export default function Events() {
                       src={activeEvent.image}
                       alt={activeEvent.title}
                       loading="lazy"
-                      initial={{ opacity: 0.1, scale: 0.98 }}
-                      animate={{ opacity: 1, scale: 1 }}
-                      exit={{ opacity: 0.1, scale: 1.02 }}
-                      transition={{ duration: 0.4 }}
+                      initial={{ opacity: 0.1, x: slideDirection * 20, scale: 0.98 }}
+                      animate={{ opacity: 1, x: 0, scale: 1 }}
+                      exit={{ opacity: 0.1, x: -slideDirection * 20, scale: 1.02 }}
+                      transition={{ duration: 0.35, ease: 'easeOut' }}
                       className="w-full h-full object-contain block hover:scale-105 transition-transform duration-350"
                     />
                   </AnimatePresence>
@@ -192,32 +272,46 @@ export default function Events() {
                       onClick={prevSlide}
                       type="button"
                       aria-label="Previous slide"
-                      className="w-10 h-10 rounded-full border-none cursor-pointer bg-white/90 text-[rgb(7,95,203)] inline-flex items-center justify-center text-2xl font-bold shadow-[0_3px_12px_rgba(0,0,0,0.12),inset_0_0_0_1px_rgb(82,72,48)] hover:scale-110 transition-transform"
+                      className="w-10 h-10 rounded-full border-none cursor-pointer bg-white/95 text-[rgb(7,95,203)] inline-flex items-center justify-center shadow-[0_3px_12px_rgba(0,0,0,0.15),inset_0_0_0_1px_rgb(82,72,48)] hover:scale-110 active:scale-95 transition-transform"
+                      title="Previous Ceremony"
                     >
-                      ‹
+                      <ChevronLeft className="w-5 h-5" />
                     </button>
                     <button
                       onClick={nextSlide}
                       type="button"
                       aria-label="Next slide"
-                      className="w-10 h-10 rounded-full border-none cursor-pointer bg-white/90 text-[rgb(7,95,203)] inline-flex items-center justify-center text-2xl font-bold shadow-[0_3px_12px_rgba(0,0,0,0.12),inset_0_0_0_1px_rgb(82,72,48)] hover:scale-110 transition-transform"
+                      className="w-10 h-10 rounded-full border-none cursor-pointer bg-white/95 text-[rgb(7,95,203)] inline-flex items-center justify-center shadow-[0_3px_12px_rgba(0,0,0,0.15),inset_0_0_0_1px_rgb(82,72,48)] hover:scale-110 active:scale-95 transition-transform"
+                      title="Next Ceremony"
                     >
-                      ›
+                      <ChevronRight className="w-5 h-5" />
                     </button>
                   </div>
 
-                  {/* Dots */}
-                  <div className="flex gap-2 pointer-events-auto bg-black/20 backdrop-blur-xs px-2.5 py-1.5 rounded-full">
+                  {/* Pause / Play Toggle & Dots */}
+                  <div className="flex items-center gap-2 pointer-events-auto bg-black/40 backdrop-blur-sm px-2.5 py-1.5 rounded-full border border-white/20">
+                    <button
+                      onClick={togglePause}
+                      type="button"
+                      aria-label={isPaused ? 'Resume auto-play' : 'Pause timer'}
+                      className="text-white hover:text-amber-300 p-0.5 cursor-pointer transition-colors"
+                      title={isPaused ? 'Resume Auto-Play' : 'Pause for Reading'}
+                    >
+                      {isPaused ? <Play className="w-3.5 h-3.5 fill-current" /> : <Pause className="w-3.5 h-3.5 fill-current" />}
+                    </button>
+
+                    <div className="h-3 w-[1px] bg-white/30" />
+
                     {eventsList.map((_, idx) => (
                       <button
                         key={idx}
-                        onClick={() => setCurrentSlide(idx)}
+                        onClick={() => goToSlide(idx)}
                         type="button"
                         aria-label={`Go to slide ${idx + 1}`}
-                        className={`h-2.5 rounded-full transition-all duration-300 cursor-pointer ${
+                        className={`h-2 rounded-full transition-all duration-300 cursor-pointer ${
                           currentSlide === idx
-                            ? 'w-5 bg-[rgb(10,48,127)]'
-                            : 'w-2.5 bg-white/75'
+                            ? 'w-4 bg-amber-400 shadow-sm'
+                            : 'w-2 bg-white/60 hover:bg-white'
                         }`}
                       />
                     ))}
@@ -230,15 +324,20 @@ export default function Events() {
                 <AnimatePresence mode="wait">
                   <motion.div
                     key={activeEvent.title}
-                    initial={{ opacity: 0.1, y: 10 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    exit={{ opacity: 0.1, y: -10 }}
-                    transition={{ duration: 0.4 }}
+                    initial={{ opacity: 0.1, x: slideDirection * 15 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    exit={{ opacity: 0.1, x: -slideDirection * 15 }}
+                    transition={{ duration: 0.35, ease: 'easeOut' }}
                     className="space-y-3.5"
                   >
-                    <h2 className="m-0 font-heading-devanagari text-3xl sm:text-5xl lg:text-6xl text-[rgb(47,36,23)] font-bold tracking-tight leading-none">
-                      {activeEvent.title}
-                    </h2>
+                    <div className="flex items-center justify-between gap-2">
+                      <h2 className="m-0 font-heading-devanagari text-3xl sm:text-5xl lg:text-6xl text-[rgb(47,36,23)] font-bold tracking-tight leading-none">
+                        {activeEvent.title}
+                      </h2>
+                      <span className="font-sans-clean text-xs font-bold text-amber-700 bg-amber-100/80 px-2.5 py-1 rounded-full whitespace-nowrap">
+                        {currentSlide + 1} of {eventsList.length}
+                      </span>
+                    </div>
 
                     {/* Meta Chips */}
                     <div className="flex flex-wrap gap-3 sm:gap-4 items-center text-xs sm:text-sm font-sans-clean text-[rgb(47,36,23)] opacity-90">
@@ -305,6 +404,13 @@ export default function Events() {
                         <Calendar className="w-3.5 h-3.5 text-[rgb(10,48,127)]" />
                         <span>Add To Calendar</span>
                       </a>
+                    </div>
+
+                    {/* Mobile Gesture Hint */}
+                    <div className="pt-2 flex items-center justify-start gap-1.5 text-[10px] sm:text-xs font-sans-clean text-[#6B3E11] font-semibold opacity-75 select-none">
+                      <span>👈</span>
+                      <span>Swipe left / right to browse all ceremonies • Touch to pause &amp; read</span>
+                      <span>👉</span>
                     </div>
                   </motion.div>
                 </AnimatePresence>

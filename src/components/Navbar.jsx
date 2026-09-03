@@ -18,11 +18,11 @@ export default function Navbar({ isMuted, toggleAudio }) {
       const isPastHero = scrollPos > Math.min(heroHeight * 0.45, 300);
       setScrolled(isPastHero);
 
-      // Detect when #live (Watch Wedding Live) section comes into view
-      const liveEl = document.getElementById('live') || document.getElementById('story');
-      if (liveEl) {
-        const liveTop = liveEl.getBoundingClientRect().top;
-        if (liveTop <= 100) {
+      // Switch theme to royal maroon starting strictly from #story (Our Story, which is right after Ceremonies)
+      const storyEl = document.getElementById('story');
+      if (storyEl) {
+        const storyTop = storyEl.getBoundingClientRect().top;
+        if (storyTop <= 80) {
           setHeaderTheme('maroon');
         } else {
           setHeaderTheme('blue');
@@ -41,8 +41,8 @@ export default function Navbar({ isMuted, toggleAudio }) {
     { name: 'Invitation', href: '#invite' },
     { name: 'Groom & Bride', href: '#varmala' },
     { name: 'Ceremonies', href: '#events' },
-    { name: 'Live Stream 🔴', href: '#live' },
     { name: 'Our Story', href: '#story' },
+    { name: 'Live Stream 🔴', href: '#live' },
     { name: 'Schedule', href: '#schedule' },
     { name: 'Gallery', href: '#gallery' },
   ];
