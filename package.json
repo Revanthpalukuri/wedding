@@ -8,6 +8,7 @@
     "restart": "node scripts/restart-dev.js",
     "push:main": "node scripts/push-to-main.js",
     "build": "vite build",
+    "optimize-images": "node scripts/optimize-images.js",
     "lint": "oxlint",
     "preview": "vite preview"
   },
