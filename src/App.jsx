@@ -10,6 +10,7 @@ import MusicPlayer from './components/MusicPlayer';
 import MouseFollower from './components/MouseFollower';
 import FestivePopAnimation from './components/FestivePopAnimation';
 import FloatingMusiciansBanner from './components/FloatingMusiciansBanner';
+import BlessingShower from './components/BlessingShower';
 
 // Lazy-loaded Below-the-Fold Components (Drastically reduces initial JavaScript load)
 const LiveStream = lazy(() => import('./components/LiveStream'));
@@ -83,6 +84,75 @@ export default function App() {
     };
   }, []);
 
+  // Strictly prevent overscroll and dragging past the end of the page on mobile
+  useEffect(() => {
+    let touchStartY = 0;
+
+    const getMaxScroll = () => {
+      return Math.max(
+        document.documentElement.scrollHeight,
+        document.body.scrollHeight
+      ) - window.innerHeight;
+    };
+
+    const handleTouchStart = (e) => {
+      if (e.touches && e.touches.length === 1) {
+        touchStartY = e.touches[0].clientY;
+      }
+    };
+
+    const handleTouchMove = (e) => {
+      if (!isOpened) return;
+      if (!e.touches || e.touches.length !== 1) return;
+
+      const currentY = e.touches[0].clientY;
+      const deltaY = currentY - touchStartY;
+      const scrollTop = window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop || 0;
+      const maxScroll = getMaxScroll();
+
+      // At bottom ending boundary: strictly lock upward dragging (deltaY < 0), preventing rubber-banding or movement beyond the page
+      if (scrollTop >= maxScroll - 1 && deltaY < 0) {
+        if (e.cancelable) {
+          e.preventDefault();
+        }
+      }
+
+      // Continuously update touchStartY so reversals (dragging down to scroll up) react instantaneously
+      touchStartY = currentY;
+    };
+
+    const handleWheel = (e) => {
+      if (!isOpened) return;
+      const scrollTop = window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop || 0;
+      const maxScroll = getMaxScroll();
+      if (scrollTop >= maxScroll - 1 && e.deltaY > 0) {
+        if (e.cancelable) {
+          e.preventDefault();
+        }
+      }
+    };
+
+    const handleScrollClamp = () => {
+      const scrollTop = window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop || 0;
+      const maxScroll = getMaxScroll();
+      if (maxScroll > 0 && scrollTop > maxScroll) {
+        window.scrollTo({ top: maxScroll, left: 0, behavior: 'instant' });
+      }
+    };
+
+    window.addEventListener('touchstart', handleTouchStart, { passive: true });
+    window.addEventListener('touchmove', handleTouchMove, { passive: false });
+    window.addEventListener('wheel', handleWheel, { passive: false });
+    window.addEventListener('scroll', handleScrollClamp, { passive: true });
+
+    return () => {
+      window.removeEventListener('touchstart', handleTouchStart);
+      window.removeEventListener('touchmove', handleTouchMove);
+      window.removeEventListener('wheel', handleWheel);
+      window.removeEventListener('scroll', handleScrollClamp);
+    };
+  }, [isOpened]);
+
   const handleOpenEnvelope = () => {
     setIsOpened(true);
     setIsMuted(false);
@@ -108,6 +178,9 @@ export default function App() {
       <div className={isOpened ? 'opacity-100 transition-opacity duration-500' : 'opacity-0 pointer-events-none'}>
         {/* Festive Party Pop Cannon & Ambient Floating Sparkles */}
         <FestivePopAnimation triggerOnOpen={triggerPop} />
+
+        {/* Dynamic Falling Blessing Shower (Flowers, Hearts & Akshatalu) */}
+        <BlessingShower />
 
         {/* Floating Navbar */}
         <Navbar isMuted={isMuted} toggleAudio={toggleAudio} />

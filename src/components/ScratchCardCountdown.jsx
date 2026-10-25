@@ -1,18 +1,13 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import confetti from 'canvas-confetti';
 import { Sparkles, Bell, Lock, Unlock, Heart } from 'lucide-react';
+import { triggerBlessingShower } from '../utils/blessings';
 
 export default function ScratchCardCountdown({ days, hours, minutes, seconds, isMarried }) {
   const [isOpen, setIsOpen] = useState(false);
 
   const triggerShowerConfetti = () => {
-    confetti({
-      particleCount: 90,
-      spread: 120,
-      origin: { x: 0.5, y: 0.5 },
-      colors: ['#FFD700', '#D4AF37', '#FF1493', '#FFA500', '#FFF8E7', '#FF4500'],
-    });
+    triggerBlessingShower('flowers');
   };
 
   const toggleDoors = () => {

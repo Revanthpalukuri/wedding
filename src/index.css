@@ -17,6 +17,7 @@
     font-family: 'Inter', sans-serif;
     background-color: #257CE6;
     overflow-x: hidden;
+    overscroll-behavior-y: none;
   }
 
   /* Global mobile typography scale adjustment:
@@ -35,6 +36,7 @@
     overflow-x: hidden;
     position: relative;
     min-height: 100%;
+    overscroll-behavior-y: none;
   }
 
   h1, h2, h3, h4, .font-royal {

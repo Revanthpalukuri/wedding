@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
-import { motion } from 'framer-motion';
-import confetti from 'canvas-confetti';
+import { motion, AnimatePresence } from 'framer-motion';
+import { triggerBlessingShower } from '../utils/blessings';
 import {
   Video,
   Radio,
@@ -30,63 +30,24 @@ export default function LiveStream() {
     setTimeout(() => setCopied(false), 2500);
   };
 
+  const [reactionBadge, setReactionBadge] = useState(null);
+
   const handleShowerBlessings = (type) => {
     setBlessingCount((prev) => prev + 1);
 
-    if (type === 'flowers') {
-      // Pushpa Vrishti - Flower Petals & Bloom Sprinkles
-      const f1 = confetti.shapeFromText({ text: '🌸', scalar: 2.2 });
-      const f2 = confetti.shapeFromText({ text: '🪷', scalar: 2.2 });
-      const f3 = confetti.shapeFromText({ text: '🌺', scalar: 2.2 });
-      const f4 = confetti.shapeFromText({ text: '🌼', scalar: 2.2 });
-      const f5 = confetti.shapeFromText({ text: '🌹', scalar: 2.2 });
+    const badgeLabel =
+      type === 'flowers'
+        ? '+1 🪷 Pushpa Vrishti!'
+        : type === 'hearts'
+        ? '+1 💖 Love & Blessings!'
+        : '+1 ✨ Akshatalu!';
 
-      confetti({
-        shapes: [f1, f2, f3, f4, f5],
-        scalar: 2.2,
-        particleCount: 45,
-        spread: 100,
-        origin: { x: 0.5, y: 0.65 },
-        colors: ['#FF69B4', '#FFD700', '#FF1493', '#FFA500', '#FF4500'],
-        ticks: 220,
-        gravity: 0.85,
-        drift: 0,
-      });
-    } else if (type === 'hearts') {
-      // Love & Blessings - Romantic Heart & Love Symbol Sprinkles
-      const h1 = confetti.shapeFromText({ text: '❤️', scalar: 2.2 });
-      const h2 = confetti.shapeFromText({ text: '💖', scalar: 2.2 });
-      const h3 = confetti.shapeFromText({ text: '💕', scalar: 2.2 });
-      const h4 = confetti.shapeFromText({ text: '🥰', scalar: 2.2 });
-      const h5 = confetti.shapeFromText({ text: '💐', scalar: 2.2 });
+    setReactionBadge({ text: badgeLabel, id: Date.now() });
+    setTimeout(() => {
+      setReactionBadge((curr) => (curr?.text === badgeLabel ? null : curr));
+    }, 1800);
 
-      confetti({
-        shapes: [h1, h2, h3, h4, h5],
-        scalar: 2.2,
-        particleCount: 45,
-        spread: 90,
-        origin: { x: 0.5, y: 0.65 },
-        colors: ['#E11D48', '#FB7185', '#FFD700', '#F43F5E'],
-        ticks: 220,
-        gravity: 0.85,
-        drift: 0,
-      });
-    } else {
-      // Akshatalu - Sacred Golden Sparkles
-      const s1 = confetti.shapeFromText({ text: '✨', scalar: 2 });
-      const s2 = confetti.shapeFromText({ text: '🌟', scalar: 2 });
-
-      confetti({
-        shapes: [s1, s2, 'circle'],
-        scalar: 1.8,
-        particleCount: 50,
-        spread: 100,
-        origin: { x: 0.5, y: 0.65 },
-        colors: ['#FFD700', '#D4AF37', '#FFF8E7', '#FBBF24'],
-        ticks: 200,
-        gravity: 0.9,
-      });
-    }
+    triggerBlessingShower(type);
   };
 
   return (
@@ -161,7 +122,23 @@ export default function LiveStream() {
         </div>
 
         {/* Virtual Blessings / Flower Shower Reaction Bar */}
-        <div className="p-3 sm:p-4 rounded-xl sm:rounded-2xl bg-gradient-to-r from-[#1D0204]/95 via-[#3A0303]/90 to-[#1D0204]/95 border border-[#D4AF37]/50 shadow-xl flex flex-wrap items-center justify-between gap-3">
+        <div className="relative p-3 sm:p-4 rounded-xl sm:rounded-2xl bg-gradient-to-r from-[#1D0204]/95 via-[#3A0303]/90 to-[#1D0204]/95 border border-[#D4AF37]/50 shadow-xl flex flex-wrap items-center justify-between gap-3">
+          {/* Floating Reaction Confirmation Badge */}
+          <AnimatePresence>
+            {reactionBadge && (
+              <motion.div
+                key={reactionBadge.id}
+                initial={{ opacity: 0, y: 10, scale: 0.8 }}
+                animate={{ opacity: 1, y: -26, scale: 1 }}
+                exit={{ opacity: 0, y: -38, scale: 0.9 }}
+                transition={{ duration: 0.35, ease: 'easeOut' }}
+                className="absolute -top-3 right-4 sm:right-6 pointer-events-none z-30 px-3 py-1 rounded-full bg-amber-400 text-stone-950 font-sans-clean text-xs font-black shadow-[0_4px_12px_rgba(255,215,0,0.5)] border border-yellow-200"
+              >
+                {reactionBadge.text}
+              </motion.div>
+            )}
+          </AnimatePresence>
+
           <div className="flex items-center gap-2">
             <Flame className="w-4 h-4 text-amber-400 animate-flame" />
             <span className="font-sans-clean text-xs sm:text-sm font-bold uppercase tracking-wider text-amber-300">
@@ -173,7 +150,7 @@ export default function LiveStream() {
             <button
               onClick={() => handleShowerBlessings('flowers')}
               aria-label="Shower Pushpa Vrishti flower petals blessing animation"
-              className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-amber-500/20 border border-amber-400/50 hover:bg-amber-500 hover:text-stone-950 text-amber-200 text-xs font-sans-clean font-bold transition-all hover:scale-105 active:scale-95 cursor-pointer"
+              className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-amber-500/25 border border-amber-400/60 hover:bg-amber-500 hover:text-stone-950 text-amber-200 text-xs font-sans-clean font-bold transition-all hover:scale-105 active:scale-95 cursor-pointer touch-manipulation shadow-md"
             >
               <span>🪷 Pushpa Vrishti</span>
             </button>
@@ -181,7 +158,7 @@ export default function LiveStream() {
             <button
               onClick={() => handleShowerBlessings('hearts')}
               aria-label="Shower love and romantic blessings animation"
-              className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-rose-500/20 border border-rose-400/50 hover:bg-rose-600 hover:text-white text-rose-200 text-xs font-sans-clean font-bold transition-all hover:scale-105 active:scale-95 cursor-pointer"
+              className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-rose-500/25 border border-rose-400/60 hover:bg-rose-600 hover:text-white text-rose-200 text-xs font-sans-clean font-bold transition-all hover:scale-105 active:scale-95 cursor-pointer touch-manipulation shadow-md"
             >
               <Heart className="w-3.5 h-3.5 fill-current text-rose-400" />
               <span>Love &amp; Blessings</span>
@@ -190,7 +167,7 @@ export default function LiveStream() {
             <button
               onClick={() => handleShowerBlessings('gold')}
               aria-label="Shower sacred Akshatalu golden sparkles blessing animation"
-              className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-yellow-500/20 border border-yellow-400/50 hover:bg-yellow-400 hover:text-stone-950 text-yellow-200 text-xs font-sans-clean font-bold transition-all hover:scale-105 active:scale-95 cursor-pointer"
+              className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-yellow-500/25 border border-yellow-400/60 hover:bg-yellow-400 hover:text-stone-950 text-yellow-200 text-xs font-sans-clean font-bold transition-all hover:scale-105 active:scale-95 cursor-pointer touch-manipulation shadow-md"
             >
               <Sparkles className="w-3.5 h-3.5 text-yellow-300" />
               <span>Akshatalu</span>
