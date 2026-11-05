@@ -13,7 +13,7 @@ export default function JoinUsInstagram() {
   const rsvpUrl = 'https://wa.me/?text=Hi%20Vivek%20%26%20Varshini,%20I%20would%20love%20to%20attend%20your%20wedding!';
 
   const shareMessage = encodeURIComponent(
-    `🌸 *Wedding Invitation* 🌸\n\nWith the divine blessings of Lord Ganesha & Almighty, you are cordially invited to celebrate the holy union of *Vivek & Varshini* on *December 19, 2026* at *Kshatriya Kalyana Mandapam, Amalapuram*.\n\n✨ View Wedding Invitation & Events Schedule here:\n${typeof window !== 'undefined' ? window.location.origin + window.location.pathname : 'https://wedding.vivekvarshini.com'}`
+    `🌸 A Little Love, A Lifetime Together 🌸\n\nWith the blessings of Lord Ganesha and the Almighty, we are delighted to invite you to be a part of one of the most beautiful chapters of our lives - the beginning of our forever! ❤️\n\nTwo hearts, two families, and a lifetime of dreams coming together.\n\n✨ Vivek & Varshini ✨\n\nWe would love for you to celebrate our special day, shower us with your blessings, and make our happiness even more memorable.\n\n💕 Our wedding invitation and celebrations await you here:\n\nhttps://vivek-varshini.vercel.app/\n\nWith love,\nVivek & Varshini 🌸`
   );
   const whatsappShareUrl = `https://api.whatsapp.com/send?text=${shareMessage}`;
   const instagramUrl = 'https://instagram.com';

@@ -27,6 +27,18 @@ function freePort(port) {
           console.log(`Freed port ${port} by terminating PID ${pid}`);
         } catch {}
       }
+    } else {
+      // macOS / Linux
+      try {
+        const output = execSync(`lsof -t -iTCP:${port} -sTCP:LISTEN`, { encoding: 'utf8', stdio: ['pipe', 'pipe', 'ignore'] });
+        const pids = output.trim().split('\n').filter(Boolean);
+        for (const pid of pids) {
+          if (pid && pid !== `${process.pid}`) {
+            execSync(`kill -9 ${pid}`, { stdio: 'ignore' });
+            console.log(`Freed port ${port} by terminating PID ${pid}`);
+          }
+        }
+      } catch {}
     }
   } catch {}
 }

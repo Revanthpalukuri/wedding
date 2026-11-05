@@ -8,6 +8,12 @@
       "command": "npm run dev"
     },
     {
+      "name": "Restart Dev Server",
+      "type": "node-terminal",
+      "request": "launch",
+      "command": "npm run restart"
+    },
+    {
       "name": "Launch Chrome against localhost",
       "type": "chrome",
       "request": "launch",
@@ -26,6 +32,11 @@
     {
       "name": "Dev: Server & Chrome",
       "configurations": ["Launch Dev Server", "Launch Chrome against localhost"],
+      "stopAll": true
+    },
+    {
+      "name": "Restart: Server & Chrome",
+      "configurations": ["Restart Dev Server", "Launch Chrome against localhost"],
       "stopAll": true
     }
   ]
