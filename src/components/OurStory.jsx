@@ -104,18 +104,35 @@ export default function OurStory() {
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true }}
         transition={{ duration: 0.9, delay: 0.3 }}
-        className="absolute top-[32%] sm:top-[33%] left-1/2 -translate-x-1/2 w-[62%] sm:w-[56%] md:w-[52%] max-w-[640px] text-center pointer-events-none z-10 px-2"
+        className="absolute top-[30.5%] sm:top-[31.5%] left-1/2 -translate-x-1/2 w-[66%] sm:w-[58%] md:w-[54%] max-w-[640px] text-center pointer-events-none z-10 px-2"
       >
-        <p
-          className="font-serif italic font-semibold text-center drop-shadow-xs"
+        <div
+          className="font-serif italic font-semibold text-center drop-shadow-xs space-y-1.5 sm:space-y-2.5"
           style={{
-            fontSize: 'clamp(7.5px, 1.1vw, 14.5px)',
+            fontSize: 'clamp(7.5px, 1.05vw, 13.5px)',
             color: 'rgb(70, 1, 1)',
-            lineHeight: 1.6,
+            lineHeight: 1.5,
           }}
         >
-          Some souls are destined to find each other, no matter how long the journey. Vivek and Varshini's story wasn't just about falling in love—it was about finding peace in each other's presence, strength in every challenge, and a home in each other's hearts. Through every smile, every tear, and every moment in between, their love only grew deeper. Today, as they take the sacred vows of forever on December 19, 2026, they carry with them not only dreams of a beautiful future but also the blessings of everyone who has been part of their journey. With hearts full of love and gratitude, they invite you to celebrate the beginning of their forever.
-        </p>
+          <p>
+            Every love story is special, but ours is one we will cherish forever.
+          </p>
+          <p>
+            What started as two individual journeys slowly became a beautiful story of togetherness. Through little moments, endless conversations, smiles, and countless memories, we found something truly special in each other.
+          </p>
+          <p>
+            We may not know what every chapter of life holds, but we know one thing for sure - we want to write every chapter together.
+          </p>
+          <p>
+            And now, we're ready to begin our favourite adventure yet: Forever, together.
+          </p>
+          <div className="pt-1 sm:pt-1.5">
+            <p className="font-serif not-italic text-[clamp(8px,1.1vw,14px)] font-bold text-[#460101]">
+              With love,<br />
+              <span className="font-serif italic text-[clamp(8.5px,1.15vw,14.5px)] text-[#5E0505]">The Bride &amp; Groom ❤️</span>
+            </p>
+          </div>
+        </div>
       </motion.div>
 
       {/* 6. Center Golden Frame & Responsive Rotating Photo Slideshow - Resolution-Based Positioning */}

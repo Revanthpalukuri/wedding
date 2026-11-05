@@ -43,7 +43,6 @@ export default function Navbar({ isMuted, toggleAudio }) {
     { name: 'Ceremonies', href: '#events' },
     { name: 'Our Story', href: '#story' },
     { name: 'Live Stream 🔴', href: '#live' },
-    { name: 'Schedule', href: '#schedule' },
     { name: 'Gallery', href: '#gallery' },
   ];
 

@@ -55,7 +55,6 @@ export default function Hero() {
         .hero-page-1 {
           aspect-ratio: 0.567913;
           overflow: clip;
-          overflow: hidden;
           background-color: #2D68C4;
           width: 100%;
           position: relative;

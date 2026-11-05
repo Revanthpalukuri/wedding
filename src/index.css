@@ -16,7 +16,7 @@
     scroll-behavior: smooth;
     font-family: 'Inter', sans-serif;
     background-color: #257CE6;
-    overflow-x: hidden;
+    overflow-x: clip;
     overscroll-behavior-y: none;
   }
 
@@ -33,7 +33,7 @@
     background-color: #340406;
     color: #FFF8E7;
     font-family: 'Inter', sans-serif;
-    overflow-x: hidden;
+    overflow-x: clip;
     position: relative;
     min-height: 100%;
     overscroll-behavior-y: none;

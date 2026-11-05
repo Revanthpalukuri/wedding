@@ -15,7 +15,6 @@ import BlessingShower from './components/BlessingShower';
 // Lazy-loaded Below-the-Fold Components (Drastically reduces initial JavaScript load)
 const LiveStream = lazy(() => import('./components/LiveStream'));
 const JoinUsInstagram = lazy(() => import('./components/JoinUsInstagram'));
-const Schedule = lazy(() => import('./components/Schedule'));
 const Gallery = lazy(() => import('./components/Gallery'));
 const CountingDaysMagic = lazy(() => import('./components/CountingDaysMagic'));
 
@@ -121,17 +120,6 @@ export default function App() {
       touchStartY = currentY;
     };
 
-    const handleWheel = (e) => {
-      if (!isOpened) return;
-      const scrollTop = window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop || 0;
-      const maxScroll = getMaxScroll();
-      if (scrollTop >= maxScroll - 1 && e.deltaY > 0) {
-        if (e.cancelable) {
-          e.preventDefault();
-        }
-      }
-    };
-
     const handleScrollClamp = () => {
       const scrollTop = window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop || 0;
       const maxScroll = getMaxScroll();
@@ -142,13 +130,11 @@ export default function App() {
 
     window.addEventListener('touchstart', handleTouchStart, { passive: true });
     window.addEventListener('touchmove', handleTouchMove, { passive: false });
-    window.addEventListener('wheel', handleWheel, { passive: false });
     window.addEventListener('scroll', handleScrollClamp, { passive: true });
 
     return () => {
       window.removeEventListener('touchstart', handleTouchStart);
       window.removeEventListener('touchmove', handleTouchMove);
-      window.removeEventListener('wheel', handleWheel);
       window.removeEventListener('scroll', handleScrollClamp);
     };
   }, [isOpened]);
@@ -196,7 +182,6 @@ export default function App() {
           {/* Below-the-fold sections */}
           <Suspense fallback={<div className="w-full h-40 bg-transparent" />}>
             <LiveStream />
-            <Schedule />
             <Gallery />
             <JoinUsInstagram />
             <CountingDaysMagic />
