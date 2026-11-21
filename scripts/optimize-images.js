@@ -10,7 +10,7 @@ const rootDir = path.resolve(__dirname, '..');
 // Target directories to scan and optimize
 const TARGET_DIRS = [
   'src/images/pre_wedding',
-  'src/images/touch_for_magic',
+  'src/images/share_preview',
   'src/images/our_story',
   'src/images/meet_couple',
   'src/images/events'
@@ -104,9 +104,47 @@ async function runOptimization() {
     if (!fs.existsSync(dir)) continue;
 
     console.log(`📁 Checking ${relDir}/...`);
+    const publicRelDir = relDir.replace(/^src\//, 'public/');
+    const publicDir = path.join(rootDir, publicRelDir);
+
+    // If images were added or modified in public/images, sync them to src/images first
+    if (fs.existsSync(publicDir)) {
+      const publicFiles = fs.readdirSync(publicDir);
+      for (const pFile of publicFiles) {
+        if (pFile.startsWith('.')) continue;
+        const pFullPath = path.join(publicDir, pFile);
+        const sFullPath = path.join(dir, pFile);
+        if (fs.statSync(pFullPath).isDirectory()) continue;
+
+        if (!fs.existsSync(sFullPath)) {
+          fs.copyFileSync(pFullPath, sFullPath);
+          console.log(`   📥 Synced new file from public/: ${pFile}`);
+        } else {
+          const pStat = fs.statSync(pFullPath);
+          const sStat = fs.statSync(sFullPath);
+          if (pStat.mtimeMs > sStat.mtimeMs && pStat.size !== sStat.size) {
+            fs.copyFileSync(pFullPath, sFullPath);
+            console.log(`   📥 Updated file from public/: ${pFile}`);
+          }
+        }
+      }
+
+      // Remove deleted files in src that were deleted from public
+      const srcFiles = fs.readdirSync(dir);
+      for (const sFile of srcFiles) {
+        if (sFile.startsWith('.')) continue;
+        const pFullPath = path.join(publicDir, sFile);
+        if (!fs.existsSync(pFullPath)) {
+          fs.unlinkSync(path.join(dir, sFile));
+          console.log(`   🗑️  Removed file matching public deletion: ${sFile}`);
+        }
+      }
+    }
+
     const files = fs.readdirSync(dir);
 
     for (const file of files) {
+      if (file.startsWith('.')) continue;
       const fullPath = path.join(dir, file);
       if (fs.statSync(fullPath).isDirectory()) continue;
 
@@ -120,6 +158,14 @@ async function runOptimization() {
         totalBefore += result.size;
         totalAfter += result.size;
         console.log(`   ✓ ${result.name} (already optimal: ${formatBytes(result.size)})`);
+      }
+
+      // Keep public/images mirrored with the optimized version
+      if (fs.existsSync(publicDir)) {
+        const publicTarget = path.join(publicDir, file);
+        try {
+          fs.copyFileSync(fullPath, publicTarget);
+        } catch (_) {}
       }
     }
     console.log('');

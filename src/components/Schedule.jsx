@@ -17,7 +17,7 @@ export default function Schedule() {
       icon: Heart,
     },
     {
-      time: '03:35 AM IST (Early Morning)',
+      time: '03:44 AM IST (Early Morning)',
       title: 'Sumuhurtham & Mangalsutra Dharana',
       desc: 'The divine moment of Jeelakarra Bellam & sacred Mangalsutra knot tying amidst Vedic mantras.',
       icon: Flame,

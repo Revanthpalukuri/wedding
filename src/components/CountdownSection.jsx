@@ -3,7 +3,7 @@ import { motion } from 'framer-motion';
 import { Heart } from 'lucide-react';
 
 export default function CountdownSection() {
-  const targetDate = new Date('2026-12-19T03:35:00');
+  const targetDate = new Date('2026-12-19T03:44:00');
   const [timeLeft, setTimeLeft] = useState(calculateTimeLeft());
 
   function calculateTimeLeft() {
@@ -51,7 +51,7 @@ export default function CountdownSection() {
           </h2>
 
           <p className="font-serif italic text-lg text-[#E8DCCB] mb-14 max-w-xl mx-auto">
-            December 19, 2026 • 03:35 AM • Kshatriya Kalyana Mandapam, Amalapuram
+            December 19, 2026 • 03:44 AM • Kshatriya Kalyana Mandapam, Amalapuram
           </p>
         </motion.div>
 

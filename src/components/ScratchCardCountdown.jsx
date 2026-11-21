@@ -112,7 +112,7 @@ export default function ScratchCardCountdown({ days, hours, minutes, seconds, is
                     19th December 2026
                   </h3>
                   <p className="font-sans-clean text-[10px] text-amber-200 uppercase tracking-widest -mt-1 font-semibold">
-                    03:35 AM Early Morning • Kshatriya Kalyana Mandapam
+                    03:44 AM Early Morning • Kshatriya Kalyana Mandapam
                   </p>
                 </div>
 

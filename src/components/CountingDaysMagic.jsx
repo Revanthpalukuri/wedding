@@ -2,8 +2,8 @@ import React, { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 
 export default function CountingDaysMagic() {
-  // Target Wedding Muhurtham: 19th December 2026 at 03:35 AM early morning
-  const targetDate = new Date('2026-12-19T03:35:00');
+  // Target Wedding Muhurtham: 19th December 2026 at 03:44 AM early morning
+  const targetDate = new Date('2026-12-19T03:44:00');
   const [timeLeft, setTimeLeft] = useState(calculateTimeLeft());
   const [spawnedPhotos, setSpawnedPhotos] = useState([]);
   const nextPhotoRef = useRef(0);
@@ -32,11 +32,24 @@ export default function CountingDaysMagic() {
     return () => clearInterval(timer);
   }, []);
 
-// Dynamically load all images placed in src/images/touch_for_magic/
-const magicImagesMap = import.meta.glob('../images/touch_for_magic/*.{jpg,jpeg,png,webp,avif,JPG,JPEG,PNG,WEBP}', { eager: true, import: 'default' });
-const magicPhotos = Object.values(magicImagesMap).map((url, idx) => ({
+// Dynamically load all images placed in pre_wedding and our_story folders
+const preWeddingMagicMap = import.meta.glob('../images/pre_wedding/*.{jpg,jpeg,png,webp,avif,JPG,JPEG,PNG,WEBP}', { eager: true, import: 'default' });
+const ourStoryMagicMap = import.meta.glob('../images/our_story/*.{jpg,jpeg,png,webp,avif,JPG,JPEG,PNG,WEBP}', { eager: true, import: 'default' });
+
+const combinedMagicPhotos = [
+  ...Object.values(preWeddingMagicMap),
+  ...Object.values(ourStoryMagicMap),
+];
+
+const magicPhotos = (combinedMagicPhotos.length > 0 ? combinedMagicPhotos : [
+  '/images/our_story/story_1.jpg',
+  '/images/our_story/story_2.jpg',
+  '/images/our_story/story_3.jpg',
+  '/images/our_story/story_4.jpg',
+  '/images/our_story/story_5.jpg',
+]).map((url, idx) => ({
   url,
-  caption: `Wedding Memory ${idx + 1}`,
+  caption: `Wedding Memory ${idx + 1} ✨`,
 }));
 
   // Spawn the next photo at the cursor point with a subtle random tilt.
@@ -157,7 +170,7 @@ const magicPhotos = Object.values(magicImagesMap).map((url, idx) => ({
           <p className="font-sans-clean text-[9px] sm:text-xs md:text-sm uppercase tracking-[0.25em] text-[#8B0000] font-bold mt-1 sm:mt-2">
             {timeLeft.isMarried
               ? '✨ Vivek & Varshini are Now Married! ✨'
-              : 'Towards Shubh Muhurtham • 19th Dec 2026, 03:35 AM'}
+              : 'Towards Shubh Muhurtham • 19th Dec 2026, 03:44 AM'}
           </p>
         </motion.div>
 

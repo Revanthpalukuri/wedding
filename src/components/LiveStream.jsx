@@ -91,7 +91,7 @@ export default function LiveStream() {
             <span>•</span>
             <span className="flex items-center gap-1.5 font-bold text-white">
               <Clock className="w-4 h-4 text-amber-400" />
-              03:35 AM IST (Early Morning)
+              03:44 AM IST (Early Morning)
             </span>
           </div>
 

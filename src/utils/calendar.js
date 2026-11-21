@@ -8,9 +8,9 @@ export const getEventCalendarDates = (event) => {
   if (event?.date?.includes('20')) dateStr = '20261220';
 
   let startHours = 3;
-  let startMinutes = 35;
+  let startMinutes = 44;
 
-  // Extract start time from event.time (e.g. "09:00 AM IST", "11:30 AM IST", "06:30 PM IST", "03:35 AM IST")
+  // Extract start time from event.time (e.g. "09:00 AM IST", "11:30 AM IST", "06:30 PM IST", "03:44 AM IST")
   if (event?.time) {
     const timeMatch = event.time.match(/(\d{1,2}):(\d{2})\s*(AM|PM)/i);
     if (timeMatch) {

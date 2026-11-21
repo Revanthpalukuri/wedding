@@ -68,7 +68,7 @@ export const weddingConfig = {
     wedding: {
       title: 'Wedding Ceremony',
       date: '19 December 2026',
-      time: '03:35 AM IST',
+      time: '03:44 AM IST',
       venue: 'Kshatriya Kalyana Mandapam, Amalapuram',
       mapUrl: 'https://www.google.com/maps/place/Kshatriya+Kalyana+Mandapam/@16.5607114,81.993831,17z/data=!3m1!4b1!4m6!3m5!1s0x3a37e583a8300001:0xa14bf2c729820592!8m2!3d16.5607114!4d81.993831!16s%2Fg%2F11sskr8sqc!5m1!1e2!18m1!1e1?entry=ttu',
       description: 'Witness our sacred Vedic vows, Jeelakarra Bellam, and traditional Mangalsutra rituals in the presence of loved ones.',
@@ -85,7 +85,7 @@ export const weddingConfig = {
   // Backward compatibility convenience getter for main wedding ceremony
   wedding: configData.events?.wedding || configData.wedding || {
     date: '19 December 2026',
-    time: '03:35 AM IST',
+    time: '03:44 AM IST',
     venue: 'Kshatriya Kalyana Mandapam, Amalapuram',
     mapUrl: 'https://www.google.com/maps/place/Kshatriya+Kalyana+Mandapam/@16.5607114,81.993831,17z/data=!3m1!4b1!4m6!3m5!1s0x3a37e583a8300001:0xa14bf2c729820592!8m2!3d16.5607114!4d81.993831!16s%2Fg%2F11sskr8sqc!5m1!1e2!18m1!1e1?entry=ttu',
   },

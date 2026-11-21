@@ -12,7 +12,16 @@ const defaultStoryImages = [
 // Dynamically load any local images placed in src/images/our_story/
 const storyImagesMap = import.meta.glob('../images/our_story/*.{jpg,jpeg,png,webp,avif,JPG,JPEG,PNG,WEBP}', { eager: true, import: 'default' });
 const localPhotos = Object.values(storyImagesMap);
-const storyPhotos = localPhotos.length > 0 ? localPhotos : defaultStoryImages;
+
+const publicFallbackPhotos = [
+  '/images/our_story/story_1.jpg',
+  '/images/our_story/story_2.jpg',
+  '/images/our_story/story_3.jpg',
+  '/images/our_story/story_4.jpg',
+  '/images/our_story/story_5.jpg',
+];
+
+const storyPhotos = localPhotos.length > 0 ? localPhotos : (publicFallbackPhotos.length > 0 ? publicFallbackPhotos : defaultStoryImages);
 
 export default function OurStory() {
   const [photoIndex, setPhotoIndex] = useState(0);
@@ -153,7 +162,8 @@ export default function OurStory() {
                 key={photoUrl + idx}
                 src={photoUrl}
                 alt={`Vivek & Varshini Portrait ${idx + 1}`}
-                loading="lazy"
+                loading="eager"
+                decoding="async"
                 className={`absolute inset-0 w-full h-full object-cover transition-opacity duration-800 ease-in-out pointer-events-none ${photoIndex === idx ? 'opacity-100' : 'opacity-0'
                   }`}
                 style={{

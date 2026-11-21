@@ -8,7 +8,7 @@ export default function FAQ() {
   const traditionalFaqs = [
     {
       q: 'What is the auspicious Muhurtham time and venue?',
-      a: 'The holy Sumuhurtham for Jeelakarra Bellam & Mangalsutra binding is at 03:35 AM IST (Early Morning) on Saturday, December 19, 2026 at Kshatriya Kalyana Mandapam, Amalapuram.',
+      a: 'The holy Sumuhurtham for Jeelakarra Bellam & Mangalsutra binding is at 03:44 AM IST (Early Morning) on Saturday, December 19, 2026 at Kshatriya Kalyana Mandapam, Amalapuram.',
     },
     {
       q: 'What attire is recommended for different ceremonies?',
