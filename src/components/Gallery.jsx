@@ -1,7 +1,8 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useRef, useEffect, useCallback } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Maximize2, X, ChevronLeft, ChevronRight, Video, Camera, Sparkles } from 'lucide-react';
 import { weddingConfig, getYouTubeEmbedUrl } from '../utils/config';
+import { triggerHaptic } from '../utils/haptics';
 
 // Dynamically load all images placed in src/images/pre_wedding/
 const preWeddingImagesMap = import.meta.glob('../images/pre_wedding/*.{jpg,jpeg,png,webp,avif,JPG,JPEG,PNG,WEBP}', { eager: true, import: 'default' });
@@ -83,20 +84,59 @@ export default function Gallery() {
     scrollToSlide(nextIndex);
   };
 
+  const touchStartXRef = useRef(null);
+  const touchEndXRef = useRef(null);
+
   const openLightbox = (index) => {
     setActiveImageIndex(index);
+    triggerHaptic('light');
   };
 
-  const closeLightbox = () => {
+  const closeLightbox = useCallback(() => {
     setActiveImageIndex(null);
-  };
+    triggerHaptic('light');
+  }, []);
 
-  const nextLightboxImage = () => {
+  const nextLightboxImage = useCallback(() => {
     setActiveImageIndex((prev) => (prev + 1) % preWeddingPhotos.length);
+    triggerHaptic('light');
+  }, []);
+
+  const prevLightboxImage = useCallback(() => {
+    setActiveImageIndex((prev) => (prev - 1 + preWeddingPhotos.length) % preWeddingPhotos.length);
+    triggerHaptic('light');
+  }, []);
+
+  // Keyboard navigation for Lightbox
+  useEffect(() => {
+    if (activeImageIndex === null) return;
+    const handleKeyDown = (e) => {
+      if (e.key === 'Escape') closeLightbox();
+      if (e.key === 'ArrowRight') nextLightboxImage();
+      if (e.key === 'ArrowLeft') prevLightboxImage();
+    };
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [activeImageIndex, closeLightbox, nextLightboxImage, prevLightboxImage]);
+
+  const handleLightboxTouchStart = (e) => {
+    touchStartXRef.current = e.targetTouches[0].clientX;
   };
 
-  const prevLightboxImage = () => {
-    setActiveImageIndex((prev) => (prev - 1 + preWeddingPhotos.length) % preWeddingPhotos.length);
+  const handleLightboxTouchMove = (e) => {
+    touchEndXRef.current = e.targetTouches[0].clientX;
+  };
+
+  const handleLightboxTouchEnd = () => {
+    if (touchStartXRef.current === null || touchEndXRef.current === null) return;
+    const distance = touchStartXRef.current - touchEndXRef.current;
+    if (distance > 40) {
+      nextLightboxImage();
+    } else if (distance < -40) {
+      prevLightboxImage();
+    }
+    touchStartXRef.current = null;
+    touchEndXRef.current = null;
   };
 
   return (
@@ -339,42 +379,88 @@ export default function Gallery() {
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
-              className="fixed inset-0 z-50 bg-black/95 backdrop-blur-xl flex items-center justify-center p-4 sm:p-10"
+              onTouchStart={handleLightboxTouchStart}
+              onTouchMove={handleLightboxTouchMove}
+              onTouchEnd={handleLightboxTouchEnd}
+              className="fixed inset-0 z-50 bg-black/95 backdrop-blur-xl flex flex-col items-center justify-center p-3 sm:p-8 select-none"
             >
+              {/* Top Photo Counter Badge */}
+              <div className="absolute top-4 sm:top-6 left-1/2 -translate-x-1/2 z-50 px-3.5 py-1.5 rounded-full bg-[#580B1A] border-2 border-[#FFD700] text-[#FFD700] font-sans-clean text-[11px] sm:text-xs font-bold tracking-widest shadow-[0_0_20px_rgba(0,0,0,0.8),0_0_12px_rgba(255,215,0,0.4)] flex items-center gap-1.5 pointer-events-none">
+                <Camera className="w-3.5 h-3.5 text-[#FFD700]" />
+                <span>{activeImageIndex + 1} / {preWeddingPhotos.length}</span>
+              </div>
+
+              {/* Close Button - High Visibility Royal Gold & Maroon */}
               <button
                 onClick={closeLightbox}
-                className="absolute top-6 right-6 p-3 text-white/80 hover:text-white rounded-full bg-white/10 hover:bg-white/20 transition-colors cursor-pointer"
+                aria-label="Close photo viewer"
+                className="absolute top-4 right-4 sm:top-6 sm:right-6 z-50 w-11 h-11 sm:w-12 sm:h-12 rounded-full bg-[#580B1A] hover:bg-[#780D23] text-[#FFD700] border-2 border-[#FFD700] shadow-[0_0_25px_rgba(0,0,0,0.9),0_0_15px_rgba(255,215,0,0.5)] flex items-center justify-center hover:scale-110 active:scale-90 transition-all duration-200 cursor-pointer"
               >
-                <X className="w-6 h-6" />
+                <X className="w-6 h-6 stroke-[2.5]" />
               </button>
 
+              {/* Left / Previous Navigation Button - High Visibility Royal Gold & Maroon */}
               <button
                 onClick={prevLightboxImage}
-                className="absolute left-4 sm:left-8 p-3 text-white/80 hover:text-white rounded-full bg-white/10 hover:bg-white/20 transition-colors cursor-pointer"
+                aria-label="Previous photo"
+                className="absolute left-2.5 sm:left-6 md:left-10 top-1/2 -translate-y-1/2 z-50 w-12 h-12 sm:w-14 sm:h-14 rounded-full bg-[#580B1A] hover:bg-[#780D23] text-[#FFD700] border-2 border-[#FFD700] shadow-[0_0_25px_rgba(0,0,0,0.9),0_0_15px_rgba(255,215,0,0.6)] flex items-center justify-center hover:scale-110 active:scale-90 transition-all duration-200 cursor-pointer"
               >
-                <ChevronLeft className="w-8 h-8" />
+                <ChevronLeft className="w-7 h-7 sm:w-8 sm:h-8 stroke-[2.5]" />
               </button>
 
+              {/* Right / Next Navigation Button - High Visibility Royal Gold & Maroon */}
               <button
                 onClick={nextLightboxImage}
-                className="absolute right-4 sm:right-8 p-3 text-white/80 hover:text-white rounded-full bg-white/10 hover:bg-white/20 transition-colors cursor-pointer"
+                aria-label="Next photo"
+                className="absolute right-2.5 sm:right-6 md:right-10 top-1/2 -translate-y-1/2 z-50 w-12 h-12 sm:w-14 sm:h-14 rounded-full bg-[#580B1A] hover:bg-[#780D23] text-[#FFD700] border-2 border-[#FFD700] shadow-[0_0_25px_rgba(0,0,0,0.9),0_0_15px_rgba(255,215,0,0.6)] flex items-center justify-center hover:scale-110 active:scale-90 transition-all duration-200 cursor-pointer"
               >
-                <ChevronRight className="w-8 h-8" />
+                <ChevronRight className="w-7 h-7 sm:w-8 sm:h-8 stroke-[2.5]" />
               </button>
 
-              <div className="max-w-4xl max-h-[85vh] text-center">
+              {/* Active Image and Caption Container */}
+              <div className="max-w-4xl max-h-[85vh] text-center flex flex-col items-center justify-center px-2">
                 <img
                   src={preWeddingPhotos[activeImageIndex].url}
                   alt={preWeddingPhotos[activeImageIndex].title}
-                  className="max-w-full max-h-[70vh] mx-auto object-contain rounded-2xl border-4 border-white shadow-2xl"
+                  className="max-w-full max-h-[60vh] sm:max-h-[70vh] mx-auto object-contain rounded-2xl border-4 border-white shadow-2xl"
                 />
-                <div className="mt-6 text-[#FFF8E7]">
-                  <span className="font-sans-clean text-xs uppercase tracking-widest text-[#FFD700] font-bold block mb-1">
+                <div className="mt-4 sm:mt-6 text-[#FFF8E7] px-4">
+                  <span className="font-sans-clean text-[10px] sm:text-xs uppercase tracking-widest text-[#FFD700] font-bold block mb-1">
                     {preWeddingPhotos[activeImageIndex].category}
                   </span>
-                  <h3 className="font-script-calligraphy text-4xl text-[#FFD700] drop-shadow-md">
+                  <h3 className="font-script-calligraphy text-2xl sm:text-4xl text-[#FFD700] drop-shadow-md leading-tight">
                     {preWeddingPhotos[activeImageIndex].caption}
                   </h3>
+                </div>
+
+                {/* Mobile Bottom Quick-Navigation Controls (Easy One-Thumb Access) */}
+                <div className="mt-3.5 flex items-center justify-center gap-3 z-50 sm:hidden">
+                  <button
+                    onClick={prevLightboxImage}
+                    className="inline-flex items-center gap-1 px-3.5 py-1.5 rounded-full bg-[#580B1A] text-[#FFD700] border-2 border-[#FFD700] font-sans-clean text-xs font-bold shadow-lg active:scale-90 cursor-pointer"
+                  >
+                    <ChevronLeft className="w-4 h-4 stroke-[2.5]" />
+                    <span>Prev</span>
+                  </button>
+                  <div className="flex gap-1.5 items-center px-1">
+                    {preWeddingPhotos.map((_, idx) => (
+                      <span
+                        key={idx}
+                        className={`h-2 rounded-full transition-all duration-300 ${
+                          idx === activeImageIndex
+                            ? 'bg-[#FFD700] w-5 shadow-[0_0_8px_#FFD700]'
+                            : 'bg-white/40 w-2'
+                        }`}
+                      />
+                    ))}
+                  </div>
+                  <button
+                    onClick={nextLightboxImage}
+                    className="inline-flex items-center gap-1 px-3.5 py-1.5 rounded-full bg-[#580B1A] text-[#FFD700] border-2 border-[#FFD700] font-sans-clean text-xs font-bold shadow-lg active:scale-90 cursor-pointer"
+                  >
+                    <span>Next</span>
+                    <ChevronRight className="w-4 h-4 stroke-[2.5]" />
+                  </button>
                 </div>
               </div>
             </motion.div>
