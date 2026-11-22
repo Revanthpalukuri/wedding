@@ -6,8 +6,26 @@ import insta2 from '../images/instagram/insta_2.jpg';
 import insta3 from '../images/instagram/insta_3.jpg';
 import instagramBg from '../images/instagram/instagram_bg.webp';
 import rsvpBg from '../images/rsvp/rsvp_bg.webp';
-
+import { weddingConfig } from '../utils/config';
 import { triggerHaptic } from '../utils/haptics';
+
+function InstagramIcon({ className = 'w-4 h-4' }) {
+  return (
+    <svg
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      className={className}
+    >
+      <rect width="20" height="20" x="2" y="2" rx="5" ry="5" />
+      <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z" />
+      <line x1="17.5" x2="17.51" y1="6.5" y2="6.5" />
+    </svg>
+  );
+}
 
 export default function JoinUsInstagram() {
   const rsvpUrl = 'https://wa.me/?text=Hi%20Vivek%20%26%20Varshini,%20I%20would%20love%20to%20attend%20your%20wedding!';
@@ -16,7 +34,8 @@ export default function JoinUsInstagram() {
     `🌸 A Little Love, A Lifetime Together 🌸\n\nWith the blessings of Lord Ganesha and the Almighty, we are delighted to invite you to be a part of one of the most beautiful chapters of our lives - the beginning of our forever! ❤️\n\nTwo hearts, two families, and a lifetime of dreams coming together.\n\n✨ Vivek & Varshini ✨\n\nWe would love for you to celebrate our special day, shower us with your blessings, and make our happiness even more memorable.\n\n💕 Our wedding invitation and celebrations await you here:\n\nhttps://vivek-varshini.vercel.app/\n\nWith love,\nVivek & Varshini 🌸`
   );
   const whatsappShareUrl = `https://api.whatsapp.com/send?text=${shareMessage}`;
-  const instagramUrl = 'https://instagram.com';
+  const instagramUrl = weddingConfig.instagramHashtagUrl || 'https://www.instagram.com/explore/tags/VivekWedsVarshini/';
+  const weddingHashtag = weddingConfig.weddingHashtag || 'VivekWedsVarshini';
 
   return (
     <div className="w-full flex flex-col select-none">
@@ -121,15 +140,31 @@ export default function JoinUsInstagram() {
               Instagram
             </span>
 
-            {/* Hashtag */}
-            <h3 className="font-serif text-xl sm:text-3xl md:text-4xl text-[#580B1A] font-bold tracking-tight">
-              #VivekWedsVarshini
-            </h3>
+            {/* Hashtag (Clickable to Instagram Tag Feed) */}
+            <a
+              href={instagramUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              onClick={() => triggerHaptic('medium')}
+              className="pointer-events-auto inline-block group cursor-pointer transition-transform duration-300 hover:scale-105"
+              title={`View #${weddingHashtag} on Instagram`}
+            >
+              <h3 className="font-serif text-xl sm:text-3xl md:text-4xl text-[#580B1A] font-bold tracking-tight group-hover:underline">
+                #{weddingHashtag}
+              </h3>
+            </a>
 
-            {/* 3 Luxury Angled Instagram Cards */}
-            <div className="relative w-48 sm:w-72 md:w-80 h-24 sm:h-36 md:h-40 my-1 flex items-center justify-center">
+            {/* 3 Luxury Angled Instagram Cards (Clickable to Instagram Tag Feed) */}
+            <a
+              href={instagramUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              onClick={() => triggerHaptic('medium')}
+              className="pointer-events-auto relative w-48 sm:w-72 md:w-80 h-24 sm:h-36 md:h-40 my-1 flex items-center justify-center cursor-pointer group transition-transform duration-300 hover:scale-105"
+              title={`View photos tagged #${weddingHashtag} on Instagram`}
+            >
               {/* Left Card */}
-              <div className="absolute left-2 sm:left-4 w-14 sm:w-20 md:w-24 aspect-[3/4] bg-white p-0.5 sm:p-1 rounded sm:rounded-lg shadow-xl -rotate-6 border border-slate-200">
+              <div className="absolute left-2 sm:left-4 w-14 sm:w-20 md:w-24 aspect-[3/4] bg-white p-0.5 sm:p-1 rounded sm:rounded-lg shadow-xl -rotate-6 border border-slate-200 transition-transform duration-300 group-hover:-rotate-12">
                 <img
                   src={insta1}
                   alt="Memory 1"
@@ -143,7 +178,7 @@ export default function JoinUsInstagram() {
               </div>
 
               {/* Middle Card */}
-              <div className="relative z-10 w-16 sm:w-24 md:w-28 aspect-[3/4] bg-white p-0.5 sm:p-1 rounded sm:rounded-lg shadow-2xl border border-slate-200">
+              <div className="relative z-10 w-16 sm:w-24 md:w-28 aspect-[3/4] bg-white p-0.5 sm:p-1 rounded sm:rounded-lg shadow-2xl border border-slate-200 transition-transform duration-300 group-hover:scale-105">
                 <img
                   src={insta2}
                   alt="Memory 2"
@@ -157,7 +192,7 @@ export default function JoinUsInstagram() {
               </div>
 
               {/* Right Card */}
-              <div className="absolute right-2 sm:right-4 w-14 sm:w-20 md:w-24 aspect-[3/4] bg-white p-0.5 sm:p-1 rounded sm:rounded-lg shadow-xl rotate-6 border border-slate-200">
+              <div className="absolute right-2 sm:right-4 w-14 sm:w-20 md:w-24 aspect-[3/4] bg-white p-0.5 sm:p-1 rounded sm:rounded-lg shadow-xl rotate-6 border border-slate-200 transition-transform duration-300 group-hover:rotate-12">
                 <img
                   src={insta3}
                   alt="Memory 3"
@@ -169,20 +204,23 @@ export default function JoinUsInstagram() {
                   <Bookmark className="w-2 sm:w-2.5 h-2 sm:h-2.5" />
                 </div>
               </div>
-            </div>
+            </a>
 
-            {/* Instagram Button */}
+            {/* Instagram Action Button */}
             <div className="pt-1 flex flex-col items-center gap-1 pointer-events-auto">
               <a
                 href={instagramUrl}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center justify-center px-6 sm:px-8 py-1.5 sm:py-2.5 rounded-full bg-[rgb(88,11,26)] text-white font-sans-clean text-[9px] sm:text-xs uppercase font-bold tracking-wider shadow-md hover:scale-105 hover:bg-gradient-to-r hover:from-amber-500 hover:via-rose-500 hover:to-purple-600 transition-all duration-300 cursor-pointer"
+                onClick={() => triggerHaptic('medium')}
+                className="inline-flex items-center justify-center gap-1.5 px-5 sm:px-7 py-1.5 sm:py-2.5 rounded-full bg-[rgb(88,11,26)] hover:bg-gradient-to-r hover:from-[#f09433] hover:via-[#dc2743] hover:to-[#bc1888] text-white font-sans-clean text-[9px] sm:text-xs uppercase font-bold tracking-wider shadow-md hover:scale-105 transition-all duration-300 cursor-pointer border border-amber-300/40"
+                title={`Explore #${weddingHashtag} on Instagram`}
               >
-                <span>instagram</span>
+                <InstagramIcon className="w-3 h-3 sm:w-4 sm:h-4 text-white shrink-0" />
+                <span>View #{weddingHashtag}</span>
               </a>
               <span className="font-sans-clean text-[7px] sm:text-[9px] md:text-[10px] uppercase tracking-widest text-[#580B1A] font-bold">
-                TAP HERE
+                TAP TO VIEW ON INSTAGRAM
               </span>
             </div>
           </motion.div>

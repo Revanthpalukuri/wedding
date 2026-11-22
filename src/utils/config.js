@@ -97,6 +97,8 @@ export const weddingConfig = {
     { title: "Moment of Love 5", caption: "Where forever begins in each other's eyes 🪷" },
     { title: "Moment of Love 6", caption: "Holding hands towards a lifetime of happiness 🌟" },
   ],
+  weddingHashtag: configData.weddingHashtag || 'VivekWedsVarshini',
+  instagramHashtagUrl: configData.instagramHashtagUrl || 'https://www.instagram.com/explore/tags/VivekWedsVarshini/',
   isLiveStreamAvailable: Boolean(configData.isLiveStreamAvailable),
   isPreWeddingVideoAvailable: Boolean(configData.isPreWeddingVideoAvailable),
   liveWeddingStreamUrl: configData.liveWeddingStreamUrl || 'https://www.youtube.com/watch?v=jfKfPfyJRdk',

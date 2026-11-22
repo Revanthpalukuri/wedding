@@ -1,10 +1,14 @@
 import React from 'react';
 import { Heart, MessageCircle, MapPin, ArrowUp, Camera, Flame } from 'lucide-react';
+import { weddingConfig } from '../utils/config';
 
 export default function Footer() {
   const scrollToTop = () => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
+
+  const instagramHashtagUrl = weddingConfig.instagramHashtagUrl || 'https://www.instagram.com/explore/tags/VivekWedsVarshini/';
+  const weddingHashtag = weddingConfig.weddingHashtag || 'VivekWedsVarshini';
 
   return (
     <footer className="bg-[#1D0202] text-[#FFF8E7] py-16 px-6 border-t-2 border-[#D4AF37]/40 relative">
@@ -23,9 +27,15 @@ export default function Footer() {
           <h3 className="font-heading-devanagari text-4xl sm:text-5xl font-bold tracking-wide text-[#FFF8E7]">
             Vivek Weds Varshini
           </h3>
-          <p className="font-sans-clean text-xs uppercase tracking-[0.3em] text-[#FFD700] mt-2 font-bold">
-            #VivekWedsVarshini2026
-          </p>
+          <a
+            href={instagramHashtagUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="font-sans-clean text-xs uppercase tracking-[0.3em] text-[#FFD700] mt-2 font-bold hover:underline inline-block transition-colors"
+            title={`View #${weddingHashtag} on Instagram`}
+          >
+            #{weddingHashtag}
+          </a>
         </div>
 
         <div className="w-20 h-[2px] bg-gradient-to-r from-transparent via-[#D4AF37] to-transparent my-4" />
@@ -33,13 +43,14 @@ export default function Footer() {
         {/* Social & Maps Links */}
         <div className="flex flex-wrap items-center justify-center gap-6 font-sans-clean text-xs uppercase tracking-widest text-[#FFF8E7]/90 font-medium">
           <a
-            href="https://instagram.com"
+            href={instagramHashtagUrl}
             target="_blank"
             rel="noopener noreferrer"
             className="flex items-center gap-2 hover:text-[#FFD700] transition-colors"
+            title={`Explore #${weddingHashtag} on Instagram`}
           >
             <Camera className="w-4 h-4 text-[#FFD700]" />
-            <span>#VivekWedsVarshini2026</span>
+            <span>#{weddingHashtag}</span>
           </a>
 
           <a

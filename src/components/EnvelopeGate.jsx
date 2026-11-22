@@ -198,14 +198,14 @@ export default function EnvelopeGate({ onOpen, isOpen = false }) {
             >
               <div className="h-[1px] flex-1 bg-gradient-to-r from-transparent via-[#FFD700] to-transparent" />
               <span className="font-sans-clean text-[clamp(9px,1.1vw,11.5px)] tracking-[0.2em] text-[#FFD700] uppercase font-extrabold whitespace-nowrap drop-shadow-xs">
-                ◆ You Are Cordially Invited To ◆
+                ◆ You Are Lovingly Invited To Celebrate ◆
               </span>
               <div className="h-[1px] flex-1 bg-gradient-to-l from-transparent via-[#FFD700] to-transparent" />
             </motion.div>
 
             {/* Sub-header */}
             <p className="font-sans-clean text-[clamp(10px,1.25vw,13px)] uppercase tracking-[0.3em] text-[#FFF8E7] font-bold mt-1 mb-0.5">
-              The Royal Wedding Of
+              The Wedding Of
             </p>
 
             {/* Grand Couple Names with Fluid Environment Sizing */}
@@ -240,10 +240,10 @@ export default function EnvelopeGate({ onOpen, isOpen = false }) {
               className="space-y-0.5 my-1.5 max-w-md mx-auto"
             >
               <p className="font-sans-clean text-[clamp(10px,1.25vw,13px)] uppercase tracking-[0.22em] text-[#FFF8E7] font-bold drop-shadow-xs">
-                Together with their families,
+                Together with our families,
               </p>
               <p className="font-serif italic text-[clamp(11.5px,1.5vw,15.5px)] text-[#FFE58F] font-semibold leading-relaxed">
-                We cordially invite you to celebrate the holy union of matrimony
+                We joyfully invite you to celebrate our special day and bless our journey together.
               </p>
             </motion.div>
 

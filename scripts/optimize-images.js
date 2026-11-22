@@ -13,7 +13,8 @@ const TARGET_DIRS = [
   'src/images/share_preview',
   'src/images/our_story',
   'src/images/meet_couple',
-  'src/images/events'
+  'src/images/events',
+  'src/images/instagram'
 ];
 
 const MAX_DIMENSION = 1800; // Max width/height in px (plenty for high-DPI Retina mobile & 4K screens)
