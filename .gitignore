@@ -28,3 +28,4 @@ dist-ssr
 *.backup
 .claude/
 temp-vite/
+src/images/royal_gate_*.jpg

@@ -63,18 +63,18 @@ export default function JoinUsInstagram() {
           >
             {/* Top RSVP Tag */}
             <span className="font-sans-clean text-[8px] sm:text-xs md:text-sm font-bold tracking-[0.25em] text-[#580B1A] uppercase">
-              RSVP &amp; Share
+              A Little Note From Us
             </span>
 
             {/* Calligraphic Title */}
-            <h2 className="font-serif text-2xl sm:text-4xl md:text-5xl lg:text-6xl text-[#580B1A] font-normal leading-none">
-              <span className="font-script-calligraphy text-3xl sm:text-5xl md:text-6xl lg:text-7xl text-[#580B1A]">W</span>
-              ill You Join Us?
+            <h2 className="font-serif text-lg sm:text-3xl md:text-4xl lg:text-5xl text-[#580B1A] font-normal leading-tight">
+              <span className="font-script-calligraphy text-2xl sm:text-4xl md:text-5xl lg:text-6xl text-[#580B1A]">W</span>
+              e'd Love to Celebrate With You! <span className="inline-block text-rose-600 text-base sm:text-2xl md:text-3xl align-middle">❤️</span>
             </h2>
 
             {/* Note */}
             <p className="font-serif text-[7.5px] sm:text-[11px] md:text-xs lg:text-sm text-[#580B1A] leading-relaxed max-w-xs sm:max-w-md mx-auto italic font-medium">
-              We would be truly honoured to celebrate this day with you. Please let us know if you'll be joining the festivities — your presence is the only gift we need.
+              Our special day would mean so much more with you by our side. We'd be so happy to have you celebrate, laugh and share these beautiful moments with us.
             </p>
 
             {/* Action Buttons: RSVP & Share Invitation */}
