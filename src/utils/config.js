@@ -97,6 +97,8 @@ export const weddingConfig = {
     { title: "Moment of Love 5", caption: "Where forever begins in each other's eyes 🪷" },
     { title: "Moment of Love 6", caption: "Holding hands towards a lifetime of happiness 🌟" },
   ],
+  isLiveStreamAvailable: Boolean(configData.isLiveStreamAvailable),
+  isPreWeddingVideoAvailable: Boolean(configData.isPreWeddingVideoAvailable),
   liveWeddingStreamUrl: configData.liveWeddingStreamUrl || 'https://www.youtube.com/watch?v=jfKfPfyJRdk',
   preWeddingVideoUrl: configData.preWeddingVideoUrl || 'https://www.youtube.com/watch?v=tVT4vd4Mj1Q',
   backgroundMusicUrl: configData.backgroundMusicUrl || 'https://www.youtube.com/watch?v=m-RiOAOfCGs',

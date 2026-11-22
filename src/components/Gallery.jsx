@@ -146,19 +146,66 @@ export default function Gallery() {
             </div>
           </div>
 
-          {/* YouTube Video Player */}
+          {/* YouTube Video Player / Coming Soon Placeholder */}
           <div className="relative w-full aspect-video rounded-2xl overflow-hidden border-2 border-[#D4AF37] shadow-2xl bg-black">
-            <iframe
-              src={getYouTubeEmbedUrl(weddingConfig.preWeddingVideoUrl, 'autoplay=1&mute=1&enablejsapi=1')}
-              title="Pre-Wedding Video"
-              loading="lazy"
-              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-              allowFullScreen
-              className="w-full h-full border-0"
-            />
+            {weddingConfig.isPreWeddingVideoAvailable ? (
+              <iframe
+                src={getYouTubeEmbedUrl(weddingConfig.preWeddingVideoUrl, 'autoplay=1&mute=1&enablejsapi=1')}
+                title="Pre-Wedding Video"
+                loading="lazy"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                allowFullScreen
+                className="w-full h-full border-0"
+              />
+            ) : (
+              <div className="relative w-full h-full flex flex-col items-center justify-center text-center p-4 sm:p-8 bg-gradient-to-b from-[#250306] via-[#38060c] to-[#160103] overflow-hidden select-none">
+                {/* Cinematic background with romantic couple photo */}
+                <img
+                  src="/images/pre_wedding/prewedding_4.jpg"
+                  alt="Vivek & Varshini Pre-Wedding Cinema"
+                  className="absolute inset-0 w-full h-full object-cover opacity-25 filter blur-[1px] pointer-events-none scale-105"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/40 to-black/70 pointer-events-none" />
+
+                {/* Animated Gold Glowing Film Icon */}
+                <div className="relative z-10 w-12 h-12 sm:w-16 sm:h-16 rounded-full bg-gradient-to-tr from-[#D4AF37] via-[#FFF8E7] to-[#AA771C] p-0.5 shadow-[0_0_30px_rgba(212,175,55,0.5)] mb-2 sm:mb-3 flex items-center justify-center">
+                  <div className="w-full h-full rounded-full bg-[#200305] flex items-center justify-center">
+                    <Video className="w-6 h-6 sm:w-8 sm:h-8 text-[#FFD700] drop-shadow-md" />
+                  </div>
+                </div>
+
+                {/* Status Pill */}
+                <div className="relative z-10 inline-flex items-center gap-1.5 px-3 py-0.5 sm:py-1 rounded-full bg-[#D4AF37]/15 border border-[#FFD700]/50 mb-1.5 sm:mb-2">
+                  <Sparkles className="w-3 h-3 sm:w-3.5 sm:h-3.5 text-amber-300" />
+                  <span className="font-sans-clean font-bold text-[10px] sm:text-xs uppercase tracking-widest text-[#FFD700]">
+                    Cinematic Teaser Coming Soon
+                  </span>
+                </div>
+
+                {/* Title */}
+                <h4 className="relative z-10 font-heading-devanagari text-lg sm:text-2xl md:text-3xl font-bold text-[#FFF8E7] drop-shadow-md">
+                  Vivek &amp; Varshini
+                </h4>
+                <p className="relative z-10 font-script-calligraphy text-xl sm:text-2xl md:text-3xl text-[#FFD700] drop-shadow-sm mt-0.5">
+                  A Tale of Forever
+                </p>
+
+                {/* Description */}
+                <p className="relative z-10 text-[10px] sm:text-xs md:text-sm font-serif italic text-stone-200/90 max-w-md sm:max-w-lg mt-1 sm:mt-2 px-4 leading-relaxed">
+                  Our official pre-wedding cinematic film is currently being crafted with love. The premiere video will be released right here soon!
+                </p>
+
+                {/* Romantic Tag */}
+                <div className="relative z-10 mt-2 sm:mt-3 inline-flex items-center gap-2 text-[10px] sm:text-xs font-sans-clean font-semibold text-amber-300/80">
+                  <span>🌸 Stay Tuned for the Magic 🌸</span>
+                </div>
+              </div>
+            )}
           </div>
           <p className="font-serif italic text-sm text-[#FFD700]/90 text-center mt-4">
-            🎬 Direct YouTube Teaser • Playing directly for your enjoyment
+            {weddingConfig.isPreWeddingVideoAvailable
+              ? '🎬 Direct YouTube Teaser • Playing directly for your enjoyment'
+              : '🎬 Official Cinematic Premiere • Releasing soon for all our loved ones ✨'}
           </p>
         </motion.div>
 
