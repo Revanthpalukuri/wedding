@@ -263,7 +263,7 @@ export default function EnvelopeGate({ onOpen, isOpen = false }) {
 
                 {/* Button Text */}
                 <span className="font-serif text-[clamp(11px,1.6vw,16px)] tracking-[0.12em] uppercase font-extrabold text-[#FFF8E7] drop-shadow-[0_2px_4px_rgba(0,0,0,0.9)] mx-1 sm:mx-2 text-center flex-1">
-                  Open Royal Wedding Invitation
+                  Open Wedding Invitation
                 </span>
 
                 {/* Circular Arrow Badge Right */}
