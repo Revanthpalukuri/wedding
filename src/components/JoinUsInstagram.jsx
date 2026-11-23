@@ -31,7 +31,19 @@ export default function JoinUsInstagram() {
   const rsvpUrl = 'https://wa.me/?text=Hi%20Vivek%20%26%20Varshini,%20I%20would%20love%20to%20attend%20your%20wedding!';
 
   const shareMessage = encodeURIComponent(
-    `🌸 A Little Love, A Lifetime Together 🌸\n\nWith the blessings of Lord Ganesha and the Almighty, we are delighted to invite you to be a part of one of the most beautiful chapters of our lives - the beginning of our forever! ❤️\n\nTwo hearts, two families, and a lifetime of dreams coming together.\n\n✨ Vivek & Varshini ✨\n\nWe would love for you to celebrate our special day, shower us with your blessings, and make our happiness even more memorable.\n\n💕 Our wedding invitation and celebrations await you here:\n\nhttps://vivek-varshini.vercel.app/\n\nWith love,\nVivek & Varshini 🌸`
+    `॥ శ్రీ గణేశాయ నమః ॥\n` +
+    `॥ శ్రీరస్తు శుభమస్తు అవిఘ్నమస్తు ॥\n\n` +
+    `With the Divine Blessings of Lord Ganesha & Almighty,\n` +
+    `You are lovingly invited to celebrate the wedding of\n\n` +
+    `✨ VIVEK & VARSHINI ✨\n\n` +
+    `TOGETHER WITH OUR FAMILIES,\n` +
+    `We joyfully invite you to celebrate our special day and bless our journey together. ❤️\n\n` +
+    `📅 December 19, 2026\n` +
+    `📍 Kshatriya Kalyana Mandapam, Amalapuram\n\n` +
+    `💕 View our wedding invitation & celebrations here:\n` +
+    `https://vivek-varshini.vercel.app/\n\n` +
+    `With love,\n` +
+    `Vivek & Varshini 🌸`
   );
   const whatsappShareUrl = `https://api.whatsapp.com/send?text=${shareMessage}`;
   const instagramUrl = weddingConfig.instagramHashtagUrl || 'https://www.instagram.com/explore/tags/VivekWedsVarshini/';
