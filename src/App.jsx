@@ -173,7 +173,7 @@ export default function App() {
 
         {/* Main Temple Theme Sections */}
         <main>
-          <Hero />
+          <Hero isOpened={isOpened} />
           <InvitationCard />
           <CoupleIllustration />
           <Events />

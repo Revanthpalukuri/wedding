@@ -1,8 +1,9 @@
 import React, { useRef, useState, useEffect } from 'react';
 import { motion, useScroll, useTransform, useSpring } from 'framer-motion';
 import { weddingConfig } from '../utils/config';
+import TempleScrollGuide from './TempleScrollGuide';
 
-export default function Hero() {
+export default function Hero({ isOpened = false }) {
   const sectionRef = useRef(null);
 
   // Responsive scroll distance: very gentle and slow on mobile & tablet
@@ -326,6 +327,9 @@ export default function Hero() {
           </div>
         </div>
       </section>
+
+      {/* Floating Temple Scroll Down Guide & Inactivity Demo */}
+      <TempleScrollGuide isOpened={isOpened} />
     </>
   );
 }
