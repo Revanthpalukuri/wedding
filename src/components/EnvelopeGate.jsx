@@ -2,7 +2,6 @@ import React, { useState, useMemo } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { ChevronRight, Sparkles, Music } from 'lucide-react';
 import gateBackdrop from '../images/decorations/royal_gate_backdrop.jpg';
-import gatePortrait from '../images/decorations/royal_gate_portrait.jpg';
 import { triggerHaptic } from '../utils/haptics';
 
 export default function EnvelopeGate({ onOpen, isOpen = false }) {
@@ -81,18 +80,15 @@ export default function EnvelopeGate({ onOpen, isOpen = false }) {
           exit={{ opacity: 0, scale: 1.04, transition: { duration: 0.5, ease: [0.16, 1, 0.3, 1] } }}
           className="fixed inset-0 z-50 flex items-center justify-center bg-[#180101] text-[#FFF8E7] overflow-hidden select-none h-[100dvh] w-full"
         >
-          {/* 1. Responsive Palace Backdrop Image (Portrait for Mobile, Landscape for Desktop) */}
-          <div className="absolute inset-0 pointer-events-none">
-            <picture>
-              <source media="(max-width: 768px)" srcSet={gatePortrait} />
-              <img
-                src={gateBackdrop}
-                alt="Royal Wedding Backdrop"
-                className="w-full h-full object-cover object-center"
-              />
-            </picture>
+          {/* 1. Full Palace Backdrop Image filling the background on mobile and desktop */}
+          <div className="absolute inset-0 pointer-events-none overflow-hidden">
+            <img
+              src={gateBackdrop}
+              alt="Royal Wedding Backdrop"
+              className="w-full h-full object-cover object-center"
+            />
             {/* Rich Radial Dark Gradient Overlay for Maximum Text Contrast */}
-            <div className="absolute inset-0 bg-radial-[ellipse_at_center] from-[#2B0303]/70 via-[#160101]/85 to-[#080000]/95" />
+            <div className="absolute inset-0 bg-radial-[ellipse_at_center] from-[#2B0303]/50 via-[#160101]/75 to-[#080000]/90" />
           </div>
 
           {/* 2. Ambient Floating Golden Sparkle Particles */}
@@ -169,12 +165,12 @@ export default function EnvelopeGate({ onOpen, isOpen = false }) {
               initial={{ opacity: 0, scale: 0.92 }}
               animate={{ opacity: 1, scale: 1 }}
               transition={{ duration: 0.7, delay: 0.1 }}
-              className="mb-1 text-center"
+              className="mb-0.5 sm:mb-1 text-center"
             >
-              <h2 className="font-serif text-[clamp(22px,4vw,36px)] text-[#FFD700] tracking-[0.14em] font-extrabold drop-shadow-[0_0_20px_rgba(255,215,0,0.6)] my-0 leading-tight">
+              <h2 className="font-serif text-[clamp(18px,4.5vw,36px)] text-[#FFD700] tracking-[0.14em] font-extrabold drop-shadow-[0_0_20px_rgba(255,215,0,0.6)] my-0 leading-tight">
                 ॥ శ్రీ గణేశాయ నమః ॥
               </h2>
-              <p className="font-serif text-[clamp(12px,2vw,18px)] text-[#FFE58F] tracking-[0.12em] font-bold mt-1 mb-0 drop-shadow-sm">
+              <p className="font-serif text-[clamp(11px,2.2vw,18px)] text-[#FFE58F] tracking-[0.12em] font-bold mt-0.5 sm:mt-1 mb-0 drop-shadow-sm">
                 ॥ శ్రీరస్తు శుభమస్తు అవిఘ్నమస్తు ॥
               </p>
             </motion.div>
@@ -184,7 +180,7 @@ export default function EnvelopeGate({ onOpen, isOpen = false }) {
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ duration: 0.6, delay: 0.18 }}
-              className="font-sans-clean text-[clamp(9.5px,1.2vw,12px)] uppercase tracking-[0.24em] text-[#E5C158] font-bold mt-1 mb-1.5 max-w-md mx-auto"
+              className="font-sans-clean text-[clamp(8.5px,1.4vw,12px)] uppercase tracking-[0.24em] text-[#E5C158] font-bold mt-0.5 sm:mt-1 mb-1 sm:mb-1.5 max-w-md mx-auto"
             >
               With the Divine Blessings of Lord Ganesha &amp; Almighty
             </motion.p>
@@ -194,17 +190,17 @@ export default function EnvelopeGate({ onOpen, isOpen = false }) {
               initial={{ width: 0, opacity: 0 }}
               animate={{ width: '100%', opacity: 1 }}
               transition={{ duration: 0.7, delay: 0.25 }}
-              className="flex items-center justify-center gap-2 max-w-xs sm:max-w-sm mx-auto my-1.5 opacity-95"
+              className="flex items-center justify-center gap-2 max-w-xs sm:max-w-sm mx-auto my-1 sm:my-1.5 opacity-95"
             >
               <div className="h-[1px] flex-1 bg-gradient-to-r from-transparent via-[#FFD700] to-transparent" />
-              <span className="font-sans-clean text-[clamp(9px,1.1vw,11.5px)] tracking-[0.2em] text-[#FFD700] uppercase font-extrabold whitespace-nowrap drop-shadow-xs">
+              <span className="font-sans-clean text-[clamp(8px,1.3vw,11.5px)] tracking-[0.2em] text-[#FFD700] uppercase font-extrabold whitespace-nowrap drop-shadow-xs">
                 ◆ You Are Lovingly Invited To Celebrate ◆
               </span>
               <div className="h-[1px] flex-1 bg-gradient-to-l from-transparent via-[#FFD700] to-transparent" />
             </motion.div>
 
             {/* Sub-header */}
-            <p className="font-sans-clean text-[clamp(10px,1.25vw,13px)] uppercase tracking-[0.3em] text-[#FFF8E7] font-bold mt-1 mb-0.5">
+            <p className="font-sans-clean text-[clamp(8.5px,1.3vw,13px)] uppercase tracking-[0.3em] text-[#FFF8E7] font-bold mt-0.5 sm:mt-1 mb-0.5">
               The Wedding Of
             </p>
 
@@ -213,10 +209,10 @@ export default function EnvelopeGate({ onOpen, isOpen = false }) {
               initial={{ scale: 0.9, opacity: 0 }}
               animate={{ scale: 1, opacity: 1 }}
               transition={{ duration: 0.8, delay: 0.32, ease: [0.16, 1, 0.3, 1] }}
-              className="my-1.5 sm:my-2"
+              className="my-1 sm:my-2"
             >
-              <h1 className="font-serif text-[clamp(30px,5.2vw,50px)] font-extrabold tracking-[0.06em] text-transparent bg-clip-text bg-gradient-to-r from-[#FFF8D6] via-[#FFD700] to-[#FFA000] drop-shadow-[0_4px_25px_rgba(255,215,0,0.55)] leading-tight">
-                VIVEK <span className="font-script-calligraphy text-[clamp(36px,6.2vw,62px)] text-[#FFD700] font-normal mx-1 drop-shadow-[0_0_15px_rgba(255,215,0,0.7)]">&amp;</span> VARSHINI
+              <h1 className="font-serif text-[clamp(24px,5.5vw,50px)] font-extrabold tracking-[0.06em] text-transparent bg-clip-text bg-gradient-to-r from-[#FFF8D6] via-[#FFD700] to-[#FFA000] drop-shadow-[0_4px_25px_rgba(255,215,0,0.55)] leading-tight">
+                VIVEK <span className="font-script-calligraphy text-[clamp(28px,6.8vw,62px)] text-[#FFD700] font-normal mx-0.5 sm:mx-1 drop-shadow-[0_0_15px_rgba(255,215,0,0.7)]">&amp;</span> VARSHINI
               </h1>
             </motion.div>
 
@@ -225,11 +221,11 @@ export default function EnvelopeGate({ onOpen, isOpen = false }) {
               initial={{ opacity: 0, scale: 0.8 }}
               animate={{ opacity: 1, scale: 1 }}
               transition={{ duration: 0.6, delay: 0.4 }}
-              className="flex items-center justify-center gap-2.5 my-1.5 opacity-95"
+              className="flex items-center justify-center gap-2 my-1 sm:my-1.5 opacity-95"
             >
-              <div className="w-14 sm:w-24 h-[1px] bg-gradient-to-r from-transparent to-[#FFD700]" />
-              <span className="text-[#FFD700] text-lg sm:text-2xl drop-shadow-[0_0_10px_#FFD700]">🪷</span>
-              <div className="w-14 sm:w-24 h-[1px] bg-gradient-to-l from-transparent to-[#FFD700]" />
+              <div className="w-10 sm:w-24 h-[1px] bg-gradient-to-r from-transparent to-[#FFD700]" />
+              <span className="text-[#FFD700] text-base sm:text-2xl drop-shadow-[0_0_10px_#FFD700]">🪷</span>
+              <div className="w-10 sm:w-24 h-[1px] bg-gradient-to-l from-transparent to-[#FFD700]" />
             </motion.div>
 
             {/* Family Invitation Text */}
@@ -237,12 +233,12 @@ export default function EnvelopeGate({ onOpen, isOpen = false }) {
               initial={{ opacity: 0, y: 8 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.7, delay: 0.48 }}
-              className="space-y-0.5 my-1.5 max-w-md mx-auto"
+              className="space-y-0.5 my-1 sm:my-1.5 max-w-md mx-auto"
             >
-              <p className="font-sans-clean text-[clamp(10px,1.25vw,13px)] uppercase tracking-[0.22em] text-[#FFF8E7] font-bold drop-shadow-xs">
+              <p className="font-sans-clean text-[clamp(8.5px,1.3vw,13px)] uppercase tracking-[0.22em] text-[#FFF8E7] font-bold drop-shadow-xs">
                 Together with our families,
               </p>
-              <p className="font-serif italic text-[clamp(11.5px,1.5vw,15.5px)] text-[#FFE58F] font-semibold leading-relaxed">
+              <p className="font-serif italic text-[clamp(9.5px,1.6vw,15.5px)] text-[#FFE58F] font-semibold leading-relaxed">
                 We joyfully invite you to celebrate our special day and bless our journey together.
               </p>
             </motion.div>
@@ -252,27 +248,27 @@ export default function EnvelopeGate({ onOpen, isOpen = false }) {
               initial={{ scale: 0.92, opacity: 0 }}
               animate={{ scale: 1, opacity: 1 }}
               transition={{ duration: 0.7, delay: 0.55 }}
-              className="mt-3 sm:mt-4 w-full max-w-md mx-auto"
+              className="mt-2.5 sm:mt-4 w-full max-w-md mx-auto"
             >
               <button
                 onClick={handleOpen}
                 type="button"
-                className="group relative w-full inline-flex items-center justify-between px-5 sm:px-7 py-3 sm:py-3.5 rounded-full bg-gradient-to-r from-[#910C0C] via-[#C91E1E] to-[#910C0C] border-2 border-[#FFD700] text-[#FFF8E7] cursor-pointer shadow-[0_0_30px_rgba(255,215,0,0.65),inset_0_0_12px_rgba(255,215,0,0.45)] hover:shadow-[0_0_50px_rgba(255,215,0,0.9),inset_0_0_18px_rgba(255,215,0,0.65)] hover:scale-[1.02] active:scale-[0.98] transition-all duration-300"
+                className="group relative w-full inline-flex items-center justify-between px-4 sm:px-7 py-2.5 sm:py-3.5 rounded-full bg-gradient-to-r from-[#910C0C] via-[#C91E1E] to-[#910C0C] border-2 border-[#FFD700] text-[#FFF8E7] cursor-pointer shadow-[0_0_30px_rgba(255,215,0,0.65),inset_0_0_12px_rgba(255,215,0,0.45)] hover:shadow-[0_0_50px_rgba(255,215,0,0.9),inset_0_0_18px_rgba(255,215,0,0.65)] hover:scale-[1.02] active:scale-[0.98] transition-all duration-300"
               >
                 {/* Subtle Inner Sparkle Left */}
                 <div className="flex items-center gap-1.5 text-[#FFD700] shrink-0">
-                  <Sparkles className="w-4 h-4 sm:w-5 sm:h-5 animate-pulse" />
-                  <Music className="w-3.5 h-3.5 opacity-85 hidden sm:block" />
+                  <Sparkles className="w-3.5 h-3.5 sm:w-5 sm:h-5 animate-pulse" />
+                  <Music className="w-3 h-3 sm:w-3.5 sm:h-3.5 opacity-85 hidden sm:block" />
                 </div>
 
                 {/* Button Text */}
-                <span className="font-serif text-[clamp(12px,1.5vw,16px)] tracking-[0.12em] uppercase font-extrabold text-[#FFF8E7] drop-shadow-[0_2px_4px_rgba(0,0,0,0.9)] mx-2 text-center flex-1">
+                <span className="font-serif text-[clamp(11px,1.6vw,16px)] tracking-[0.12em] uppercase font-extrabold text-[#FFF8E7] drop-shadow-[0_2px_4px_rgba(0,0,0,0.9)] mx-1 sm:mx-2 text-center flex-1">
                   Open Royal Wedding Invitation
                 </span>
 
                 {/* Circular Arrow Badge Right */}
-                <div className="w-7 h-7 sm:w-8 sm:h-8 rounded-full bg-[#5E0505] border border-[#FFD700] flex items-center justify-center shadow-inner group-hover:bg-[#FFD700] group-hover:text-[#5E0505] transition-colors duration-300 shrink-0">
-                  <ChevronRight className="w-4 h-4 sm:w-5 sm:h-5 text-[#FFD700] group-hover:text-[#5E0505] transition-transform duration-300 group-hover:translate-x-0.5" />
+                <div className="w-6 h-6 sm:w-8 sm:h-8 rounded-full bg-[#5E0505] border border-[#FFD700] flex items-center justify-center shadow-inner group-hover:bg-[#FFD700] group-hover:text-[#5E0505] transition-colors duration-300 shrink-0">
+                  <ChevronRight className="w-3.5 h-3.5 sm:w-5 sm:h-5 text-[#FFD700] group-hover:text-[#5E0505] transition-transform duration-300 group-hover:translate-x-0.5" />
                 </div>
               </button>
             </motion.div>
@@ -282,7 +278,7 @@ export default function EnvelopeGate({ onOpen, isOpen = false }) {
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ duration: 0.8, delay: 0.65 }}
-              className="font-sans-clean text-[clamp(8.5px,1.05vw,11px)] uppercase tracking-[0.22em] text-[#E5C158] font-bold mt-2.5 sm:mt-3 flex items-center justify-center gap-1.5 opacity-95"
+              className="font-sans-clean text-[clamp(7.5px,1.1vw,11px)] uppercase tracking-[0.22em] text-[#E5C158] font-bold mt-2 sm:mt-3 flex items-center justify-center gap-1.5 opacity-95"
             >
               <span>🪷</span>
               <span>Tap button or scroll down to begin our wedding journey</span>

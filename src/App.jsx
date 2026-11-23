@@ -1,4 +1,5 @@
 import React, { useState, useEffect, lazy, Suspense } from 'react';
+import { SpeedInsights } from '@vercel/speed-insights/react';
 import EnvelopeGate from './components/EnvelopeGate';
 import Navbar from './components/Navbar';
 import Hero from './components/Hero';
@@ -151,6 +152,9 @@ export default function App() {
 
   return (
     <div className="min-h-screen bg-[#340406] text-[#FFF8E7] relative selection:bg-[#FFD700] selection:text-[#1E293B]">
+      {/* Vercel Speed Insights Real-Time Performance Analytics */}
+      <SpeedInsights />
+
       {/* Luxury Mouse Follower */}
       <MouseFollower />
 
