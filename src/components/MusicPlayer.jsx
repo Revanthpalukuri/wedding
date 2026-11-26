@@ -1,6 +1,7 @@
 import React, { useEffect, useRef } from 'react';
-import { Play, Pause } from 'lucide-react';
+import { Play } from 'lucide-react';
 import { weddingConfig, getYouTubeId } from '../utils/config';
+import { triggerHaptic } from '../utils/haptics';
 
 export default function MusicPlayer({ isMuted, toggleAudio, isOpened }) {
   const iframeRef = useRef(null);
@@ -52,6 +53,14 @@ export default function MusicPlayer({ isMuted, toggleAudio, isOpened }) {
       pauseMusic();
     }
   }, [isMuted, isOpened]);
+
+  const handleToggle = (e) => {
+    if (e && typeof e.stopPropagation === 'function') {
+      e.stopPropagation();
+    }
+    triggerHaptic('light');
+    toggleAudio();
+  };
 
   // Lifecycle audio management: Pause playback when tab is hidden, resume when visible
   useEffect(() => {
@@ -114,41 +123,33 @@ export default function MusicPlayer({ isMuted, toggleAudio, isOpened }) {
         </div>
       )}
 
-      {/* Interactive Floating Animated Golden Equalizer Pill Button */}
+      {/* Interactive Compact Music Pill Button (Identical "Pop" size, full mobile hit-target) */}
       {isOpened && (
-        <div className="fixed bottom-4 right-4 sm:bottom-5 sm:right-6 z-40">
+        <div className="fixed bottom-4 right-4 sm:bottom-5 sm:right-6 z-40 transform-gpu">
           <button
-            onClick={toggleAudio}
+            onClick={handleToggle}
             type="button"
-            className="group flex items-center justify-between gap-2.5 bg-[#3A0303]/95 hover:bg-[#4E0404] backdrop-blur-md border-2 border-[#FFD700] text-[#FFF8E7] px-3 py-2 sm:px-3.5 sm:py-2 rounded-full shadow-[0_8px_25px_rgba(0,0,0,0.7),0_0_15px_rgba(255,215,0,0.35)] transition-all hover:scale-105 active:scale-95 cursor-pointer select-none"
-            title={isMuted ? 'Click to Play Wedding Music' : 'Click to Pause Wedding Music'}
+            className="group flex items-center justify-start gap-2 bg-[#3A0303]/95 hover:bg-[#4E0404] backdrop-blur-md border-2 border-[#FFD700] text-[#FFF8E7] px-2 py-1.5 sm:px-2.5 sm:py-1.5 rounded-full shadow-[0_8px_25px_rgba(0,0,0,0.6)] transition-all hover:scale-105 active:scale-95 cursor-pointer select-none w-[96px] sm:w-[106px] touch-manipulation"
+            title={isMuted ? 'Click anywhere to Play Wedding Music' : 'Click anywhere to Pause Wedding Music'}
             aria-label={isMuted ? 'Play Wedding Music' : 'Pause Wedding Music'}
           >
-            {/* Animated Golden Soundwave Equalizer Container */}
-            <div className="flex items-center justify-center gap-[3px] h-5 w-6 shrink-0">
+            {/* Gold Round Icon Badge with Animated Soundwave Equalizer */}
+            <div className="pointer-events-none w-5 h-5 sm:w-6 sm:h-6 rounded-full bg-[#FFD700] text-[#3A0303] flex items-center justify-center shadow-md group-hover:scale-110 transition-transform shrink-0">
               {!isMuted ? (
-                <>
-                  <span className="w-[3px] rounded-full bg-gradient-to-t from-[#FFD700] to-[#FFF5C0] animate-wave-1 drop-shadow-[0_0_4px_#FFD700]" />
-                  <span className="w-[3px] rounded-full bg-gradient-to-t from-[#FFD700] to-[#FFF5C0] animate-wave-2 drop-shadow-[0_0_4px_#FFD700]" />
-                  <span className="w-[3px] rounded-full bg-gradient-to-t from-[#FFD700] to-[#FFF5C0] animate-wave-3 drop-shadow-[0_0_4px_#FFD700]" />
-                  <span className="w-[3px] rounded-full bg-gradient-to-t from-[#FFD700] to-[#FFF5C0] animate-wave-4 drop-shadow-[0_0_4px_#FFD700]" />
-                </>
-              ) : (
-                <div className="w-5 h-5 rounded-full bg-[#FFD700]/20 flex items-center justify-center text-[#FFD700]">
-                  <Play className="w-3 h-3 fill-current ml-0.5" />
+                <div className="flex items-center justify-center gap-[1.5px] h-3 w-3.5">
+                  <span className="w-[1.8px] sm:w-[2px] rounded-full bg-[#3A0303] animate-wave-1" />
+                  <span className="w-[1.8px] sm:w-[2px] rounded-full bg-[#3A0303] animate-wave-2" />
+                  <span className="w-[1.8px] sm:w-[2px] rounded-full bg-[#3A0303] animate-wave-3" />
                 </div>
+              ) : (
+                <Play className="w-2.5 h-2.5 sm:w-3 sm:h-3 fill-current text-[#3A0303] translate-x-0.5" />
               )}
             </div>
 
-            {/* Label and Status */}
-            <div className="flex flex-col items-start leading-none text-left">
-              <span className="font-sans-clean text-[8.5px] uppercase tracking-wider text-[#FFD700] font-extrabold">
-                {isMuted ? 'MUSIC OFF' : 'NOW PLAYING'}
-              </span>
-              <span className="font-serif text-[11px] text-[#FFF8E7] font-semibold mt-0.5">
-                {isMuted ? 'Tap to Play ▶' : 'Shehnai 🎶'}
-              </span>
-            </div>
+            {/* Compact Text matching Pop button */}
+            <span className="pointer-events-none font-sans-clean text-[10px] sm:text-[11px] uppercase tracking-wider text-[#FFD700] font-bold leading-none truncate">
+              {isMuted ? 'Music 🎵' : 'Music 🎶'}
+            </span>
           </button>
         </div>
       )}
