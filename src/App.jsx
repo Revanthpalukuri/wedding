@@ -1,4 +1,4 @@
-import React, { useState, useEffect, lazy, Suspense } from 'react';
+import React, { useState, useEffect } from 'react';
 import { SpeedInsights } from '@vercel/speed-insights/react';
 import EnvelopeGate from './components/EnvelopeGate';
 import Navbar from './components/Navbar';
@@ -7,17 +7,15 @@ import CoupleIllustration from './components/CoupleIllustration';
 import InvitationCard from './components/InvitationCard';
 import Events from './components/Events';
 import OurStory from './components/OurStory';
+import LiveStream from './components/LiveStream';
+import Gallery from './components/Gallery';
+import JoinUsInstagram from './components/JoinUsInstagram';
+import CountingDaysMagic from './components/CountingDaysMagic';
 import MusicPlayer from './components/MusicPlayer';
 import MouseFollower from './components/MouseFollower';
 import FestivePopAnimation from './components/FestivePopAnimation';
 import FloatingMusiciansBanner from './components/FloatingMusiciansBanner';
 import BlessingShower from './components/BlessingShower';
-
-// Lazy-loaded Below-the-Fold Components (Drastically reduces initial JavaScript load)
-const LiveStream = lazy(() => import('./components/LiveStream'));
-const JoinUsInstagram = lazy(() => import('./components/JoinUsInstagram'));
-const Gallery = lazy(() => import('./components/Gallery'));
-const CountingDaysMagic = lazy(() => import('./components/CountingDaysMagic'));
 
 export default function App() {
   const [isMuted, setIsMuted] = useState(true);
@@ -184,12 +182,10 @@ export default function App() {
           <OurStory />
           
           {/* Below-the-fold sections */}
-          <Suspense fallback={<div className="w-full h-40 bg-transparent" />}>
-            <LiveStream />
-            <Gallery />
-            <JoinUsInstagram />
-            <CountingDaysMagic />
-          </Suspense>
+          <LiveStream />
+          <Gallery />
+          <JoinUsInstagram />
+          <CountingDaysMagic />
         </main>
 
         {/* Persistent Floating Cartoon Musicians Video Overlay Throughout Page */}

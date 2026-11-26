@@ -2,6 +2,7 @@ import React, { useState, useMemo } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { ChevronRight, Sparkles, Music } from 'lucide-react';
 import gateBackdrop from '../images/decorations/royal_gate_backdrop.jpg';
+import gatePortrait from '../images/decorations/royal_gate_portrait.jpg';
 import { triggerHaptic } from '../utils/haptics';
 
 export default function EnvelopeGate({ onOpen, isOpen = false }) {
@@ -82,13 +83,16 @@ export default function EnvelopeGate({ onOpen, isOpen = false }) {
         >
           {/* 1. Full Palace Backdrop Image filling the background on mobile and desktop */}
           <div className="absolute inset-0 pointer-events-none overflow-hidden">
-            <img
-              src={gateBackdrop}
-              alt="Royal Wedding Backdrop"
-              className="w-full h-full object-cover object-center"
-            />
+            <picture>
+              <source media="(max-width: 768px)" srcSet={gatePortrait} />
+              <img
+                src={gateBackdrop}
+                alt="Royal Wedding Backdrop"
+                className="w-full h-full object-cover object-center"
+              />
+            </picture>
             {/* Rich Radial Dark Gradient Overlay for Maximum Text Contrast */}
-            <div className="absolute inset-0 bg-radial-[ellipse_at_center] from-[#2B0303]/50 via-[#160101]/75 to-[#080000]/90" />
+            <div className="absolute inset-0 bg-radial-[ellipse_at_center] from-[#2B0303]/40 via-[#160101]/65 to-[#080000]/85" />
           </div>
 
           {/* 2. Ambient Floating Golden Sparkle Particles */}

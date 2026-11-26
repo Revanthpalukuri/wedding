@@ -93,5 +93,23 @@ export default defineConfig({
       interval: 100,
     },
   },
+  // Maximum Privacy & Anti-Inspection Configuration
+  build: {
+    sourcemap: false,              // 1. NEVER emit source maps — prevents DevTools from viewing original source files
+    minify: true,                  // 2. High-speed minification and variable name mangling
+    cssCodeSplit: false,           // 3. Bundle all CSS into one single file
+    rollupOptions: {
+      output: {
+        codeSplitting: false,      // 4. Bundle ENTIRE application into 1 single JS file (no multiple JS files!)
+        entryFileNames: 'assets/app.min.js',
+        assetFileNames: (assetInfo) => {
+          if (assetInfo.name && assetInfo.name.endsWith('.css')) {
+            return 'assets/style.min.css';
+          }
+          return 'assets/[name]-[hash][extname]';
+        },
+      },
+    },
+  },
 })
 

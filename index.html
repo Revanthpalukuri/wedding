@@ -6,6 +6,16 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, viewport-fit=cover" />
     <meta name="theme-color" content="#257CE6" id="meta-theme-color" />
     <title>Vivek Weds Varshini — Wedding Invitation</title>
+
+    <!-- Progressive Web App (PWA) & Apple Home Screen Configuration -->
+    <link rel="manifest" href="/manifest.json" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/icons/apple-touch-icon.png" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/icons/favicon-32x32.png" />
+    <meta name="mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    <meta name="apple-mobile-web-app-title" content="Vivek & Varshini" />
+    <meta name="application-name" content="Vivek & Varshini" />
     <meta name="description" content="॥ శ్రీ గణేశాయ నమః ॥ ॥ శ్రీరస్తు శుభమస్తు అవిఘ్నమస్తు ॥ Together with our families, we joyfully invite you to celebrate our special day and bless our journey together. Vivek &amp; Varshini — December 19, 2026 • Kshatriya Kalyana Mandapam, Amalapuram." />
 
     <!-- Console Filter to suppress third-party browser extensions, WebGPU Windows spam, and YouTube widget API warnings -->
@@ -101,6 +111,45 @@
             event.preventDefault();
           }
         }, true);
+
+        // --- Privacy & Anti-Inspection Protection ---
+        // 1. Disable Right-Click Context Menu (Prevents "Inspect Element" & "Save Image")
+        document.addEventListener('contextmenu', function(e) {
+          e.preventDefault();
+        }, false);
+
+        // 2. Disable DevTools & Source Inspection Keyboard Shortcuts
+        document.addEventListener('keydown', function(e) {
+          // F12
+          if (e.key === 'F12' || e.keyCode === 123) {
+            e.preventDefault();
+            return false;
+          }
+          // Ctrl+Shift+I / Cmd+Option+I (Inspect)
+          // Ctrl+Shift+J / Cmd+Option+J (Console)
+          // Ctrl+Shift+C / Cmd+Option+C (Element Selector)
+          if ((e.ctrlKey || e.metaKey) && (e.shiftKey || e.altKey) && (e.key === 'I' || e.key === 'i' || e.key === 'J' || e.key === 'j' || e.key === 'C' || e.key === 'c')) {
+            e.preventDefault();
+            return false;
+          }
+          // Ctrl+U / Cmd+U (View Page Source)
+          if ((e.ctrlKey || e.metaKey) && (e.key === 'u' || e.key === 'U')) {
+            e.preventDefault();
+            return false;
+          }
+          // Ctrl+S / Cmd+S (Save Webpage)
+          if ((e.ctrlKey || e.metaKey) && (e.key === 's' || e.key === 'S')) {
+            e.preventDefault();
+            return false;
+          }
+        }, false);
+
+        // 3. Disable Image Dragging
+        document.addEventListener('dragstart', function(e) {
+          if (e.target && e.target.nodeName === 'IMG') {
+            e.preventDefault();
+          }
+        }, false);
       })();
     </script>
     
@@ -130,10 +179,19 @@
     <!-- Google Fonts for Indian Traditional Royal Aesthetic -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Asul:wght@400;700&family=Cinzel+Decorative:wght@700&family=EB+Garamond:ital,wght@0,600;0,700;1,400&family=Elsie+Swash+Caps:wght@400;900&family=Great+Vibes&family=Inter:wght@400;600;700&family=Jost:wght@500;600;700&family=Luxurious+Script&family=Marcellus&family=Tiro+Devanagari+Hindi:ital@0;1&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@700&family=Great+Vibes&family=Inter:wght@400;600;700&family=Marcellus&family=Rozha+One&display=swap" rel="stylesheet">
   </head>
   <body class="bg-[#340406] text-[#FFF8E7] antialiased selection:bg-[#D4AF37] selection:text-[#3A0000] overflow-x-clip">
     <div id="root"></div>
     <script type="module" src="/src/main.jsx"></script>
+
+    <!-- PWA Service Worker Registration -->
+    <script>
+      if ('serviceWorker' in navigator && window.location.protocol.startsWith('http')) {
+        window.addEventListener('load', function() {
+          navigator.serviceWorker.register('/sw.js').catch(function() {});
+        });
+      }
+    </script>
   </body>
 </html>

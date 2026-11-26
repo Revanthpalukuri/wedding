@@ -67,8 +67,10 @@ export default function MusicPlayer({ isMuted, toggleAudio, isOpened }) {
     return () => document.removeEventListener('visibilitychange', handleVisibilityChange);
   }, [isOpened, isMuted]);
 
-  // Pre-load YouTube iframe API from page start so audio is pre-buffered for mobile gestures
+  // Pre-load YouTube iframe API only once the invitation is opened
   useEffect(() => {
+    if (!isOpened) return;
+
     const initYT = () => {
       if (window.YT && window.YT.Player && !playerRef.current) {
         playerRef.current = new window.YT.Player('wedding-bg-music-player', {
@@ -94,45 +96,59 @@ export default function MusicPlayer({ isMuted, toggleAudio, isOpened }) {
     } else {
       initYT();
     }
-  }, []);
+  }, [isOpened]);
 
   return (
     <>
-      {/* Background Audio Source - Pre-mounted from initial page load for instantaneous mobile playback */}
-      <div className="fixed top-0 left-0 w-1 h-1 opacity-0 pointer-events-none overflow-hidden z-[-1]">
-        <iframe
-          id="wedding-bg-music-player"
-          ref={iframeRef}
-          src={`https://www.youtube.com/embed/${videoId}?enablejsapi=1&autoplay=0&mute=0&loop=1&playlist=${videoId}&controls=0&modestbranding=1&rel=0&playsinline=1&origin=${typeof window !== 'undefined' ? encodeURIComponent(window.location.origin) : ''}&widget_referrer=${typeof window !== 'undefined' ? encodeURIComponent(window.location.href) : ''}`}
-          title="Wedding Celebration Song"
-          allow="autoplay; encrypted-media"
-          className="w-full h-full border-0"
-        />
-      </div>
+      {/* Background Audio Source - Mounted when invitation is opened */}
+      {isOpened && (
+        <div className="fixed top-0 left-0 w-1 h-1 opacity-0 pointer-events-none overflow-hidden z-[-1]">
+          <iframe
+            id="wedding-bg-music-player"
+            ref={iframeRef}
+            src={`https://www.youtube.com/embed/${videoId}?enablejsapi=1&autoplay=1&mute=0&loop=1&playlist=${videoId}&controls=0&modestbranding=1&rel=0&playsinline=1&origin=${typeof window !== 'undefined' ? encodeURIComponent(window.location.origin) : ''}&widget_referrer=${typeof window !== 'undefined' ? encodeURIComponent(window.location.href) : ''}`}
+            title="Wedding Celebration Song"
+            allow="autoplay; encrypted-media"
+            className="w-full h-full border-0"
+          />
+        </div>
+      )}
 
-      {/* Interactive Compact Music Pill Button (Visible once invitation is opened) */}
+      {/* Interactive Floating Animated Golden Equalizer Pill Button */}
       {isOpened && (
         <div className="fixed bottom-4 right-4 sm:bottom-5 sm:right-6 z-40">
           <button
             onClick={toggleAudio}
             type="button"
-            className="group flex items-center justify-start gap-2 bg-[#3A0303]/95 hover:bg-[#4E0404] backdrop-blur-md border-2 border-[#FFD700] text-[#FFF8E7] px-2 py-1.5 sm:px-2.5 sm:py-1.5 rounded-full shadow-[0_8px_25px_rgba(0,0,0,0.6)] transition-all hover:scale-105 active:scale-95 cursor-pointer select-none w-[96px] sm:w-[106px]"
-            title={isMuted ? 'Click to Play Wedding Song' : 'Click to Pause Wedding Song'}
-            aria-label={isMuted ? 'Play Wedding Song' : 'Pause Wedding Song'}
+            className="group flex items-center justify-between gap-2.5 bg-[#3A0303]/95 hover:bg-[#4E0404] backdrop-blur-md border-2 border-[#FFD700] text-[#FFF8E7] px-3 py-2 sm:px-3.5 sm:py-2 rounded-full shadow-[0_8px_25px_rgba(0,0,0,0.7),0_0_15px_rgba(255,215,0,0.35)] transition-all hover:scale-105 active:scale-95 cursor-pointer select-none"
+            title={isMuted ? 'Click to Play Wedding Music' : 'Click to Pause Wedding Music'}
+            aria-label={isMuted ? 'Play Wedding Music' : 'Pause Wedding Music'}
           >
-            {/* Gold Round Icon Badge */}
-            <div className="w-5 h-5 sm:w-6 sm:h-6 rounded-full bg-[#FFD700] text-[#3A0303] flex items-center justify-center shadow-md group-hover:scale-110 transition-transform shrink-0">
-              {isMuted ? (
-                <Play className="w-3 h-3 sm:w-3.5 sm:h-3.5 fill-current text-[#3A0303] translate-x-0.5" />
+            {/* Animated Golden Soundwave Equalizer Container */}
+            <div className="flex items-center justify-center gap-[3px] h-5 w-6 shrink-0">
+              {!isMuted ? (
+                <>
+                  <span className="w-[3px] rounded-full bg-gradient-to-t from-[#FFD700] to-[#FFF5C0] animate-wave-1 drop-shadow-[0_0_4px_#FFD700]" />
+                  <span className="w-[3px] rounded-full bg-gradient-to-t from-[#FFD700] to-[#FFF5C0] animate-wave-2 drop-shadow-[0_0_4px_#FFD700]" />
+                  <span className="w-[3px] rounded-full bg-gradient-to-t from-[#FFD700] to-[#FFF5C0] animate-wave-3 drop-shadow-[0_0_4px_#FFD700]" />
+                  <span className="w-[3px] rounded-full bg-gradient-to-t from-[#FFD700] to-[#FFF5C0] animate-wave-4 drop-shadow-[0_0_4px_#FFD700]" />
+                </>
               ) : (
-                <Pause className="w-3 h-3 sm:w-3.5 sm:h-3.5 fill-current text-[#3A0303]" />
+                <div className="w-5 h-5 rounded-full bg-[#FFD700]/20 flex items-center justify-center text-[#FFD700]">
+                  <Play className="w-3 h-3 fill-current ml-0.5" />
+                </div>
               )}
             </div>
 
-            {/* Compact Text */}
-            <span className="font-sans-clean text-[10px] sm:text-[11px] uppercase tracking-wider text-[#FFD700] font-bold leading-none truncate">
-              {isMuted ? 'Music 🎵' : 'Music 🎶'}
-            </span>
+            {/* Label and Status */}
+            <div className="flex flex-col items-start leading-none text-left">
+              <span className="font-sans-clean text-[8.5px] uppercase tracking-wider text-[#FFD700] font-extrabold">
+                {isMuted ? 'MUSIC OFF' : 'NOW PLAYING'}
+              </span>
+              <span className="font-serif text-[11px] text-[#FFF8E7] font-semibold mt-0.5">
+                {isMuted ? 'Tap to Play ▶' : 'Shehnai 🎶'}
+              </span>
+            </div>
           </button>
         </div>
       )}

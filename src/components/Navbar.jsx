@@ -83,16 +83,25 @@ export default function Navbar({ isMuted, toggleAudio }) {
 
         {/* Action Controls */}
         <div className="flex items-center gap-4">
-          {/* Audio Toggle Button */}
+          {/* Audio Toggle Button with Animated Waveform */}
           <button
             onClick={toggleAudio}
-            className={`p-2.5 rounded-full border transition-all duration-500 shadow-md ${isBlue
+            className={`p-2.5 rounded-full border transition-all duration-500 shadow-md flex items-center justify-center min-w-[38px] min-h-[38px] ${isBlue
                 ? 'border-amber-200/60 bg-[#1E60BF] text-amber-200 hover:bg-white hover:text-[#1E60BF]'
                 : 'border-[#D4AF37]/60 bg-[#3A0303] text-[#FFD700] hover:bg-[#D4AF37] hover:text-[#3A0303]'
               }`}
-            title={isMuted ? 'Unmute Shehnai & Flute Music' : 'Mute Music'}
+            title={isMuted ? 'Play Shehnai & Flute Music' : 'Pause Music'}
+            aria-label={isMuted ? 'Play Music' : 'Pause Music'}
           >
-            {isMuted ? <VolumeX className="w-4 h-4" /> : <Volume2 className="w-4 h-4" />}
+            {isMuted ? (
+              <VolumeX className="w-4 h-4" />
+            ) : (
+              <div className="flex items-center justify-center gap-[2.5px] h-3.5 w-4">
+                <span className="w-[2.5px] rounded-full bg-current animate-wave-1" />
+                <span className="w-[2.5px] rounded-full bg-current animate-wave-2" />
+                <span className="w-[2.5px] rounded-full bg-current animate-wave-3" />
+              </div>
+            )}
           </button>
 
           {/* RSVP Desktop Button */}

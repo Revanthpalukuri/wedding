@@ -225,11 +225,11 @@ export default function JoinUsInstagram() {
                 target="_blank"
                 rel="noopener noreferrer"
                 onClick={() => triggerHaptic('medium')}
-                className="inline-flex items-center justify-center gap-1.5 px-5 sm:px-7 py-1.5 sm:py-2.5 rounded-full bg-[rgb(88,11,26)] hover:bg-gradient-to-r hover:from-[#f09433] hover:via-[#dc2743] hover:to-[#bc1888] text-white font-sans-clean text-[9px] sm:text-xs uppercase font-bold tracking-wider shadow-md hover:scale-105 transition-all duration-300 cursor-pointer border border-amber-300/40"
+                className="inline-flex items-center justify-center gap-1.5 px-5 sm:px-8 py-2 sm:py-2.5 rounded-full bg-gradient-to-r from-[#f09433] via-[#dc2743] to-[#bc1888] text-white font-sans-clean text-[9.5px] sm:text-xs uppercase font-extrabold tracking-wider shadow-[0_4px_20px_rgba(220,39,67,0.55),0_0_14px_rgba(240,148,51,0.4)] hover:shadow-[0_6px_25px_rgba(220,39,67,0.75),0_0_18px_rgba(240,148,51,0.6)] hover:scale-105 active:scale-95 transition-all duration-300 cursor-pointer border border-white/40"
                 title={`Explore #${weddingHashtag} on Instagram`}
               >
-                <InstagramIcon className="w-3 h-3 sm:w-4 sm:h-4 text-white shrink-0" />
-                <span>View #{weddingHashtag}</span>
+                <InstagramIcon className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-white shrink-0 drop-shadow-sm" />
+                <span className="drop-shadow-xs">View #{weddingHashtag}</span>
               </a>
               <span className="font-sans-clean text-[7px] sm:text-[9px] md:text-[10px] uppercase tracking-widest text-[#580B1A] font-bold">
                 TAP TO VIEW ON INSTAGRAM
